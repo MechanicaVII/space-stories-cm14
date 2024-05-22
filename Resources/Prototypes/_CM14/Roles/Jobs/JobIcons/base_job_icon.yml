@@ -3,4 +3,4 @@
   id: CMJobIconBase
   abstract: true
   icon:
-    sprite: _CM14/Interface/cm_job_icons.rsi
+    sprite: /Textures/_CM14/Interface/cm_job_icons.rsi
