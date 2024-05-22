@@ -1,0 +1,58 @@
+# Базовая предустановка конфигурации, используемая на всех серверах Stories Colonial Marines.
+# Загружается перед настройками конфигурации, специфичными для сервера.
+
+[game]
+hostname = "📚 Space Stories - Dev 🔧"
+desc = ""
+lobbyenabled     = true
+soft_max_players = 100
+
+[shuttle]
+auto_call_time = 0
+emergency = false
+preload_grids = false
+
+[game.panic_bunker]
+enabled               = false
+disable_with_admins   = true
+enable_without_admins = true
+show_reason           = true
+custom_reason         = "Сервер находиться в режиме бункера.\nВы не играли на сервере Space Stories Colonial Marines достаточно долго, чтобы подключиться к этому серверу."
+
+# [infolinks]
+# bug_report = "" Ссылка на дискорд
+# discord    = "" Ссылка на дискорд
+# patreon    = "" Ссылка на бусти
+# wiki       = "" Ссылка на википедию
+# appeal     = "" Ссылка на дискорд
+
+[ic]
+flavor_text = true
+
+[viewport]
+maximum_width = 26
+
+[net]
+tickrate = 30
+max_connections = 1024
+
+[vote]
+restart_required_ratio = 0.7
+
+[netres]
+limit = 10.0
+
+[admin]
+new_player_threshold = 600
+
+# [server]
+# rules_file = "CM_Rules.txt"
+# rules_header = "ui-rules-header-colonial-marines"
+
+# Оптимизция
+
+[gateway]
+generator_enabled = false
+
+[procgen]
+preload = false
