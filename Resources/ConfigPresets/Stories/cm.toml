@@ -6,6 +6,7 @@ hostname = "📚 Space Stories - Dev 🔧"
 desc = ""
 lobbyenabled     = true
 soft_max_players = 100
+map_pool = "CMDefaultMapPool"
 
 [shuttle]
 auto_call_time = 0
