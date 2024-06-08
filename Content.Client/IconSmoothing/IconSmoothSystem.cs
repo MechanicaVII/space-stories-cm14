@@ -346,6 +346,7 @@ namespace Content.Client.IconSmoothing
                     other.Enabled)
                 {
                     if (other.SmoothKey == smooth.SmoothKey ||
+                        other.SmoothKey == smooth.SmoothKeyTwo ||
                         (_cmIconSmoothQuery.TryComp(smooth.Owner, out var cmSmooth) && cmSmooth.Smooth && _cmIconSmoothQuery.HasComp(entity)))
                     {
                         return true;
