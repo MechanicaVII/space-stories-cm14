@@ -5,7 +5,7 @@ using Content.Server.Discord;
 using Content.Server.GameTicking.Events;
 using Content.Server.Ghost;
 using Content.Server.Maps;
-using Content.Shared._CM14.Prototypes;
+using Content.Shared._RMC14.Prototypes;
 using Content.Server.Voting.Managers;
 using Content.Shared.CCVar;
 using Content.Shared.Stories.SCCVars;

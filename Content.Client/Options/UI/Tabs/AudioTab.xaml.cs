@@ -1,5 +1,5 @@
 using Content.Client.Audio;
-using Content.Shared._CM14.CCVar;
+using Content.Shared._RMC14.CCVar;
 using Content.Shared.CCVar;
 using Content.Shared.Stories.SCCVars;
 using Robust.Client.Audio;
@@ -152,7 +152,7 @@ namespace Content.Client.Options.UI.Tabs
             _cfg.SetCVar(CCVars.EventMusicEnabled, EventMusicCheckBox.Pressed);
             _cfg.SetCVar(CCVars.AdminSoundsEnabled, AdminSoundsCheckBox.Pressed);
 
-            // CM14
+            // RMC14
             _cfg.SetCVar(CMCVars.CMPlayHumanoidVoicelines, CMHumanoidVoicelines.Pressed);
 
             _cfg.SaveToFile();
@@ -181,7 +181,7 @@ namespace Content.Client.Options.UI.Tabs
             EventMusicCheckBox.Pressed = _cfg.GetCVar(CCVars.EventMusicEnabled);
             AdminSoundsCheckBox.Pressed = _cfg.GetCVar(CCVars.AdminSoundsEnabled);
 
-            // CM14
+            // RMC14
             CMHumanoidVoicelines.Pressed = _cfg.GetCVar(CMCVars.CMPlayHumanoidVoicelines);
 
             UpdateChanges();
