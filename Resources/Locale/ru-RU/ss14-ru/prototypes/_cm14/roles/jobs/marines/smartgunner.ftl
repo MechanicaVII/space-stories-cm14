@@ -1,2 +1,2 @@
-ent-CMSpawnPointSmartGunner = точка появления smartgunner
+ent-CMSpawnPointSmartGunOperator = точка появления smartgunner
     .desc = { ent-CMSpawnPointJobBase.desc }
