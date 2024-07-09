@@ -35,10 +35,10 @@ CMJobXenoSpitter = Плеватель
 cm-job-name-xeno-warrior = Воин
 CMJobXenoWarrior = Воин
 # TODO CM14
-department-CMXeno = Ксеноморф
+department-CMXeno = Ксеноморфы
 cm-department-Xeno-description = ""
-cm-job-name-selectable-xenomorph = Ксеноморф
-CMXenoSelectableXenomorph = Ксеноморф
+cm-job-name-selectable-xenonid = Ксеноморф
+CMXenoSelectableXeno = Ксеноморф
 cm-job-supervisors-queen = Королеве
 role-timer-xeno-roles = Ксеноморф
 role-timer-xeno-drones = эволюция дронов и дроны

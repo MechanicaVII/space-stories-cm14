@@ -13,3 +13,20 @@
   - type: Tag
     tags:
     - HideContextMenu
+
+- type: entity
+  id: CMEffectSlash
+  noSpawn: true
+  components:
+  - type: TimedDespawn
+    lifetime: 0.299
+  - type: Sprite
+    sprite: _RMC14/Effects/attacks.rsi
+    state: slash
+    drawdepth: Effects
+  - type: EffectVisuals
+  - type: WeaponArcVisuals
+    fadeOut: false
+  - type: Tag
+    tags:
+    - HideContextMenu

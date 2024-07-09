@@ -183,8 +183,11 @@ public sealed class XenoEggSystem : EntitySystem
                 return;
             }
 
-            if (HasComp<XenoWeedsComponent>(uid))
+            if (TryComp(uid, out XenoWeedsComponent? weeds) &&
+                weeds.Spawns == "XenoHiveWeeds")
+            {
                 hasWeeds = true;
+            }
         }
 
         // TODO RMC14 only on hive weeds
