@@ -1,9 +1,7 @@
 ﻿using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Xenonids.Plasma;
 using Content.Shared.Coordinates;
-using Content.Shared.Interaction;
 using Content.Shared.Mobs.Systems;
-using Content.Shared.Physics;
 using Content.Shared.Stunnable;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
@@ -16,7 +14,6 @@ public sealed class XenoScreechSystem : EntitySystem
     [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
     [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
     [Dependency] private readonly INetManager _net = default!;
-    [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
 
@@ -28,7 +25,6 @@ public sealed class XenoScreechSystem : EntitySystem
     }
 
     private readonly HashSet<Entity<MarineComponent>> _receivers = new();
-    private readonly CollisionGroup _opaqueObjectsMask = CollisionGroup.Opaque;
 
     private void OnXenoScreechAction(Entity<XenoScreechComponent> xeno, ref XenoScreechActionEvent args)
     {
@@ -60,9 +56,6 @@ public sealed class XenoScreechSystem : EntitySystem
             if (_mobState.IsDead(receiver))
                 continue;
 
-            if (!_interactionSystem.InRangeUnobstructed(xeno.Owner, receiver.Owner, collisionMask:_opaqueObjectsMask))
-                continue;
-
             if (TryComp(xeno, out XenoComponent? xenoComp) &&
                 TryComp(receiver, out XenoComponent? targetXeno) &&
                 xenoComp.Hive == targetXeno.Hive)
@@ -79,9 +72,6 @@ public sealed class XenoScreechSystem : EntitySystem
         foreach (var receiver in _receivers)
         {
             if (_mobState.IsDead(receiver))
-                continue;
-
-            if (!_interactionSystem.InRangeUnobstructed(xeno.Owner, receiver.Owner, collisionMask:_opaqueObjectsMask))
                 continue;
 
             if (TryComp(xeno, out XenoComponent? xenoComp) &&
