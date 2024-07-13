@@ -1,5 +1,5 @@
-ent-CMDispenserChem = химический раздатчик
-    .desc = Сложная машина для смешивания элементов в химические вещества. Продукт компании Wey-Yu.
-ent-CMDispenserChemEmpty = { ent-CMDispenserChem }
+ent-RMCDispenserChem = химический раздатчик
+    .desc = Сложная машина для смешивания элементов в химические вещества. Продукт компании We-Ya.
+ent-RMCDispenserChemEmpty = { ent-RMCDispenserChem }
     .suffix = Пустой
-    .desc = { ent-CMDispenserChem.desc }
+    .desc = { ent-RMCDispenserChem.desc }

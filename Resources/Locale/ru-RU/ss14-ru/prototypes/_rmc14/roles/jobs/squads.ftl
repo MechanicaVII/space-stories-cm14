@@ -8,3 +8,7 @@ ent-SquadCharlie = Чарли
     .desc = { ent-SquadBase.desc }
 ent-SquadDelta = Дельта
     .desc = { ent-SquadBase.desc }
+ent-SquadEcho = Эхо
+    .desc = { ent-SquadBase.desc }
+ent-SquadFoxtrot = Фокстрот
+    .desc = { ent-SquadBase.desc }

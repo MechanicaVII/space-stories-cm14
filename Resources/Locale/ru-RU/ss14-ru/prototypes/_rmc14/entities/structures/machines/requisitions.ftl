@@ -1,3 +1,5 @@
+ent-RMCASRSAccount = Счет АСПХ
+    .desc = { "" }
 ent-CMASRSConsole = консоль АСПХ
     .desc = Консоль автоматизированной системы поиска в хранилище.
     .suffix = Заявки

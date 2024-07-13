@@ -1,8 +1,10 @@
-ent-CMBarrelAttachmentBase = { ent-CMAttachmentBase }
-    .desc = { ent-CMAttachmentBase.desc }
-ent-CMAttachmentExtendedBarrel = удлиненный ствол
+ent-RMCBarrelAttachmentBase = { ent-RMCAttachmentBase }
+    .desc = { ent-RMCAttachmentBase.desc }
+ent-RMCAttachmentExtendedBarrel = удлиненный ствол
     .desc = Удлиненный ствол ускоряет и стабилизирует пулю, повышая скорость и точность стрельбы.
-ent-CMAttachmentRecoilCompensator = компенсатор отдачи
+ent-RMCAttachmentBarrelCharger = заряжатель ствола
+    .desc = Удлиненный ствол ускоряет и стабилизирует пулю, увеличивая скорость.
+ent-RMCAttachmentRecoilCompensator = компенсатор отдачи
     .desc = Дульная насадка, снижающая отдачу за счет отвода выходящих газов вверх. Повышает точность и снижает отдачу, но при этом наносит небольшой урон оружию.
-ent-CMAttachmentSuppressor = глушитель
+ent-RMCAttachmentSuppressor = глушитель
     .desc = Небольшая трубка с выхлопными отверстиями для отвода шума и газов. Полностью не заглушает оружие, но делает его намного тише и немного точнее и стабильнее ценой небольшого снижения урона.

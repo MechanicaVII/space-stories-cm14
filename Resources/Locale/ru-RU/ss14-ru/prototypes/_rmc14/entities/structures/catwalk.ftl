@@ -4,3 +4,7 @@ ent-CMCatwalkShiva = { ent-CMCatwalk }
     .desc = { ent-CMCatwalk.desc }
 ent-CMCatwalkPrison = { ent-CMCatwalk }
     .desc = { ent-CMCatwalk.desc }
+ent-RMCMonorailStraight = монорельсовая дорога
+    .desc = Рельсовая система для монорельса CORSAT.
+ent-RMCMonorailBend = { ent-RMCMonorailStraight }
+    .desc = { ent-RMCMonorailStraight.desc }

@@ -1,3 +1,56 @@
+cm-ui-rmc14 = RMC14
+cm-ui-audio-voicelines-arachnid = Воспроизводить голоса для арахнидов
+cm-ui-audio-voicelines-diona = Воспроизводить голоса для дион
+cm-ui-audio-voicelines-dwarf = Воспроизводить голоса для дворфов
+cm-ui-audio-voicelines-felinid = Воспроизводить голоса для фелинидов
+cm-ui-audio-voicelines-human = Воспроизводить голоса для людей
+cm-ui-audio-voicelines-moth = Воспроизводить голоса для молей
+cm-ui-audio-voicelines-reptilian = Воспроизводить голоса для унатхов
+cm-ui-audio-voicelines-slime = Воспроизводить голоса для слаймолюдов
 cm-ui-cm14 = Колониальные Морпехи 14
-cm-ui-audio-humanoid-voicelines = Играйте в гуманоидные озвучки
+rmc-ui-link-discord-account = Ссылка на аккаунт Discord
+rmc-ui-link-discord-account-text =
+    Нажмите на кнопку ниже, чтобы скопировать код.
+    Затем перейдите на канал #account-linking, чтобы связать свои аккаунты.
+rmc-ui-link-discord-account-copy = Копировать код
+rmc-ui-link-discord-account-copied = Скопировано!
+rmc-ui-link-discord-account-already-linked = [bold]Ваш аккаунт уже привязан![/bold]
+rmc-ui-link-discord-account-open-channel = Открытый канал
+rmc-ui-named-items = Названные предметы
+rmc-ui-named-items-displayed-as =
+    Будет отображаться, например, как 'Ваше пользовательское имя' Штурмовая винтовка M54C.
+    Убедитесь, что выбранное вами имя не нарушает правил.
+    Если вы не уверены, спросите в AHelp! (F1)
+rmc-ui-named-primary-gun = Название основного оружия
+rmc-ui-named-sidearm = Название оружия
+rmc-ui-named-helmet = Название шлема
+rmc-ui-named-armor = Название брони
+rmc-ui-patron-perks = Привилегии покровителя
+rmc-ui-lobby-message = Сообщение в лобби
+rmc-ui-lobby-message-description =
+    Отображается у игроков перед началом игры.
+    Один выбирается случайным образом между всеми Покровителями этого уровня.
+    Убедитесь, что выбранное вами сообщение не нарушает правил.
+    Если вы не уверены, спросите в AHelp! (F1)
+rmc-ui-shoutout = Окончание раунда
+rmc-ui-shoutout-marine-title = Имя, которое будет использоваться для морского крика в конце раунда.
+rmc-ui-shoutout-marine-description = Отображается в конце раунда в качестве спонсора.
+rmc-ui-shoutout-xeno-title = Имя, которое будет использоваться для крика ксеносов в конце раунда.
+rmc-ui-shoutout-xeno-description = Отображается на круглом конце как основатель улья.
+rmc-ui-shoutout-example = Пример:
+rmc-ui-shoutout-info =
+    Каждое имя выбирается случайным образом среди всех Покровителей этого яруса.
+    Убедитесь, что выбранные вами имена соответствуют характеру и не нарушают правил.
+    Если вы не уверены, спросите в AHelp! (F1)
+rmc-ui-named-items-in-preferences = Вы можете изменить названия предметов для каждого персонажа в настройках персонажа.
+rmc-ui-figurine = Фигурка персонажа
+rmc-ui-figurine-in-preferences =
+    Вы можете экспортировать своего персонажа, чтобы сделать из него фигурку, в разделе "Настройка персонажа".
+    Ограничение - одна активная фигурка на человека!
+    Если вы хотите изменить свой, сообщите нам об этом в Discord.
+rmc-ui-shoutout-marine = [bold]Операция финансируется [color=green]{ $name }[/color]![/bold]
+rmc-ui-shoutout-xeno = [bold]Улей, созданный [color=purple]{ $name }[/color]![/bold]
+rmc-ui-discord = Discord
+rmc-ui-patreon = Patreon
+cm-ui-audio-humanoid-voicelines = Воспроизводить голоса
 cm-ui-roadmap = Дорожная карта

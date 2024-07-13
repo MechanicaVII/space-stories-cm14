@@ -1,5 +1,7 @@
 ent-CMClosetBase = шкаф
     .desc = Это базовая единица хранения.
+ent-RMCCabinetBase = шкаф
+    .desc = Старое всегда будет в моде.
 ent-CMClosetEmergency = аварийный шкаф
     .desc = Это место для хранения аварийных респираторов и кислородных баллонов.
 ent-CMClosetFire = шкаф пожарной безопасности

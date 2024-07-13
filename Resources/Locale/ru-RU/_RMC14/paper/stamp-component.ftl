@@ -1,4 +1,6 @@
 stamp-component-stamped-name-cm-default = С печатью
+stamp-component-stamped-name-cm-we-ya = We-Ya
+stamp-component-stamped-name-cm-marine = Верховное командование морской пехоты
 stamp-component-stamped-name-cm-weyyu = Weyland-Yutani
 stamp-component-stamped-name-cm-uscm = Верховное командование КША
 stamp-component-stamped-name-cm-cmb = Бюро колониальных маршалов
@@ -8,5 +10,5 @@ stamp-component-stamped-name-cm-cmp = Начальник военной поли
 stamp-component-stamped-name-cm-cmo = Главный медицинский офицер
 stamp-component-stamped-name-cm-qm = Квартермейстер
 stamp-component-stamped-name-cm-ce = Главный инженер
-stamp-component-stamped-name-cm-approve = УТВЕРЖДЕНО
+stamp-component-stamped-name-cm-approve = ОДОБРЕННО
 stamp-component-stamped-name-cm-deny = ОТКАЗАНО

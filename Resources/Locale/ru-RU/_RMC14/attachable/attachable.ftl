@@ -1,3 +1,11 @@
+rmc-attachable-holder-strip-ui-title = обвесы
+rmc-attachable-holder-strip-ui-empty-slot = ничего
+rmc-verb-strip-attachables = Просмотреть обвесы
+rmc-aslot-barrel = Дуло
+rmc-aslot-rail = Рельса
+rmc-aslot-stock = Приклад
+rmc-aslot-underbarrel = Подствольное
+rmc-attachable-activation-fail-not-wielded = { CAPITALIZE(THE($holder)) } должен быть взят в руки, чтобы активировать { THE($attachable) }!
 cm-attachable-holder-strip-ui-title = навесное оборудование
 cm-attachable-holder-strip-ui-empty-slot = ничего
 cm-verb-strip-attachables = Навесное оборудование

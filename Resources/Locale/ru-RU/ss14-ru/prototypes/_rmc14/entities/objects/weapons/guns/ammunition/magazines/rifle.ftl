@@ -1,3 +1,5 @@
+ent-CMMagazineRifleBase = { ent-BaseMagazineRifle }
+    .desc = { ent-BaseMagazineRifle.desc }
 ent-CMMagazineRifleM54C = магазин M54C (10x24мм)
     .desc = { ent-CMMagazineRifleBase.desc }
 ent-CMMagazineRifleM54CAP = магазин M54C ББ (10x24мм)

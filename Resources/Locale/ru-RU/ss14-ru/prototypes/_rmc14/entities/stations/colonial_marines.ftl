@@ -1,4 +1,4 @@
 ent-CMStandardStation = ""
-  .desc = ""
+    .desc = ""
 ent-CMStandardPlanet = ""
-  .desc = ""
+    .desc = ""

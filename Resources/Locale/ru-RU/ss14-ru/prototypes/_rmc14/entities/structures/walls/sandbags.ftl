@@ -13,3 +13,6 @@ ent-CMSandbagFull = мешки с песком
 ent-CMSandbagFull50 = { ent-CMSandbagFull }
     .suffix = 50
     .desc = { ent-CMSandbagFull.desc }
+ent-CMSandbagFull25 = { ent-CMSandbagFull }
+    .suffix = 25
+    .desc = { ent-CMSandbagFull.desc }

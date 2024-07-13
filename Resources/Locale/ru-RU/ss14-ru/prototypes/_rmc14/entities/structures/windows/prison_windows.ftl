@@ -1,0 +1,10 @@
+ent-RMCWindowFramePrison = { ent-RMCBaseWindowFrame }
+    .desc = { ent-RMCBaseWindowFrame.desc }
+ent-RMCWindowPrison = окно
+    .desc = Стеклянная витрина со специальной стержневой матрицей внутри настенной рамы.
+ent-RMCWindowPrisonCell = { ent-RMCWindowPrison }
+    .desc = { ent-RMCWindowPrison.desc }
+ent-RMCWindowPrisonReinforced = армированное окно
+    .desc = Стеклянная витрина со специальным стержнем-матрицей внутри настенной рамы. Выглядит довольно прочно. Потребуется несколько ударов, чтобы разбить его.
+ent-RMCWindowPrisonHull = окно корпуса
+    .desc = Стеклянное окно со специальной стержневой матрицей внутри настенной рамы. Оно оснащено автоматической системой затвора для предотвращения проникновения атмосферы.

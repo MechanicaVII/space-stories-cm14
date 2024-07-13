@@ -13,3 +13,6 @@ ent-CMWindoorSecureMedical = { ent-CMWindoorSecure }
 ent-CMWindoorSecureEngineering = { ent-CMWindoorSecure }
     .suffix = Инженерный, Закрытый
     .desc = { ent-CMWindoorSecure.desc }
+ent-CMWindoorSecureCommand = { ent-CMWindoorSecure }
+    .suffix = Командный, Закрытый
+    .desc = { ent-CMWindoorSecure.desc }

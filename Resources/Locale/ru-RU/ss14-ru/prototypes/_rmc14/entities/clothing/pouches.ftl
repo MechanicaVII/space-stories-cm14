@@ -1,9 +1,13 @@
 ent-CMPouch = абстрактный чехол
     .desc = Физическое проявление концепции мешочка. Ух ты.
+ent-CMPouchStorage = подсумок
+  .desc = { ent-CMPouch.desc }
 ent-CMPouchClosed = { ent-CMPouch }
     .desc = { ent-CMPouch.desc }
 ent-CMPouchOpenClosed = { ent-CMPouchClosed }
     .desc = { ent-CMPouchClosed.desc }
+ent-RMCPouchFill = { ent-CMPouch }
+    .desc = { ent-CMPouch.desc }
 ent-CMPouchGeneral = подсумок общего назначения
     .desc = Подсумок общего назначения, используемый для переноски небольшого предмета или двух небольших предметов.
 ent-CMPouchGeneralMedium = средний подсумок общего назначения

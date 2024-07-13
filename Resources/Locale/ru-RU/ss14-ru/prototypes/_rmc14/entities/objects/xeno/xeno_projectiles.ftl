@@ -1,8 +1,14 @@
 ent-XenoBaseProjectile = снаряд
     .desc = { "" }
+ent-XenoSpitProjectile = плевок
+    .desc = { ent-XenoBaseProjectile.desc }
 ent-XenoSlowingSpitProjectile = замедляющий плевок
     .desc = { ent-XenoBaseProjectile.desc }
 ent-XenoScatteredSpitProjectile = рассыпанный плевок
+    .desc = { ent-XenoBaseProjectile.desc }
+ent-XenoIchorSpitProjectile = ихорный плевок
+    .desc = { ent-XenoBaseProjectile.desc }
+ent-XenoBombardSpitProjectile = ксено бомба
     .desc = { ent-XenoBaseProjectile.desc }
 ent-XenoBoneChipsProjectile = костная стружка
     .desc = { ent-XenoBaseProjectile.desc }

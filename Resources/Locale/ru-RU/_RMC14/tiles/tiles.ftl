@@ -27,6 +27,7 @@ tiles-cm-sand = песок
 tiles-cm-grass = трава
 tiles-cm-dirt-grass = трава
 tiles-cm-rock = каменная плитка
+tiles-rmc-red-desert = красный песок
 tiles-cm-default-alpha = плитка альфа
 tiles-cm-default-bravo = плитка браво
 tiles-cm-default-charlie = плитка чарли

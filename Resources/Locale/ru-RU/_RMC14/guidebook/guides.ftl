@@ -1,3 +1,4 @@
+cm-guide-entry-rmc = RMC14
 cm-guide-entry-cm14 = Колониальные морпехи 14
 cm-guide-entry-rules = Правила
 cm-guide-entry-rules-ban-types = Типы запретов
@@ -17,6 +18,8 @@ cm-guide-entry-rules-higher-standards = Высшие стандарты
 cm-guide-entry-rules-lethal-force = Смертельная сила
 cm-guide-entry-rules-lethal-force-consequences = Последствия применения смертоносной силы
 cm-guide-entry-rules-protect-detainees = Защищать задержанных
+cm-guide-entry-rules-marine-roleplay-standards = Стандарты морской ролевой игры
+cm-guide-entry-rules-marine-deployment = Развертывание морской пехоты
 cm-guide-entry-rules-general-roleplay-standards = Стандарты ролевых игр
 cm-guide-entry-rules-uscm-roleplay-standards = Стандарты ролевых игр USCM
 cm-guide-entry-rules-uscm-deployment = Развертывание КСМ США

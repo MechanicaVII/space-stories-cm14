@@ -1,9 +1,12 @@
 # supervisors
+cm-job-supervisors-we-ya = Корпоративный офис We-Ya
+# supervisors
 cm-job-supervisors-wy = корпоративному офису Wey-Yu
 cm-job-supervisors-aso = офицеру вспомогательной поддержки
 cm-job-supervisors-co = командиру
 cm-job-supervisors-cmo = главному врачу
 cm-job-supervisors-ares = АРЕСу и АПОЛЛО
+cm-job-supervisors-marine-high-command = Верховное командование морской пехоты
 cm-job-supervisors-po = пилоту транспортёра и штурмовика
 cm-job-supervisors-uscm = высшему командованию USCM
 cm-job-supervisors-cmp = главному полицейскому

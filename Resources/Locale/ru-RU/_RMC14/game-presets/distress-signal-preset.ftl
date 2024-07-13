@@ -1,3 +1,5 @@
+rmc-distress-signal-title = Сигнал бедствия
+rmc-distress-signal-description = Ответьте на сигнал бедствия, посланный соседней планетой.
 cm-distress-signal-none = Раунд был завершён досрочно
 cm-distress-signal-majormarinevictory =
     { "[" }color=green]Крупная победа морпехов[/color]

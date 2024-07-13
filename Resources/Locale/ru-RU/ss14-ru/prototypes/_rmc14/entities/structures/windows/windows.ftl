@@ -1,3 +1,5 @@
+ent-RMCBaseWindowFrame = оконная рама
+    .desc = Большая дыра в стене, в которой раньше было большое окно. В него можно пролезть.
 ent-CMBaseWindow = { ent-CMBaseStructureCorrodible }
     .desc = { ent-CMBaseStructureCorrodible.desc }
 ent-CMWindowReinforcedAlmayerHull = корпусное окно
@@ -12,9 +14,5 @@ ent-CMWindowWhiteColony = окно
     .desc = Стеклянное окно. Оно выглядит тонким и хрупким. От нескольких ударов чем-либо оно должно разбиться.
 ent-CMWindowWhiteColonyReinforced = укрепленное окно
     .desc = Стеклянная витрина со специальным стержнем-матрицей внутри настенной рамы. Выглядит довольно прочным. Потребуется несколько ударов, чтобы разбить его.
-ent-CMWindowSolaris = окно
-    .desc = Стеклянное окно в стеновой раме.
-ent-CMWindowSolarisReinforced = усиленное окно
-    .desc = Стеклянное окно. Внутри укреплено несколькими стержнями из закаленной матрицы вдоль основания. Выглядит довольно прочным. Потребуется несколько хороших ударов, чтобы разбить его.
-ent-CMWindowSolarisHull = { ent-CMWindowSolarisReinforced }
-    .desc = Стеклянное окно. Что-то подсказывает, что оно несокрушимо.
+ent-CMWindowShiva = окно
+    .desc = Стеклянная витрина в настенной раме.

@@ -1,5 +1,9 @@
 ent-CMCrateAttachmentRedDot = ящик прицелов красная точка (x8)
     .desc = { ent-CMCrateWeldable.desc }
+ent-CMCrateAttachmentSmartScope = ящик умных прицелов B8 (x4)
+    .desc = { ent-CMCrateWeldable.desc }
+ent-CMCrateAttachmentRailFlashlight = ящик с рельсовым фонариком (x8)
+    .desc = { ent-CMCrateWeldable.desc }
 ent-CMCrateAttachmentTelescopicScope = ящик телескопических прицелов (x2)
     .desc = { ent-CMCrateWeldable.desc }
 ent-CMCrateAttachmentMiniScope = ящик маленьких прицелов (x2)

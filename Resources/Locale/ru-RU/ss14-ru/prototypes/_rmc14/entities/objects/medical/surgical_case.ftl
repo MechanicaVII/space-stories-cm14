@@ -3,3 +3,6 @@ ent-CMSurgicalCase = хирургический чемоданчик
 ent-CMSurgicalCaseFilled = { ent-CMSurgicalCase }
     .suffix = Наполнение
     .desc = { ent-CMSurgicalCase.desc }
+ent-CMSurgicalCaseFilledAllTools = { ent-CMSurgicalCase }
+    .suffix = Заполненный, все инструменты
+    .desc = { ent-CMSurgicalCase.desc }
