@@ -1,6 +1,6 @@
 ent-RMCRailAttachmentBase = { ent-RMCAttachmentBase }
     .desc = { ent-RMCAttachmentBase.desc }
-ent-RMCAttachmentRailFlashlight = железнодорожный фонарь
+ent-RMCAttachmentRailFlashlight = навесной фонарь
     .desc = Фонарик для рельсов на оружии. Можно включать и выключать. Лучший источник света, чем стандартные фонари для брони образца M3.
 ent-RMCAttachmentMagneticHarness = магнитный жгут
     .desc = Магнитный комплект ремней, который крепится к рельсовому креплению оружия. При падении оружие прикрепляется к любому комплекту брони морского пехотинца.

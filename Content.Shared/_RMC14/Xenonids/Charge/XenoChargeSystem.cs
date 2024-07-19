@@ -106,8 +106,12 @@ public sealed class XenoChargeSystem : EntitySystem
             _xenoAnimations.PlayLungeAnimationEvent(xeno, charge);
         }
 
-        if (!_xeno.CanAbilityAttackTarget(xeno, targetId))
+        if (TryComp(xeno, out XenoComponent? xenoComp) &&
+            TryComp(targetId, out XenoComponent? targetXeno) &&
+            xenoComp.Hive == targetXeno.Hive)
+        {
             return;
+        }
 
         if (_net.IsServer)
             _audio.PlayPvs(xeno.Comp.Sound, xeno);

@@ -65,6 +65,7 @@
       map: ["buckledLayer"]
       visible: false
   - type: Appearance
+  - type: CMOperatingTable
 
 - type: entity
   parent: CMPortableSurgicalBed

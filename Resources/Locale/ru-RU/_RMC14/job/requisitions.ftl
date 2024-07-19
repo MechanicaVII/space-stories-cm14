@@ -1,7 +1,7 @@
 # requisitions
-cm-job-name-quartermaster = Квартермейстер
+cm-job-name-quartermaster = Квартирмейстер
 cm-job-description-quartermaster = Ваша задача - выдавать морским пехотинцам припасы, включая оружейные принадлежности.
-CMJobQuartermaster = Квартермейстер
+CMJobQuartermaster = Квартирмейстер
 cm-job-name-cargotech = Грузовой техник
 cm-job-description-cargotech = Ваша задача - выдавать припасы морским пехотинцам, включая навесное оружие.
 CMJobCargoTech = Грузовой техник

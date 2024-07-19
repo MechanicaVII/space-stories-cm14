@@ -6,7 +6,7 @@
     speechVerb: Robotic
   - type: RequisitionsComputer
     categories:
-    - name: Ammo
+    - name: Боеприпасы
       entries:
       - cost: 2000
         crate: CMCrateBoxMagazineRifleM54C
@@ -40,7 +40,7 @@
         crate: RMCCrateBatterySmartGun
       - cost: 3000
         crate: RMCCrateMagazineSmartGun
-    - name: Attachments
+    - name: Обвесы
       entries:
       - cost: 3000
         crate: CMCrateAttachmentSmartScope
@@ -84,7 +84,7 @@
 #        crate: CMCrateAttachmentShotgunStock
 #      - cost: 3000
 #        crate: CMCrateAttachmentSmgStock
-    - name: Clothing
+    - name: Одежда
       entries:
       - cost: 2000
         crate: CMCrateClothingLargePouches
@@ -94,7 +94,7 @@
         crate: CMCrateClothingWebbing
       - cost: 3000
         crate: CMCrateClothingOfficerOutfit
-    - name: Engineering
+    - name: Инженерия
       entries:
       - cost: 2000
         crate: CMCrateEmptySandbags
@@ -128,13 +128,13 @@
         crate: CMCrateFlashlights
       - cost: 1000
         crate: CMCrateHighCapacityPowerCell
-    - name: Explosives
+    - name: Взрывчатка
       entries:
       - cost: 3000
         crate: CMCrateGrenadesHighExplosive
       - cost: 3000
         crate: CMCrateGrenadesFrag
-    - name: Food
+    - name: Еда
       entries:
       - cost: 1000
         crate: CMCrateFoodDonuts
@@ -146,7 +146,7 @@
         crate: CMCrateFoodIngredients
 #    - name: Gear
 #      entries: []
-    - name: Medical
+    - name: Медицина
       entries:
       - cost: 3200
         crate: CMCrateMedicalSurgery
@@ -166,13 +166,13 @@
 #      entries: []
 #    - name: Reagent tanks
 #      entries: []
-    - name: Research
+    - name: Исследование
       entries:
       - cost: 3000
         crate: RMCCrateResearchPhoron
 #    - name: Restricted Equipment
 #      entries: []
-    - name: Supplies
+    - name: Поставки
       entries:
       - cost: 2000
         crate: CMCrateSupplyInternals
@@ -186,7 +186,7 @@
         crate: CMCrateSuppliesCrayons
 #    - name: Vehicle Ammo
 #      entries: []
-    - name: Weapons
+    - name: Оружие
       entries:
       - cost: 10000
         crate: RMCCrateSmartGunSet
@@ -196,7 +196,7 @@
 #        crate: CMCrateM54CE2
       - cost: 3000
         crate: CMCrateMK80
-    - name: Weapons Specialist Ammo
+    - name: Боеприпасы специалиста по оружию
       entries:
       - cost: 4000
         crate: CMCrateMagazineM96SMixed
@@ -206,3 +206,5 @@
         crate: CMCrateMagazineM96SFlak
       - cost: 3000
         crate: CMCrateMagazineM96SIncendiary
+      - cost: 2000
+        crate: CMCrateMagazineXM43E1

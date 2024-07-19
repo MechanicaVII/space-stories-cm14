@@ -21,7 +21,7 @@
     southDrawDepth: OverMobs
   - type: Barricade
   - type: Damageable
-    damageContainer: Inorganic
+    damageContainer: StructuralInorganic
     damageModifierSet: CMBarricade
   - type: InteractionOutline
   - type: RMCDropshipBlocked
@@ -100,7 +100,7 @@
       - state: metal
       - state: burn_upgrade
     - type: Damageable
-      damageContainer: Inorganic
+      damageContainer: StructuralInorganic
       damageModifierSet: CMBurnBarricade
     - type: DamageVisuals
       thresholds: [4, 8, 12]
@@ -124,7 +124,7 @@
       - state: metal
       - state: brute_upgrade
     - type: Damageable
-      damageContainer: Inorganic
+      damageContainer: StructuralInorganic
       damageModifierSet: CMBruteBarricade
     - type: DamageVisuals
       thresholds: [4, 8, 12]
@@ -172,7 +172,7 @@
       layers:
       - state: turnstile
     - type: Damageable
-      damageContainer: Inorganic
+      damageContainer: StructuralInorganic
       damageModifierSet: Metallic
     - type: Destructible
       thresholds:
@@ -218,7 +218,7 @@
     - type: Physics
     - type: Repairable
     - type: Damageable
-      damageContainer: Inorganic
+      damageContainer: StructuralInorganic
       damageModifierSet: Metallic
     - type: Destructible
       thresholds:
