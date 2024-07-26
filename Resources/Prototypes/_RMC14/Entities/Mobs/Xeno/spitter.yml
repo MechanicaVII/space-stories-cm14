@@ -36,7 +36,6 @@
     tier: 2
     hudOffset: 0,0.16
     unlockAt: 540 # 9 minutes
-  - type: XenoSpit
   - type: XenoDevolve
     devolvesTo:
     - CMXenoSentinel
