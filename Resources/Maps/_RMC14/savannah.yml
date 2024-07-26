@@ -10320,7 +10320,7 @@ entities:
   - uid: 1454
     components:
     - type: MetaData
-      name: СТЫКОВОЧНЫЙ ПОРТ 1
+      name: 'СП1: Стыковочный порт "Южный"'
     - type: Transform
       pos: 15.5,-7.5
       parent: 1
@@ -10329,7 +10329,7 @@ entities:
   - uid: 1455
     components:
     - type: MetaData
-      name: СТЫКОВОЧНЫЙ ПОРТ 2
+      name: 'СП2: Стыковочный порт "Северный"'
     - type: Transform
       pos: -8.5,-7.5
       parent: 1

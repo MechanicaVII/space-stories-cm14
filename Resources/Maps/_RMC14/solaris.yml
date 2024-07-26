@@ -16336,14 +16336,14 @@ entities:
   - uid: 2615
     components:
     - type: MetaData
-      name: 'LZ2: Инженерная посадочная зона'
+      name: 'ЗП2: Зона посадки "Инжененерия"'
     - type: Transform
       pos: 33.5,-119.5
       parent: 1
   - uid: 27213
     components:
     - type: MetaData
-      name: 'LZ1: Зона приземления коммуникаций'
+      name: 'ЗП1: Зона посадки "Коммуникация"'
     - type: Transform
       pos: 27.5,-19.5
       parent: 1

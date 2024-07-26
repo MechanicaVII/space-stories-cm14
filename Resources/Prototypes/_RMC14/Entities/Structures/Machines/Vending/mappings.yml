@@ -153,10 +153,10 @@
   components:
   - type: CMVendorMapToSquad
     map:
-      SquadAlpha: CMArmorM3TAlpha
-      SquadBravo: CMArmorM3TBravo
-      SquadCharlie: CMArmorM3TCharlie
-      SquadDelta: CMArmorM3TDelta
+      SquadAlpha: RMCArmorM3TDemoAlpha
+      SquadBravo: RMCArmorM3TDemoBravo
+      SquadCharlie: RMCArmorM3TDemoCharlie
+      SquadDelta: RMCArmorM3TDemoDelta
 
 - type: entity
   id: CMVendorArmorM3Heavy

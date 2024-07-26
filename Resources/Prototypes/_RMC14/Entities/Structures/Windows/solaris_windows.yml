@@ -12,6 +12,9 @@
     key: window
     base: solaris_frame
     mode: CardinalFlags
+  - type: Construction
+    graph: RMCWindowSolaris
+    node: windowFrameSolaris
 
 - type: entity
   parent: RMCBaseWindowFrame
@@ -19,14 +22,17 @@
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Windows/Frames/solaris_rframe.rsi
-    state: solaris_frame0
+    state: solaris_rframe0
   - type: Icon
     sprite: _RMC14/Structures/Windows/Frames/solaris_rframe.rsi
-    state: solaris_frame0
+    state: solaris_rframe0
   - type: IconSmooth
     key: window
-    base: solaris_frame
+    base: solaris_rframe
     mode: CardinalFlags
+  - type: Construction
+    graph: RMCWindowSolarisReinforced
+    node: windowFrameSolarisReinforced
 
 - type: entity
   parent: CMBaseWindow
@@ -44,25 +50,36 @@
     key: window
     base: solaris_window
     mode: CardinalFlags
+  - type: Repairable
   - type: Destructible
     thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 40
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: GlassBreak
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          RMCWindowFrameSolaris:
-            min: 1
-            max: 1
-          CMShardGlass:
-            min: 1
-            max: 2
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
+      - trigger:
+          !type:DamageTrigger
+          damage: 600 # excessive damage destroys window and frame
+        behaviors:
+          - !type:PlaySoundBehavior
+            sound:
+              collection: WindowShatter
+          - !type:DoActsBehavior
+            acts: ["Destruction"]
+      - trigger:
+          !type:DamageTrigger
+          damage: 40
+        behaviors:
+          - !type:PlaySoundBehavior
+            sound:
+              collection: WindowShatter
+          - !type:SpawnEntitiesBehavior
+            spawn:
+              CMShardGlass:
+                min: 1
+                max: 1
+          - !type:ChangeConstructionNodeBehavior
+            node: windowFrameSolaris
+  - type: RMCWallExplosionDeletable
+  - type: Construction
+    graph: RMCWindowSolaris
+    node: windowSolaris
 
 - type: entity
   parent: CMBaseWindow
@@ -80,28 +97,56 @@
     key: window
     base: solaris_rwindow
     mode: CardinalFlags
+  - type: Repairable
   - type: Destructible
     thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 100
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: GlassBreak
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          RMCWindowFrameSolarisReinforced:
-            min: 1
-            max: 1
-          CMShardGlass:
-            min: 1
-            max: 2
-      - !type:DoActsBehavior
-        acts: ["Destruction"]
+      - trigger:
+          !type:DamageTrigger
+          damage: 600 # excessive damage destroys window and frame
+        behaviors:
+          - !type:PlaySoundBehavior
+            sound:
+              collection: WindowShatter
+          - !type:DoActsBehavior
+            acts: ["Destruction"]
+      - trigger:
+          !type:DamageTrigger
+          damage: 100
+        behaviors:
+          - !type:PlaySoundBehavior
+            sound:
+              collection: WindowShatter
+          - !type:SpawnEntitiesBehavior
+            spawn:
+              CMShardGlass:
+                min: 1
+                max: 1
+              CMRodMetal:
+                min: 1
+                max: 1
+          - !type:ChangeConstructionNodeBehavior
+            node: windowFrameSolarisReinforced
+  - type: RMCWallExplosionDeletable
+  - type: Construction
+    graph: RMCWindowSolarisReinforced
+    node: windowSolarisReinforced
 
 - type: entity
-  parent: CMWindowSolarisReinforced
+  parent: CMBaseWindow
   id: CMWindowSolarisHull
+  name: hull window
   description: A glass window. Something tells you this one is somehow indestructible.
-  # TODO RMC14 1000000 hp
+  components:
+  - type: Corrodible
+    isCorrodible: false
+  - type: Sprite
+    sprite: _RMC14/Structures/Windows/solaris_rwindow.rsi
+    state: solaris_rwindow0
+  - type: Icon
+    sprite: _RMC14/Structures/Windows/solaris_rwindow.rsi
+    state: solaris_rwindow0
+  - type: IconSmooth
+    key: window
+    base: solaris_rwindow
+    mode: CardinalFlags
+

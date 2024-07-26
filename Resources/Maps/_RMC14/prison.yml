@@ -20360,14 +20360,14 @@ entities:
   - uid: 12899
     components:
     - type: MetaData
-      name: 'ЗП1: Посадочная зона ангара'
+      name: 'ЗП1: Зона посадки "Ангар"'
     - type: Transform
       pos: 111.5,9.5
       parent: 1
   - uid: 12900
     components:
     - type: MetaData
-      name: 'ЗП2: Посадочная зона охраны'
+      name: 'ЗП2: Зона посадки "Охраны"'
     - type: Transform
       pos: 36.5,-73.5
       parent: 1

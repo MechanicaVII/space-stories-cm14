@@ -15,6 +15,7 @@
     - Wall
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_ice
 
 - type: entity
@@ -33,13 +34,14 @@
     - Wall
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_fab_r
 
 - type: entity
   parent: CMWallMetal
   id: RCMWallShivaFab
   name: prefabricated structure wall
-  description: This structure is made of metal support rods and robust poly-kevlon plastics. A derivative of the stuff used in UA ballistics vests, USCM and UPP uniforms. These walls are pulled taught and have been reinforced into a more permanent structure.
+  description: This structure is made of metal support rods and robust poly-kevlon plastics. A derivative of the stuff used in UA ballistics vests, UNMC and SPP uniforms. These walls are pulled taught and have been reinforced into a more permanent structure.
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Walls/shiva_fab.rsi
@@ -49,6 +51,7 @@
     state: shiva_fab
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_fab
 
 - type: entity
@@ -65,6 +68,7 @@
     state: shiva_fab_r
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_fab_r
 
 - type: entity
@@ -81,6 +85,7 @@
     state: shiva_fab_oj
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_fab_oj
 
 - type: entity
@@ -97,6 +102,7 @@
     state: shiva_fab_blu
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_fab_blu
 
 - type: entity
@@ -113,6 +119,7 @@
     state: shiva_fab_pnk
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_fab_pnk
 
 - type: entity
@@ -129,6 +136,7 @@
     state: shiva_fab_wht
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_fab_wht
 
 - type: entity
@@ -145,4 +153,5 @@
     state: shiva_fab_red
   - type: IconSmooth
     key: walls
+    keyTwo: window
     base: shiva_fab_red

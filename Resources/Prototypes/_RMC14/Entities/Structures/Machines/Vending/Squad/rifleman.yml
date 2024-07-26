@@ -54,7 +54,7 @@
       #    CMM276M82FHolsterRig #TODO: Make this
       #    CMM276ShotgunShellLoadingRig #TODO: Make this
       - id: CMBeltUtility
-    #    CMM276M40GrenadeRigEmpty #TODO: Make this
+      - id: RMCBeltGrenade
     - name: Подсумки
       choices: { CMPouch: 2 }
       entries:
@@ -95,7 +95,7 @@
         points: 5
     - name: Restricted Firearms
       entries:
-      - id: CMWeaponPistolMK80
+      - id: RMCMK80Case
         points: 15
       - id: RMCSmartPistolCase
         points: 15
@@ -139,6 +139,8 @@
 #        points: 10
       - id: CMMagazinePistolMK80
         points: 5
+      - id: RMCMagazinePistolSU6
+        points: 10
     - name: Броня
       entries:
       - id: CMVendorBundleArmorB12

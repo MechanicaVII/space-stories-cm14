@@ -43,8 +43,17 @@
     {
       "name": "col_frame11"
     },
-    {
+	{
       "name": "col_frame12"
+    },
+    {
+      "name": "col_frame13"
+    },
+    {
+      "name": "col_frame14"
+    },
+    {
+      "name": "col_frame15"
     }
   ]
 }
