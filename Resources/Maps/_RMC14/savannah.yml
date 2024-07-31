@@ -153,6 +153,7 @@ entities:
     - type: MovedGrids
     - type: Broadphase
     - type: OccluderTree
+    - type: Almayer
     - type: MapGrid
       chunks:
         0,0:
@@ -2220,7 +2221,7 @@ entities:
           points: 5
           amount: null
           name: null
-          id: CMWhistle
+          id: RMCWhistle
         takeAll: null
         choices: null
         name: Утилиты
@@ -2576,7 +2577,7 @@ entities:
           points: 5
           amount: null
           name: null
-          id: CMWhistle
+          id: RMCWhistle
         takeAll: null
         choices: null
         name: Утилиты
@@ -2932,7 +2933,7 @@ entities:
           points: 5
           amount: null
           name: null
-          id: CMWhistle
+          id: RMCWhistle
         takeAll: null
         choices: null
         name: Утилиты
@@ -3288,7 +3289,7 @@ entities:
           points: 5
           amount: null
           name: null
-          id: CMWhistle
+          id: RMCWhistle
         takeAll: null
         choices: null
         name: Утилиты
