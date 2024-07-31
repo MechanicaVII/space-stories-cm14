@@ -6,6 +6,8 @@
   sounds:
     Scream:
       collection: CMMaleScreams
+    Warcry:
+      collection: CMMaleWarcry
     Laugh:
       collection: MaleLaugh
     Sneeze:
@@ -42,6 +44,8 @@
   sounds:
     Scream:
       collection: CMFemaleScreams
+    Warcry:
+      collection: CMFemaleWarcry
     Laugh:
       collection: FemaleLaugh
     Sneeze:
