@@ -50546,6 +50546,53 @@ entities:
     - type: Transform
       pos: 48.5,57.5
       parent: 1
+- proto: CMSpawnMobMonkey
+  entities:
+  - uid: 1029
+    components:
+    - type: Transform
+      pos: 17.5,42.5
+      parent: 1
+  - uid: 10777
+    components:
+    - type: Transform
+      pos: 186.5,57.5
+      parent: 1
+  - uid: 13778
+    components:
+    - type: Transform
+      pos: 200.5,105.5
+      parent: 1
+  - uid: 14740
+    components:
+    - type: Transform
+      pos: 34.5,85.5
+      parent: 1
+  - uid: 14741
+    components:
+    - type: Transform
+      pos: 37.5,76.5
+      parent: 1
+  - uid: 14742
+    components:
+    - type: Transform
+      pos: 33.5,71.5
+      parent: 1
+  - uid: 14743
+    components:
+    - type: Transform
+      pos: 44.5,68.5
+      parent: 1
+  - uid: 14744
+    components:
+    - type: Transform
+      pos: 33.5,57.5
+      parent: 1
+  - uid: 14745
+    components:
+    - type: Transform
+      pos: 45.5,28.5
+      parent: 1
 - proto: CMSpawnPointXeno
   entities:
   - uid: 11170
