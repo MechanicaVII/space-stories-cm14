@@ -193,8 +193,7 @@
       - state: turnstile
       - map: [ "acided" ]
     - type: Damageable
-      damageContainer: StructuralInorganic
-      damageModifierSet: Metallic
+      damageContainer: Inorganic
     - type: Destructible
       thresholds:
       - trigger:
@@ -242,8 +241,7 @@
     - type: Physics
     - type: Repairable
     - type: Damageable
-      damageContainer: StructuralInorganic
-      damageModifierSet: Metallic
+      damageContainer: Inorganic
     - type: Destructible
       thresholds:
       - trigger:

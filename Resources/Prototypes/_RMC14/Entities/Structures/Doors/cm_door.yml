@@ -138,8 +138,7 @@
         path:
           "/Audio/Weapons/smash.ogg"
   - type: Damageable
-    damageContainer: StructuralMarine
-    damageModifierSet: StructuralMarine
+    damageContainer: Inorganic
   - type: Destructible
     thresholds:
     - trigger:

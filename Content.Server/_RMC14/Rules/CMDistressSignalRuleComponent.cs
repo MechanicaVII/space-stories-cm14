@@ -58,10 +58,10 @@ public sealed partial class CMDistressSignalRuleComponent : Component
     [DataField]
     public TimeSpan CheckEvery = TimeSpan.FromSeconds(5);
 
-    [DataField, AutoNetworkedField]
+    [DataField]
     public TimeSpan? AbandonedAt;
 
-    [DataField, AutoNetworkedField]
+    [DataField]
     public TimeSpan AbandonedDelay = TimeSpan.FromMinutes(5);
 
     [DataField]
@@ -86,6 +86,6 @@ public sealed partial class CMDistressSignalRuleComponent : Component
     // [DataField]
     // public SoundSpecifier AllDiedAudio = new SoundCollectionSpecifier("CMAllDied");
 
-    [DataField, AutoNetworkedField]
+    [DataField]
     public EntProtoId? LandingZoneGas = "RMCLandingZoneGas";
 }
