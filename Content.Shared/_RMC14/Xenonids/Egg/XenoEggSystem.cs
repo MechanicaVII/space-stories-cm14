@@ -572,8 +572,11 @@ public sealed class XenoEggSystem : EntitySystem
                 return false;
             }
 
-            if (HasComp<XenoWeedsComponent>(uid))
+            if (TryComp(uid, out XenoWeedsComponent? weed) &&
+                (weed != null && weed.Spawns == "XenoHiveWeeds"))
+            {
                 hasWeeds = true;
+            }
         }
 
         if (_turf.IsTileBlocked(gridId, tile, Impassable | MidImpassable | HighImpassable, grid))
