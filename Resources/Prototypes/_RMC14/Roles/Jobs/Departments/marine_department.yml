@@ -5,7 +5,6 @@
   description: cm-department-Marine-description
   color: "#DE3A3A"
   roles:
-  - CMCadet
   - CMRifleman
   - CMSquadLeader
   - CMFireteamLeader

@@ -56,7 +56,6 @@
             CMCombatTech: [8, 16]
             CMHospitalCorpsman: [8, 16]
             CMRifleman: [ -1, -1 ]
-            CMCadet: [ -1, -1 ]
 
             # Civilians
             CMCorrespondent: [2, 2]
