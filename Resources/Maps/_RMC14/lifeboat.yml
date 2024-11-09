@@ -278,41 +278,21 @@ entities:
     - type: Transform
       pos: -3.5,3.5
       parent: 1
-    - type: ApcPowerReceiver
-      powerLoad: 0
-      needsPower: False
-    missingComponents:
-    - RMCPowerReceiver
-  - uid: 34
+  - uid: 110
     components:
     - type: Transform
       pos: 1.5,3.5
       parent: 1
-    - type: ApcPowerReceiver
-      powerLoad: 0
-      needsPower: False
-    missingComponents:
-    - RMCPowerReceiver
-  - uid: 35
+  - uid: 111
     components:
     - type: Transform
       pos: -3.5,-2.5
       parent: 1
-    - type: ApcPowerReceiver
-      powerLoad: 0
-      needsPower: False
-    missingComponents:
-    - RMCPowerReceiver
-  - uid: 36
+  - uid: 112
     components:
     - type: Transform
       pos: 1.5,-2.5
       parent: 1
-    - type: ApcPowerReceiver
-      powerLoad: 0
-      needsPower: False
-    missingComponents:
-    - RMCPowerReceiver
 - proto: RMCLifeboatConsole
   entities:
   - uid: 37

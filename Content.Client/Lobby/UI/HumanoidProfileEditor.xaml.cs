@@ -374,6 +374,21 @@ namespace Content.Client.Lobby.UI
 
             #endregion SpawnPriority
 
+            #region ArmorPreference
+
+            foreach (var value in Enum.GetValues<ArmorPreference>())
+            {
+                ArmorPreferenceButton.AddItem(value.ToString(), (int) value);
+            }
+
+            ArmorPreferenceButton.OnItemSelected += args =>
+            {
+                ArmorPreferenceButton.SelectId(args.Id);
+                SetArmorPreference((ArmorPreference) args.Id);
+            };
+
+            #endregion ArmorPreference
+
             #region SquadPreference
 
             SquadPreferenceButton.AddItem(Loc.GetString("loadout-none"), 0);
@@ -814,6 +829,7 @@ namespace Content.Client.Lobby.UI
             UpdateGenderControls();
             UpdateSkinColor();
             UpdateSpawnPriorityControls();
+            UpdateArmorPreferenceControls();
             UpdateSquadPreferenceControls();
             UpdateAgeEdit();
             UpdateEyePickers();
@@ -1293,6 +1309,12 @@ namespace Content.Client.Lobby.UI
             SetDirty();
         }
 
+        private void SetArmorPreference(ArmorPreference newArmorPreference)
+        {
+            Profile = Profile?.WithArmorPreference(newArmorPreference);
+            SetDirty();
+        }
+
         private void SetSquadPreference(EntProtoId<SquadTeamComponent>? newSquadPreference)
         {
             Profile = Profile?.WithSquadPreference(newSquadPreference);
@@ -1489,6 +1511,16 @@ namespace Content.Client.Lobby.UI
             }
 
             SpawnPriorityButton.SelectId((int) Profile.SpawnPriority);
+        }
+
+        private void UpdateArmorPreferenceControls()
+        {
+            if (Profile == null)
+            {
+                return;
+            }
+
+            ArmorPreferenceButton.SelectId((int) Profile.ArmorPreference);
         }
 
         private void UpdateSquadPreferenceControls()

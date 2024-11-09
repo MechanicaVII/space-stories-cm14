@@ -132,9 +132,9 @@
     - name: Пояс
       choices: { CMBelt: 1 }
       entries:
-     #- id: CMM802SmartGunOperatorSidearmBeltFilled
       - id: CMBeltSmartGunOperatorFilled
-    - name: подсумок
+      - id: RMCBeltSmartGunOperatorPistolFilled
+    - name: Pouches
       choices: { RMCPouch: 2 }
       entries:
       - id: RMCPouchFlareFilled
@@ -163,9 +163,9 @@
       - id: CMWebbingBrown
         recommended: true
       - id: CMWebbingBlack
-    #- id: CMShoulderHolster
       - id: CMWebbing
       - id: CMWebbingPouch
+      - id: CMWebbingHolster
     - name: Mask
       choices: { CMMask: 1 }
       entries:

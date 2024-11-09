@@ -14,7 +14,7 @@
       stationProto: StandardUNMCWarship
       components:
       - type: StationNameSetup
-        mapNameTemplate: 'USS Almayer'
+        mapNameTemplate: 'UNS Almayer'
       - type: StationJobs
         availableJobs:
           # Command

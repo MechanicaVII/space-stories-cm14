@@ -205,6 +205,10 @@ namespace Content.Server.Database
             var spawnPriority = (SpawnPriorityPreference) profile.SpawnPriority;
             var squadPreference = profile.SquadPreference?.Squad;
 
+            var armorPreference = ArmorPreference.Random;
+            if (Enum.TryParse<ArmorPreference>(profile.ArmorPreference, true, out var armorVal))
+                armorPreference = armorVal;
+
             var gender = sex == Sex.Male ? Gender.Male : Gender.Female;
             if (Enum.TryParse<Gender>(profile.Gender, true, out var genderVal))
                 gender = genderVal;
@@ -273,6 +277,7 @@ namespace Content.Server.Database
                     markings
                 ),
                 spawnPriority,
+                armorPreference,
                 squadPreference,
                 jobs,
                 (PreferenceUnavailableMode) profile.PreferenceUnavailable,
@@ -315,6 +320,7 @@ namespace Content.Server.Database
             profile.EyeColor = appearance.EyeColor.ToHex();
             profile.SkinColor = appearance.SkinColor.ToHex();
             profile.SpawnPriority = (int) humanoid.SpawnPriority;
+            profile.ArmorPreference = humanoid.ArmorPreference.ToString();
             profile.SquadPreference = new RMCSquadPreference { Squad = humanoid.SquadPreference };
             profile.Markings = markings;
             profile.Slot = slot;
