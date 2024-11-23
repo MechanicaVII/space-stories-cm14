@@ -35,6 +35,7 @@ rmc-attachable-examine-condition-whitelist-sizes = держатель [bold]им
 rmc-attachable-examine-condition-whitelist-tags = держатель [bold]имеет { $tagNumber }[/bold] следующих тегов: [bold]{ $tags }[/bold]
 rmc-attachable-examine-condition-blacklist-comps = держатель [bold]не хватает { $compNumber }[/bold] следующих компонентов: [bold]{ $comps }[/bold]
 rmc-attachable-examine-condition-blacklist-sizes = держатель [bold]не имеет[/bold] одного из следующих размеров: [bold]{ $sizes }[/bold]
+rmc-attachable-examine-ranged-accuracy = [color={ $colour }]{ $sign }{ $accuracy }[/color] множитель точности.
 rmc-attachable-examine-condition-blacklist-tags = держатель [bold]отсутствия { $tagNumber }[/bold] следующих тегов: [bold]{ $tags }[/bold]
 rmc-attachable-examine-ranged-scatter = [color={ $colour }]{ $sign }{ $scatter }[/color] степени разброса.
 rmc-attachable-examine-ranged-burst-scatter = [color={ $colour }]{ $sign }{ $burstScatterMult }[/color] множитель разброса разрывов.
