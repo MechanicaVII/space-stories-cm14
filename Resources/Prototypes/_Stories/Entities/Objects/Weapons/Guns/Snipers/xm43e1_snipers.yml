@@ -118,7 +118,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 260 # TODO RMC14 130 when aimed shot is in please someone help im dying
+        Piercing: 195 # TODO RMC14 130 when aimed shot is in please someone help im dying
         Structural: 1500
   - type: CMArmorPiercing
     amount: 50

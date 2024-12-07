@@ -179,7 +179,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 140 # TODO RMC14 70 when aimed shot is in please someone help im dying
+        Piercing: 105 # TODO RMC14 70 when aimed shot is in please someone help im dying
   - type: RMCProjectileDamageFalloff
     thresholds:
     - range: 32
@@ -205,8 +205,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 100 # TODO RMC14 50 when aimed shot is in please someone help im dying
-        Heat: 20 # TODO RMC14 10 when aimed shot is in please someone help im dying
+        Piercing: 75 # TODO RMC14 50 when aimed shot is in please someone help im dying
+        Heat: 15 # TODO RMC14 10 when aimed shot is in please someone help im dying
   - type: CMArmorPiercing
     amount: 20
   - type: IgniteOnProjectileHit
@@ -221,7 +221,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 110 # TODO RMC14 55 when aimed shot is in please someone help im dying
+        Piercing: 82.5 # TODO RMC14 55 when aimed shot is in please someone help im dying
   - type: CMArmorPiercing
     amount: 0
   - type: RMCStunOnHit

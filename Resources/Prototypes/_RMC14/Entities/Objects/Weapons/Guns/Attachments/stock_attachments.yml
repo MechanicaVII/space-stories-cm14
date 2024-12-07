@@ -546,7 +546,7 @@
       state: smg-brace-on
     actionName: Toggle Submachinegun Arm Brace
     actionDesc: Lock the arm brace to your arm.
-  # - type: AttachablePreventDropToggleable
+  - type: AttachablePreventDropToggleable
   - type: AttachableSizeMods
     modifiers:
     - size: 1
