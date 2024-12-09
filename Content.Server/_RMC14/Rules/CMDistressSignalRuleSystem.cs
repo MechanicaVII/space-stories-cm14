@@ -1236,13 +1236,13 @@ public sealed class CMDistressSignalRuleSystem : GameRuleSystem<CMDistressSignal
         return name switch
         {
             "lv624" => "LV-624",
-            "solaris" => "Solaris Ridge",
-            "prison" => "Fiorina Science Annex",
-            "shiva" => "Shivas Snowball",
-            "trijent" => "Trijent Dam",
-            "varadero" => "New Varadero",
-            "kutjevo" => "Kutjevo Refinery",
-            "chances" => "LV-522 Chance's Claim",
+            "solaris" => "Солярис Ридж",
+            "prison" => "Научный Филиал Фиорины",
+            "shiva" => "Снежный шар Шивы",
+            "trijent" => "Дамба Триджент",
+            "varadero" => "Новый Варадеро",
+            "kutjevo" => "НПЗ Кутьево",
+            "chances" => "LV-522 Претензия Шанса",
             _ => name,
         };
     }
