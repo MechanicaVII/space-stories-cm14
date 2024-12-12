@@ -1,18 +1,29 @@
 # Базовая предустановка конфигурации, используемая на всех серверах Stories Colonial Marines.
 # Загружается перед настройками конфигурации, специфичными для сервера.
 
+# [config]
+# presets = "Stories/cm"
+
 [admin]
-deadmin_on_join         = true
-new_player_threshold    = 600
+deadmin_on_join = true
+new_player_threshold = 600
+role_ban_default_severity = "minor"
+department_ban_default_severity = "minor"
+server_ban_default_severity = "medium"
+server_ban_hwid_ban_default = false
 
 [adminlogs]
 server_name = "Space Stories - Colonial Marines 🌍"
 
+[ahelp]
+admin_prefix = true
+admin_prefix_webhook = true
+
 [atmos]
-space_wind           = false
+space_wind = false
 monstermos_rip_tiles = false
-grid_impulse         = false
-max_process_time     = 1
+grid_impulse = false
+max_process_time = 1
 
 [autovote]
 enabled = false
@@ -20,27 +31,33 @@ enabled = false
 [auth]
 mode = 1
 
+[chat]
+rate_limit_period = 1
+rate_limit_count = 1
+rate_limit_announce_admins_delay = 10
+max_message_length = 500
+
 [game]
-hostname                = "📚 Space Stories - Colonial Marines 🌍 [TTS]"
-desc                    = """
+hostname = "📚 Space Stories - Colonial Marines 🌍 [TTS]"
+desc = """
                                                             📕 𝗦𝗽𝗮𝗰𝗲 𝗦𝘁𝗼𝗿𝗶𝗲𝘀 - Colonial Marines! 🌍
 •────────────────────────────────── ✧ ──────────────────────────────────•
   🌠 ⋮ Сервер со средним уровнем требований к ролевому отыгрышу.
   ⚙ ⋮ Сборка сервера основана на https://github.com/RMC-14/RMC-14.
 •────────────────────────────────── ✧ ──────────────────────────────────•
                                             📚 Присоединяйтесь к нашему дружному сообществу 📚"""
-lobbyduration           = 180
-maxplayers              = 400
-soft_max_players        = 200
-map_pool                = "CMDefaultMapPool"
+lobbyduration = 180
+maxplayers = 400
+soft_max_players = 200
+map_pool = "CMDefaultMapPool"
 round_end_pvs_overrides = false
-
-[gateway]
-generator_enabled = false
 
 [ghost]
 kill_crit = false
 role_time = 0
+
+[gateway]
+generator_enabled = false
 
 [hub]
 tags = "lang:ru,rp:med,region:eu_e"
@@ -50,11 +67,12 @@ flavor_text = true
 enable_suicide = false
 
 [infolinks]
-bug_report = "https://discord.gg/5j3WhYanuQ"
-discord    = "https://discord.gg/5j3WhYanuQ"
+bug_report = "https://discord.gg/space-stories-cm"
+discord    = "https://discord.gg/space-stories-cm"
+forum      = "https://forum.spacestories.club"
 patreon    = "https://boosty.to/spacestories_cm"
 wiki       = "https://spacestories.club/index.php?title=Colonial_Marines"
-appeal     = "https://discord.gg/5j3WhYanuQ"
+appeal     = "https://discord.gg/space-stories-cm"
 
 [net]
 tickrate = 25
@@ -68,13 +86,16 @@ target_minimum_tickrate = 120
 [procgen]
 preload = false
 
+[queue]
+enabled = true
+
 [server]
 rules_file = "StoriesOverview"
 
 [shuttle]
 auto_call_time = 0
-emergency      = false
-preload_grids  = false
+emergency = false
+preload_grids = false
 
 [viewport]
 maximum_width = 26
