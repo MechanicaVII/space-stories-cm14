@@ -3,13 +3,13 @@
 # M54C
 - type: construction
   parent: RMC
-  name: Magazine Box (M54C Reg)
+  name: Magazine Box (M41A Reg)
   id: RMCBoxMagazineRifleM54C
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineRifleM54CEmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain regular M54C mags.
+  description: A magazine box that can contain regular M41A mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m54
@@ -17,13 +17,13 @@
 
 - type: construction
   parent: RMC
-  name: Magazine Box (M54C AP)
+  name: Magazine Box (M41A AP)
   id: RMCBoxMagazineRifleM54CAP
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineRifleM54CAPEmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain armor piercing M54C mags.
+  description: A magazine box that can contain armor piercing M41A mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m54
@@ -31,13 +31,13 @@
 
 - type: construction
   parent: RMC
-  name: Magazine Box (M54C Ext)
+  name: Magazine Box (M41A Ext)
   id: RMCBoxMagazineRifleM54CExt
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineRifleM54CExtEmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain extended M54C mags.
+  description: A magazine box that can contain extended M41A mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m54
@@ -46,13 +46,13 @@
 # M63
 - type: construction
   parent: RMC
-  name: Magazine Box (M63 Reg)
+  name: Magazine Box (M39 Reg)
   id: RMCBoxMagazineSMGM63
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineSMGM63Empty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain regular M63 mags.
+  description: A magazine box that can contain regular M39 mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m63
@@ -60,13 +60,13 @@
 
 - type: construction
   parent: RMC
-  name: Magazine Box (M63 AP)
+  name: Magazine Box (M39 AP)
   id: RMCBoxMagazineSMGM63AP
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineSMGM63APEmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain armor piercing M63 mags.
+  description: A magazine box that can contain armor piercing M39 mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m63
@@ -74,13 +74,13 @@
 
 - type: construction
   parent: RMC
-  name: Magazine Box (M63 Ext)
+  name: Magazine Box (M39 Ext)
   id: RMCBoxMagazineSMGM63Ext
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineSMGM63ExtEmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain extended M63 mags.
+  description: A magazine box that can contain extended M39 mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m63
@@ -89,13 +89,13 @@
 # M4SPR
 - type: construction
   parent: RMC
-  name: Magazine Box (M4SPR Reg)
+  name: Magazine Box (M4RA Reg)
   id: RMCBoxMagazineRifleM4SPR
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineRifleM4SPREmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain regular M4SPR mags.
+  description: A magazine box that can contain regular M4RA mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m4spr
@@ -103,13 +103,13 @@
 
 - type: construction
   parent: RMC
-  name: Magazine Box (M4SPR AP)
+  name: Magazine Box (M4RA AP)
   id: RMCBoxMagazineRifleM4SPRAP
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineRifleM4SPRAPEmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain armor piercing M4SPR mags.
+  description: A magazine box that can contain armor piercing M4RA mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m4spr
@@ -117,13 +117,13 @@
 
 - type: construction
   parent: RMC
-  name: Magazine Box (M4SPR Ext)
+  name: Magazine Box (M4RA Ext)
   id: RMCBoxMagazineRifleM4SPRExt
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazineRifleM4SPRExtEmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain extended M4SPR mags.
+  description: A magazine box that can contain extended M4RA mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m4spr
@@ -132,13 +132,13 @@
 # M1984
 - type: construction
   parent: RMC
-  name: Magazine Box (M1984 Reg)
+  name: Magazine Box (M4A3 Reg)
   id: RMCBoxMagazinePistolM1984
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazinePistolM1984Empty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain regular M1984 mags.
+  description: A magazine box that can contain regular M4A3 mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m1984
@@ -146,13 +146,13 @@
 
 #- type: construction
 #  parent: RMC
-#  name: Magazine Box (M1984 AP)
+#  name: Magazine Box (M4A3 AP)
 #  id: RMCBoxMagazinePistolM1984AP
 #  graph: RMCBoxMagazine
 #  startNode: start
 #  targetNode: RMCBoxMagazinePistolM1984APEmpty
 #  category: construction-category-cm-box-magazine
-#  description: A magazine box that can contain armor piercing M1984 mags.
+#  description: A magazine box that can contain armor piercing M4A3 mags.
 #  icon:
 #    sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
 #    state: base_m1984
@@ -161,13 +161,13 @@
 # 88 mod 4 / 88m4
 - type: construction
   parent: RMC
-  name: Magazine Box (M77 AP)
+  name: Magazine Box (88 M4 AP)
   id: RMCBoxMagazinePistolM77AP
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazinePistolM77APEmpty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain armor piercing M77 mags.
+  description: A magazine box that can contain armor piercing 88 M4 mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_m77
@@ -176,13 +176,13 @@
 # MK80
 - type: construction
   parent: RMC
-  name: Magazine Box (MK80 Reg)
+  name: Magazine Box (VP78 Reg)
   id: RMCBoxMagazinePistolMK80
   graph: RMCBoxMagazine
   startNode: start
   targetNode: RMCBoxMagazinePistolMK80Empty
   category: construction-category-cm-box-magazine
-  description: A magazine box that can contain regular MK80 mags.
+  description: A magazine box that can contain regular VP78 mags.
   icon:
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Boxes/magazine_boxes.rsi
     state: base_mk80

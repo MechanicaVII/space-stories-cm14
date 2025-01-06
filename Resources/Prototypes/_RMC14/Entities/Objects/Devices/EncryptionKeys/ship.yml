@@ -120,7 +120,6 @@
   - type: EncryptionKey
     channels:
     - MarineJTAC
-    - MarineRequisition
     defaultChannel: MarineJTAC
   - type: Sprite
     state: jtac_key

@@ -596,6 +596,13 @@
   - type: Tag
     tags:
     - RMCSmartPistolHolster
+  - type: ItemCamouflage
+    camouflageVariations:
+      Jungle: _RMC14/Objects/Clothing/Belt/smart_pistol.rsi
+      Snow: _RMC14/Objects/Clothing/Belt/smart_pistol.rsi
+      Desert: _RMC14/Objects/Clothing/Belt/smart_pistol.rsi
+      Urban: _RMC14/Objects/Clothing/Belt/smart_pistol.rsi
+      Classic: _RMC14/Objects/Clothing/Belt/smart_pistol.rsi
 
 - type: Tag
   id: RMCSmartPistolHolster
@@ -656,6 +663,13 @@
   - type: Tag
     tags:
     - RMCGeneralPistolHolster
+  - type: ItemCamouflage
+    camouflageVariations:
+      Jungle: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
+      Snow: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
+      Desert: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
+      Urban: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
+      Classic: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
 
 - type: Tag
   id: RMCGeneralPistolHolster
@@ -711,6 +725,13 @@
   - type: Tag
     tags:
     - RMCGeneralRevolverHolster
+  - type: ItemCamouflage
+    camouflageVariations:
+      Jungle: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
+      Snow: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
+      Desert: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
+      Urban: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
+      Classic: _RMC14/Objects/Clothing/Belt/holster_pistol.rsi
 
 - type: Tag
   id: RMCGeneralRevolverHolster

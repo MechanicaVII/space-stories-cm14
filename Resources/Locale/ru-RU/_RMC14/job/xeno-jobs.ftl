@@ -1,7 +1,7 @@
 cm-job-name-xeno-boiler = Бойлер
 CMJobXenoBoiler = Бойлер
-cm-job-name-xeno-burrower = Землекоп
-CMJobXenoBurrower = Землекоп
+cm-job-name-xeno-burrower = Бурильщик
+CMJobXenoBurrower = Бурильщик
 cm-job-name-xeno-carrier = Носитель
 CMJobXenoCarrier = Носитель
 cm-job-name-xeno-crusher = Крушитель
