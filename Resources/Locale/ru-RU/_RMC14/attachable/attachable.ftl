@@ -9,7 +9,6 @@ rmc-attachable-activation-fail-not-wielded = { CAPITALIZE(THE($holder)) } дол
 rmc-attachable-activation-fail-not-held = { CAPITALIZE(THE($holder)) } необходимо удерживать, чтобы активировать { THE($attachable) }!
 rmc-attachable-activation-fail-not-owned = { CAPITALIZE(THE($holder)) } должен находиться у вас в руках или быть экипирован, чтобы активировать { THE($attachable) }!
 rmc-attachable-shoot-fail-not-wielded = { CAPITALIZE(THE($holder)) } должен быть взят в руки, чтобы выстрелить { THE($attachable) }!
-rmc-attachable-shoot-fail-cadet = Вы не можете использовать { THE($attachable) } пока не отыграете 2 часа игрового времени!
 rmc-attachable-verb-toggle = Переключить { THE($attachable) }
 attachable-popup-activate-generic = Вы активируете { THE($attachable) }.
 attachable-popup-deactivate-generic = Вы деактивируете { THE($attachable) }.

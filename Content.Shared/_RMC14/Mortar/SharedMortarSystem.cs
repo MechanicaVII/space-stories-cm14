@@ -1,4 +1,5 @@
-﻿using Content.Shared._RMC14.Areas;
+﻿using Content.Shared._Stories.AntiGrief.Cadet;
+using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.Camera;
 using Content.Shared._RMC14.Chat;
 using Content.Shared._RMC14.Explosion;
@@ -84,6 +85,16 @@ public abstract class SharedMortarSystem : EntitySystem
     private void OnMortarUseInHand(Entity<MortarComponent> mortar, ref UseInHandEvent args)
     {
         args.Handled = true;
+
+        // Stories-AntiGrief-Start
+        if (HasComp<CadetComponent>(args.User))
+        {
+            var popup = Loc.GetString("stories-cadet-mortar-use");
+            _popup.PopupClient(popup, args.User, args.User, PopupType.SmallCaution);
+            return;
+        }
+        // Stories-AntiGrief-End
+
         DeployMortar(mortar, args.User);
     }
 
@@ -122,6 +133,15 @@ public abstract class SharedMortarSystem : EntitySystem
 
     private void OnMortarTargetDoAfter(Entity<MortarComponent> mortar, ref TargetMortarDoAfterEvent args)
     {
+        // Stories-AntiGrief-Start
+        if (HasComp<CadetComponent>(args.User))
+        {
+            var popup = Loc.GetString("stories-cadet-mortar-use");
+            _popup.PopupClient(popup, args.User, args.User, PopupType.SmallCaution);
+            return;
+        }
+        // Stories-AntiGrief-End
+
         if (args.Cancelled || args.Handled)
             return;
 
@@ -152,6 +172,15 @@ public abstract class SharedMortarSystem : EntitySystem
 
     private void OnMortarDialDoAfter(Entity<MortarComponent> mortar, ref DialMortarDoAfterEvent args)
     {
+        // Stories-AntiGrief-Start
+        if (HasComp<CadetComponent>(args.User))
+        {
+            var popup = Loc.GetString("stories-cadet-mortar-use");
+            _popup.PopupClient(popup, args.User, args.User, PopupType.SmallCaution);
+            return;
+        }
+        // Stories-AntiGrief-End
+
         if (args.Cancelled || args.Handled)
             return;
 
@@ -168,6 +197,15 @@ public abstract class SharedMortarSystem : EntitySystem
 
     private void OnMortarInteractUsing(Entity<MortarComponent> mortar, ref InteractUsingEvent args)
     {
+        // Stories-AntiGrief-Start
+        if (HasComp<CadetComponent>(args.User))
+        {
+            var popup = Loc.GetString("stories-cadet-mortar-use");
+            _popup.PopupClient(popup, args.User, args.User, PopupType.SmallCaution);
+            return;
+        }
+        // Stories-AntiGrief-End
+
         var shellId = args.Used;
         if (!TryComp(shellId, out MortarShellComponent? shell))
             return;
@@ -202,6 +240,15 @@ public abstract class SharedMortarSystem : EntitySystem
 
     private void OnMortarLoadDoAfter(Entity<MortarComponent> mortar, ref LoadMortarShellDoAfterEvent args)
     {
+        // Stories-AntiGrief-Start
+        if (HasComp<CadetComponent>(args.User))
+        {
+            var popup = Loc.GetString("stories-cadet-mortar-use");
+            _popup.PopupClient(popup, args.User, args.User, PopupType.SmallCaution);
+            return;
+        }
+        // Stories-AntiGrief-End
+
         var user = args.User;
         if (args.Cancelled || args.Handled || args.Used is not { } shellId)
             return;

@@ -218,7 +218,7 @@ public sealed class AttachableToggleableSystem : EntitySystem
             args.Cancelled = true;
 
             _popupSystem.PopupClient(
-                Loc.GetString("rmc-attachable-shoot-fail-cadet", ("attachable", attachable)),
+                Loc.GetString("stories-cadet-attachable-shoot", ("attachable", attachable)),
                 args.User,
                 args.User,
                 PopupType.SmallCaution);

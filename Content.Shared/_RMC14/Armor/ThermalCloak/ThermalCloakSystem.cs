@@ -234,7 +234,7 @@ public sealed class ThermalCloakSystem : EntitySystem
         {
             args.Handled = true;
 
-            var popup = Loc.GetString("Вы не можете использовать гранаты пока не отыграете 1 час игрового времени");
+            var popup = Loc.GetString("stories-cadet-grenade-use");
             _popup.PopupClient(popup, args.User, args.User, PopupType.SmallCaution);
         }
         // Stories-AntiGrief-End
