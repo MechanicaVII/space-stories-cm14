@@ -3,7 +3,7 @@
 - type: species
   id: Vulpkanin
   name: species-name-vulpkanin
-  roundStart: false # Stories-XenoRemoval
+  roundStart: true # Stories-Rofls
   prototype: RMCMobVulpkanin
   sprites: MobVulpkaninSprites
   defaultSkinTone: "#985629"
