@@ -459,7 +459,7 @@
       sprite: _Stories/Actions/xeno_actions.rsi
       state: prae_acid_ball
     event: !type:XenoAcidBallActionEvent
-    useDelay: 0
+    useDelay: 18
     range: 15
     checkCanAccess: false
   - type: ActionBlockIfResting
