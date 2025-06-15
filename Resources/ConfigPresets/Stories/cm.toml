@@ -83,7 +83,7 @@ bindto = "::,0.0.0.0"
 [physics]
 grid_splitting = false
 maxlinvelocity = 72
-target_minimum_tickrate = 120
+target_minimum_tickrate = 72
 
 [pointing]
 cooldown_seconds = 1
