@@ -24,6 +24,10 @@ using Robust.Shared.Utility;
 using Content.Server._Stories.TTS;
 using Content.Shared._Stories.TTS;
 using Robust.Shared.Enums;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Content.Shared._Stories.SCCVars;
+using Robust.Shared.Configuration;
 
 namespace Content.Server.Radio.EntitySystems;
 
@@ -41,6 +45,7 @@ public sealed class RadioSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!; // RMC14
     [Dependency] private readonly IChatManager _chatManager = default!; // RMC14
     [Dependency] private readonly TTSSystem _tts = default!; // Stories-TTS
+    [Dependency] private readonly IConfigurationManager _cfg = default!; // Stories-TTS
 
     // set used to prevent radio feedback loops.
     private readonly HashSet<string> _messages = new();
@@ -94,19 +99,23 @@ public sealed class RadioSystem : EntitySystem
 
     private async void HandleRadioTts(EntityUid sourceUid, string message, ICommonSession playerSession)
     {
-        if (!TryComp<TTSComponent>(sourceUid, out var tts) || string.IsNullOrEmpty(tts.VoicePrototypeId) ||
-            !_prototype.TryIndex<TTSVoicePrototype>(tts.VoicePrototypeId, out var protoVoice))
-        {
-            return;
-        }
-
-        var soundData = await _tts.GenerateTTS(message, protoVoice.Speaker, isWhisper: false);
+        var soundData = await _tts.GenerateTTS(message, GetVoiceId(sourceUid), isWhisper: false);
 
         if (soundData == null || playerSession.Status != SessionStatus.InGame)
             return;
 
         var ttsEvent = new PlayTTSEvent(soundData, sourceUid: null, isWhisper: true, originalSourceUid: GetNetEntity(sourceUid));
         RaiseNetworkEvent(ttsEvent, playerSession);
+    }
+
+    private string GetVoiceId(EntityUid sourceUid)
+    {
+        if (TryComp<TTSComponent>(sourceUid, out var tts) && !string.IsNullOrEmpty(tts.VoicePrototypeId) &&
+            _prototype.TryIndex<TTSVoicePrototype>(tts.VoicePrototypeId, out var protoVoice))
+        {
+            return protoVoice.Speaker;
+        }
+        return "father_grigori";
     }
 
     /// <summary>
@@ -225,7 +234,7 @@ public sealed class RadioSystem : EntitySystem
             RaiseLocalEvent(receiver, ref ev);
         }
 
-        if (canSend &&
+        if (canSend && _cfg.GetCVar(SCCVars.TTSEnabled) &&
             !HasComp<XenoComponent>(messageSource) &&
             HasComp<RMCHeadsetComponent>(radioSource))
         {

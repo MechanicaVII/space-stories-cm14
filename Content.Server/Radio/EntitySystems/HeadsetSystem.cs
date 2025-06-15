@@ -24,10 +24,6 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
     [Dependency] private readonly TTSSystem _ttsSystem = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
-    private readonly Dictionary<string, Task<byte[]?>> _radioTtsCache = new();
-    private readonly Queue<string> _radioTtsCacheQueue = new();
-    private const int RadioTtsCacheSize = 10;
-
     public override void Initialize()
     {
         base.Initialize();
@@ -35,13 +31,6 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
         SubscribeLocalEvent<HeadsetComponent, EncryptionChannelsChangedEvent>(OnKeysChanged);
         SubscribeLocalEvent<WearingHeadsetComponent, EntitySpokeEvent>(OnSpeak);
         SubscribeLocalEvent<HeadsetComponent, EmpPulseEvent>(OnEmpPulse);
-        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
-    }
-
-    private void OnRoundRestart(RoundRestartCleanupEvent ev)
-    {
-        _radioTtsCache.Clear();
-        _radioTtsCacheQueue.Clear();
     }
 
     private void OnKeysChanged(EntityUid uid, HeadsetComponent component, EncryptionChannelsChangedEvent args)
@@ -142,31 +131,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
             return;
         }
 
-        var cacheKey = $"{protoVoice.ID}:{message}";
-        Task<byte[]?>? generationTask;
-
-        lock (_radioTtsCache)
-        {
-            if (!_radioTtsCache.TryGetValue(cacheKey, out generationTask))
-            {
-                // Not in cache, so we are the first one to request it.
-                // Create the task and add it to the cache.
-                generationTask = _ttsSystem.GenerateTTS(message, protoVoice.Speaker, isWhisper: false);
-                _radioTtsCache.Add(cacheKey, generationTask);
-                _radioTtsCacheQueue.Enqueue(cacheKey);
-
-                // Evict old entries if cache is too large
-                if (_radioTtsCacheQueue.Count > RadioTtsCacheSize)
-                {
-                    var keyToRemove = _radioTtsCacheQueue.Dequeue();
-                    // Don't worry about the task result, just remove from dict
-                    _radioTtsCache.Remove(keyToRemove);
-                }
-            }
-        }
-
-        // Now everyone (including the first requester) awaits the same task.
-        var soundData = await generationTask;
+        var soundData = await _ttsSystem.GenerateTTS(message, protoVoice.Speaker, isWhisper: false);
 
         // After await, we MUST re-validate the player's connection, as they might have disconnected.
         if (soundData == null || playerSession.Status != SessionStatus.InGame)

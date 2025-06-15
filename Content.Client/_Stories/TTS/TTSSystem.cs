@@ -63,8 +63,6 @@ public sealed class TTSSystem : EntitySystem
         _mutedPlayers.Remove(netEntity);
     }
 
-
-
     public bool IsMuted(NetEntity netEntity)
     {
         return _mutedPlayers.Contains(netEntity);
