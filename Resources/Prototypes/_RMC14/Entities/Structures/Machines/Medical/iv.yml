@@ -84,10 +84,10 @@
   - type: SolutionTransfer
     canChangeTransferAmount: true
   - type: Appearance
-  - type: DrawableSolution
-    solution: pack
-  - type: InjectableSolution
-    solution: pack
+  # - type: DrawableSolution # Stories-Fix
+  #   solution: pack
+  # - type: InjectableSolution # Stories-Fix
+  #   solution: pack
   - type: Damageable
     damageContainer: Inorganic
     damageModifierSet: Glass
