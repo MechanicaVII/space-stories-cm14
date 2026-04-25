@@ -18,9 +18,17 @@ public sealed partial class SharpStickyDartComponent : Component
     [DataField, AutoNetworkedField]
     public float LongDelay = 5f;
 
+    public float? SelectedDelay;
+
     [DataField]
     public float ExplosionRadius;
 
     [DataField, AutoNetworkedField]
     public bool MineSpawned;
+
+    [AutoNetworkedField]
+    public bool Armed;
+
+    [AutoNetworkedField]
+    public TimeSpan DetonateAt;
 }

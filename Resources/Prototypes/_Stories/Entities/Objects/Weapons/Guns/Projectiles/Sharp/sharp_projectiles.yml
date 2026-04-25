@@ -12,7 +12,7 @@
   - type: IgnoreArc
 
   - type: EmbeddableProjectile
-    sound: /Audio/Weapons/pop.ogg
+    sound: /Audio/_Stories/Weapons/spike_hit.ogg
     embedOnThrow: false
     deleteOnRemove: false
     removalTime: null
@@ -23,7 +23,6 @@
   - type: Projectile
     deleteOnCollide: false
     onlyCollideWhenShot: true
-    maxFixedRange: 8
     impactEffect: BulletImpactEffect
     damage:
       types:
@@ -31,7 +30,7 @@
   - type: IgnorePredictionHide
 
   - type: SharpStickyDart
-    mineProto: STSharpMineExplosiveL1
+    mineProto: STSharpMineExplosive
     iffDropProto: STCartridgeSharpExplosive
     shortDelay: 2.5
     longDelay: 5.0
@@ -68,7 +67,7 @@
   - type: IgnoreArc
 
   - type: EmbeddableProjectile
-    sound: /Audio/Weapons/pop.ogg
+    sound: /Audio/_Stories/Weapons/spike_hit.ogg
     embedOnThrow: false
     deleteOnRemove: false
     removalTime: null
@@ -79,7 +78,6 @@
   - type: Projectile
     deleteOnCollide: false
     onlyCollideWhenShot: true
-    maxFixedRange: 8
     impactEffect: BulletImpactEffect
     damage:
       types:
@@ -87,7 +85,7 @@
   - type: IgnorePredictionHide
 
   - type: SharpStickyDart
-    mineProto: STSharpMineIncendiaryL1
+    mineProto: STSharpMineIncendiary
     iffDropProto: STCartridgeSharpIncendiary
     shortDelay: 2.5
     longDelay: 5.0
@@ -127,7 +125,6 @@
   - type: Projectile
     deleteOnCollide: false
     onlyCollideWhenShot: true
-    maxFixedRange: 8
     impactEffect: BulletImpactEffect
     damage:
       types:
