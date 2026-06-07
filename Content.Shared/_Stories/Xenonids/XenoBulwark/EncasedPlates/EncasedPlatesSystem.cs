@@ -3,6 +3,7 @@ using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Armor;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.Xenonids;
+using Content.Shared._RMC14.Xenonids.Rest;
 using Content.Shared.Actions;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Popups;
@@ -27,6 +28,7 @@ public sealed class EncasedPlatesSystem : EntitySystem
         SubscribeLocalEvent<EncasedPlatesComponent, RefreshMovementSpeedModifiersEvent>(OnEncasedPlatesRefreshSpeed);
         SubscribeLocalEvent<EncasedPlatesComponent, GetMeleeDamageEvent>(OnEncasedPlatesGetMeleeDamage);
         SubscribeLocalEvent<EncasedPlatesComponent, BeforeStatusEffectAddedEvent>(OnEncasedPlatesBeforeStatusAdded);
+        SubscribeLocalEvent<EncasedPlatesComponent, XenoRestAttemptEvent>(OnEncasedPlatesRestAttempt);
     }
 
     private void OnEncasedPlatesAction(Entity<EncasedPlatesComponent> xeno, ref EncasedPlatesActionEvent args)
@@ -97,6 +99,12 @@ public sealed class EncasedPlatesSystem : EntitySystem
     private void OnEncasedPlatesBeforeStatusAdded(Entity<EncasedPlatesComponent> xeno, ref BeforeStatusEffectAddedEvent args)
     {
         if (xeno.Comp.Active && xeno.Comp.ImmuneToStatuses.Contains(args.Effect.Id))
+            args.Cancelled = true;
+    }
+
+    private void OnEncasedPlatesRestAttempt(Entity<EncasedPlatesComponent> xeno, ref XenoRestAttemptEvent args)
+    {
+        if (xeno.Comp.Active)
             args.Cancelled = true;
     }
 }

@@ -72,7 +72,6 @@ public sealed class PlateBashSystem : EntitySystem
 
         if (!hasEncasedPlates)
         {
-            // Без стойки — рывок к врагу
             args.Handled = true;
             xeno.Comp.Target = target;
             xeno.Comp.IsCharging = true;
@@ -82,7 +81,6 @@ public sealed class PlateBashSystem : EntitySystem
         }
         else
         {
-            // Со стойкой — проверяем дальность 1.5 тайла
             if (distance > xeno.Comp.RangeEncased)
                 return;
 

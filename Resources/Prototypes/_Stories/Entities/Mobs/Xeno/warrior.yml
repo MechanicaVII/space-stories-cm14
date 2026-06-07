@@ -195,6 +195,7 @@
     - type: PlateBash
     - type: BulwarkTailSweep
     - type: ReflectiveShield
+    - type: BulwarkPassive
     - type: SlowOnPull
       slowdowns:
         - multiplier: 0.4525
