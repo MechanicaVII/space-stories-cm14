@@ -1,7 +1,5 @@
 using System.Numerics;
 using Content.Client._RMC14.Sprite;
-using Content.Shared._RMC14.CrashLand;
-using Content.Shared._RMC14.ParaDrop;
 using Content.Shared._RMC14.Sprite;
 using Robust.Client.Animations;
 using Robust.Client.GameObjects;
@@ -15,6 +13,7 @@ public sealed partial class ParaDropSystem : SharedParaDropSystem
 {
     [Dependency] private readonly AnimationPlayerSystem _animPlayer = default!;
     [Dependency] private readonly RMCSpriteSystem _rmcSprite = default!;
+    [Dependency] private readonly SpriteSystem _sprite = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
@@ -93,6 +92,7 @@ public sealed partial class ParaDropSystem : SharedParaDropSystem
         }
 
         ent.Comp.OriginalScale = sprite.Scale;
+        ent.Comp.OriginalSpriteOffset = sprite.Offset;
 
         if (!TryComp<AnimationPlayerComponent>(ent, out var player))
             return;
@@ -114,15 +114,9 @@ public sealed partial class ParaDropSystem : SharedParaDropSystem
         if (TryComp(ent, out AnimationPlayerComponent? animation))
             _animPlayer.Stop((ent, animation), SkyFallingAnimationKey);
 
-        sprite.Scale = ent.Comp.OriginalScale;
-
-        var offset = Vector2.Zero;
-        if (TryComp<CrashLandableComponent>(ent, out var crashLandable))
-            offset = crashLandable.OriginalSpriteOffset;
-        else if (TryComp<ParaDroppableComponent>(ent, out var paraDroppable))
-            offset = paraDroppable.OriginalSpriteOffset;
-
-        _sprite.SetOffset(ent.Owner, offset);
+        var spriteEnt = (ent, sprite);
+        _sprite.SetScale(spriteEnt, ent.Comp.OriginalScale);
+        _sprite.SetOffset(spriteEnt, ent.Comp.OriginalSpriteOffset);
     }
 
     private void OnParaDroppingRemove(Entity<ParaDroppingComponent> ent, ref ComponentRemove args)
@@ -136,12 +130,12 @@ public sealed partial class ParaDropSystem : SharedParaDropSystem
         if (!TryComp(ent, out SpriteComponent? sprite))
             return;
 
-        var offset = new Vector2();
+        var offset = Vector2.Zero;
 
         if (TryComp(ent, out ParaDroppableComponent? paraDroppable))
             offset = paraDroppable.OriginalSpriteOffset;
 
-        _sprite.SetOffset(ent.Owner, offset);
+        _sprite.SetOffset((ent, sprite), offset);
     }
 
     private void SpawnParachute(float fallDuration, EntityCoordinates coordinates, ParaDroppableComponent paraDroppable, float multiplier, Vector2 offset = new())
