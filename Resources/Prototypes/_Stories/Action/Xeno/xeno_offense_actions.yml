@@ -105,6 +105,8 @@
   - type: InstantAction
     event: !type:BulwarkTailSweepActionEvent
   - type: ActionBlockIfResting
+  - type: XenoActionPlasma
+    cost: 20
 
 - type: entity
   parent: ActionXenoBase
@@ -120,3 +122,5 @@
   - type: InstantAction
     event: !type:ReflectiveShieldActionEvent
   - type: ActionBlockIfResting
+  - type: XenoActionPlasma
+    cost: 100

@@ -13,8 +13,8 @@ ent-STActionXenoBulwarkEncasedPlates = Закованные Пластины
 ent-STActionXenoBulwarkPlateBash = Удар Пластиной
     .desc = Без [color=cyan]Закованных Пластин[/color] — бросаетесь на цель и отталкиваете её. С [color=cyan]Закованными Пластинами[/color] — мощно отталкиваете цель на близком расстоянии. Всегда наносит урон.
 
-ent-STActionXenoBulwarkTailSweep = Взмах Хвоста
+ent-STActionXenoBulwarkTailSweep = Взмах Хвоста (20)
     .desc = Сбивает врагов вокруг вас с ног и ненадолго оглушает их. Если рядом находится граната — отбрасывает её в противоположном направлении и сокращает время перезарядки. Всегда наносит урон.
 
-ent-STActionXenoBulwarkReflectiveShield = Отражающий Щит
+ent-STActionXenoBulwarkReflectiveShield = Отражающий Щит (100)
     .desc = Активирует отражающий щит. Отражает большую часть пуль спереди обратно в атакующего за половину урона. Блокирует использование других способностей пока активен. [color=red]Требует активных [/color][color=cyan]Закованных Пластин[/color].
