@@ -149,9 +149,7 @@ public sealed class XenoVisualizerSystem : VisualizerSystem<XenoComponent>
                     sprite.LayerSetState(layer, "encased_plates");
                     break;
                 }
-                // Stories-XenoBulwark-End
 
-                // Stories-XenoBulwark-Start
                 if (AppearanceSystem.TryGetData(entity, XenoVisualLayers.ReflectiveShield, out bool reflectiveShield, appearance) &&
                     reflectiveShield &&
                     rsi.TryGetState("reflect_shield", out _))

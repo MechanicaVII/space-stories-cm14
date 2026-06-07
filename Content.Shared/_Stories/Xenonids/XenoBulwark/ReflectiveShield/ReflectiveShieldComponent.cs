@@ -31,4 +31,7 @@ public sealed partial class ReflectiveShieldComponent : Component
 
     [DataField, AutoNetworkedField]
     public TimeSpan? ActivatedAt;
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan? PendingCooldown;
 }

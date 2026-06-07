@@ -5,10 +5,12 @@ using Content.Shared._RMC14.Projectiles.Reflect;
 using Content.Shared._RMC14.Pulling;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Actions;
+using Content.Shared.CombatMode;
 using Content.Shared.Interaction.Events;
 using Content.Shared.MouseRotator;
 using Content.Shared.Movement.Components;
 using Content.Shared.Popups;
+using Content.Shared.Weapons.Melee.Events;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Timing;
@@ -31,6 +33,8 @@ public sealed class ReflectiveShieldSystem : EntitySystem
     {
         SubscribeLocalEvent<ReflectiveShieldComponent, ReflectiveShieldActionEvent>(OnReflectiveShieldAction);
         SubscribeLocalEvent<ReflectiveShieldComponent, ChangeDirectionAttemptEvent>(OnChangeDirectionAttempt);
+        SubscribeLocalEvent<ReflectiveShieldComponent, AttackAttemptEvent>(OnAttackAttempt);
+        SubscribeLocalEvent<ReflectiveShieldComponent, ToggleCombatActionEvent>(OnCombatModeToggle);
     }
 
     public override void Update(float frameTime)
@@ -38,6 +42,18 @@ public sealed class ReflectiveShieldSystem : EntitySystem
         var query = EntityQueryEnumerator<ReflectiveShieldComponent>();
         while (query.MoveNext(out var uid, out var comp))
         {
+            if (!comp.Active && comp.PendingCooldown != null)
+            {
+                var pending = comp.PendingCooldown.Value;
+                comp.PendingCooldown = null;
+                Dirty(uid, comp);
+                foreach (var action in _rmcActions.GetActionsWithEvent<ReflectiveShieldActionEvent>(uid))
+                {
+                    _actions.SetCooldown(action.Owner, _timing.CurTime, _timing.CurTime + pending);
+                }
+                continue;
+            }
+
             if (!comp.Active || comp.DeactivateAt == null)
                 continue;
 
@@ -53,6 +69,21 @@ public sealed class ReflectiveShieldSystem : EntitySystem
     {
         if (xeno.Comp.Active)
             args.Cancel();
+    }
+
+    private void OnAttackAttempt(Entity<ReflectiveShieldComponent> xeno, ref AttackAttemptEvent args)
+    {
+        if (xeno.Comp.Active)
+            args.Cancel();
+    }
+
+    private void OnCombatModeToggle(Entity<ReflectiveShieldComponent> xeno, ref ToggleCombatActionEvent args)
+    {
+        if (!xeno.Comp.Active)
+            return;
+
+        EnsureComp<MouseRotatorComponent>(xeno);
+        EnsureComp<NoRotateOnMoveComponent>(xeno);
     }
 
     private void OnReflectiveShieldAction(Entity<ReflectiveShieldComponent> xeno, ref ReflectiveShieldActionEvent args)
@@ -95,15 +126,6 @@ public sealed class ReflectiveShieldSystem : EntitySystem
         EnsureComp<MouseRotatorComponent>(xeno);
         EnsureComp<NoRotateOnMoveComponent>(xeno);
 
-        var actionsList = _actions.GetActions(xeno.Owner).ToList();
-        foreach (var (actionId, actionComp) in actionsList)
-        {
-            var ev = _actions.GetEvent(actionId);
-            if (ev is ReflectiveShieldActionEvent)
-                continue;
-            _actions.SetEnabled((actionId, actionComp), false);
-        }
-
         foreach (var action in _rmcActions.GetActionsWithEvent<ReflectiveShieldActionEvent>(xeno))
         {
             _actions.SetToggled(action.AsNullable(), true);
@@ -125,6 +147,7 @@ public sealed class ReflectiveShieldSystem : EntitySystem
         xeno.Comp.Active = false;
         xeno.Comp.DeactivateAt = null;
         xeno.Comp.ActivatedAt = null;
+        xeno.Comp.PendingCooldown = cooldown;
         Dirty(xeno);
 
         RemComp<RMCReflectiveComponent>(xeno);
@@ -135,16 +158,9 @@ public sealed class ReflectiveShieldSystem : EntitySystem
         RemComp<MouseRotatorComponent>(xeno);
         RemComp<NoRotateOnMoveComponent>(xeno);
 
-        var actionsList = _actions.GetActions(xeno.Owner).ToList();
-        foreach (var (actionId, actionComp) in actionsList)
-        {
-            _actions.SetEnabled((actionId, actionComp), true);
-        }
-
         foreach (var action in _rmcActions.GetActionsWithEvent<ReflectiveShieldActionEvent>(xeno))
         {
             _actions.SetToggled(action.AsNullable(), false);
-            _actions.SetCooldown(action.Owner, cooldown);
         }
     }
 }
