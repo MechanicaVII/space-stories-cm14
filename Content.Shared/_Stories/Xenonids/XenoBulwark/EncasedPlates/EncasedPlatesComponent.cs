@@ -10,7 +10,7 @@ public sealed partial class EncasedPlatesComponent : Component
     public int FrontalArmorBonus = 20;
 
     [DataField, AutoNetworkedField]
-    public int SideArmorPenalty = 20;
+    public int SideArmorBonus = 10;
 
     [DataField, AutoNetworkedField]
     public float SpeedMultiplier = 0.65f;

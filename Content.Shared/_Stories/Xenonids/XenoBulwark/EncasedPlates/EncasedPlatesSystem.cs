@@ -76,7 +76,7 @@ public sealed class EncasedPlatesSystem : EntitySystem
             return;
 
         args.FrontalArmor += xeno.Comp.FrontalArmorBonus;
-        args.SideArmor -= xeno.Comp.SideArmorPenalty;
+        args.SideArmor += xeno.Comp.SideArmorBonus;
     }
 
     private void OnEncasedPlatesRefreshSpeed(Entity<EncasedPlatesComponent> xeno, ref RefreshMovementSpeedModifiersEvent args)
