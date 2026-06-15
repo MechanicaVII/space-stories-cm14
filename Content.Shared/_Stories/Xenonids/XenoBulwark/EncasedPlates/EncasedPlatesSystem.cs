@@ -4,6 +4,7 @@ using Content.Shared._RMC14.Armor;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Rest;
+using Content.Shared._Stories.Xenonids.WarriorBulwark.ReflectiveShield;
 using Content.Shared.Actions;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Popups;
@@ -35,6 +36,14 @@ public sealed class EncasedPlatesSystem : EntitySystem
     {
         if (args.Handled)
             return;
+
+        if (xeno.Comp.Active &&
+            TryComp<ReflectiveShieldComponent>(xeno, out var shield) &&
+            shield.Active)
+        {
+            _popup.PopupClient(Loc.GetString("st-xeno-bulwark-encased-plates-shield-active"), xeno, xeno, PopupType.SmallCaution);
+            return;
+        }
 
         args.Handled = true;
 
@@ -105,6 +114,9 @@ public sealed class EncasedPlatesSystem : EntitySystem
     private void OnEncasedPlatesRestAttempt(Entity<EncasedPlatesComponent> xeno, ref XenoRestAttemptEvent args)
     {
         if (xeno.Comp.Active)
+        {
             args.Cancelled = true;
+            _popup.PopupClient(Loc.GetString("st-xeno-bulwark-encased-plates-cant-rest"), xeno, xeno, PopupType.SmallCaution);
+        }
     }
 }
