@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Pulling;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.Xenonids;
@@ -32,6 +33,7 @@ public sealed class BulwarkTailSweepSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly RMCPullingSystem _rmcPulling = default!;
+    [Dependency] private readonly SharedRMCActionsSystem _rmcActions = default!;
     [Dependency] private readonly RMCSizeStunSystem _sizeStun = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly TagSystem _tag = default!;
@@ -52,6 +54,9 @@ public sealed class BulwarkTailSweepSystem : EntitySystem
     private void OnTailSweepAction(Entity<BulwarkTailSweepComponent> xeno, ref BulwarkTailSweepActionEvent args)
     {
         if (args.Handled)
+            return;
+
+        if (!_rmcActions.TryUseAction(args))
             return;
 
         args.Handled = true;

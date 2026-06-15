@@ -97,6 +97,13 @@ public sealed class ReflectiveShieldSystem : EntitySystem
             return;
         }
 
+        // При деактивации плазму не тратим
+        if (!xeno.Comp.Active)
+        {
+            if (!_rmcActions.TryUseAction(args))
+                return;
+        }
+
         args.Handled = true;
 
         if (xeno.Comp.Active)
