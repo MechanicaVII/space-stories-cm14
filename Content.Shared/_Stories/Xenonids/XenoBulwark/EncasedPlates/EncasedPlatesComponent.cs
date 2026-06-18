@@ -7,10 +7,10 @@ namespace Content.Shared._Stories.Xenonids.WarriorBulwark.EncasedPlates;
 public sealed partial class EncasedPlatesComponent : Component
 {
     [DataField, AutoNetworkedField]
-    public int FrontalArmorBonus = 20;
+    public int FrontalArmorBonus = 10;
 
     [DataField, AutoNetworkedField]
-    public int SideArmorBonus = 10;
+    public int SideArmorBonus = -10;
 
     [DataField, AutoNetworkedField]
     public float SpeedMultiplier = 0.65f;

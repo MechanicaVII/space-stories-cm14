@@ -21,10 +21,13 @@ public sealed partial class ReflectiveShieldComponent : Component
     public TimeSpan Duration = TimeSpan.FromSeconds(6);
 
     [DataField, AutoNetworkedField]
-    public TimeSpan MinCooldown = TimeSpan.FromSeconds(6);
+    public TimeSpan MinCooldown = TimeSpan.FromSeconds(5);
 
     [DataField, AutoNetworkedField]
-    public TimeSpan MaxCooldown = TimeSpan.FromSeconds(18);
+    public TimeSpan FullCooldown = TimeSpan.FromSeconds(18);
+
+    [DataField, AutoNetworkedField]
+    public float CooldownPerSecond = 2f;
 
     [DataField, AutoNetworkedField]
     public TimeSpan? DeactivateAt;

@@ -97,18 +97,18 @@ public sealed class ReflectiveShieldSystem : EntitySystem
             return;
         }
 
-        if (!xeno.Comp.Active)
+        if (xeno.Comp.Active)
         {
-            if (!_rmcActions.TryUseAction(args))
-                return;
+            args.Handled = true;
+            Deactivate(xeno);
+            return;
         }
 
-        args.Handled = true;
+        if (!_rmcActions.TryUseAction(args))
+            return;
 
-        if (xeno.Comp.Active)
-            Deactivate(xeno);
-        else
-            Activate(xeno);
+        args.Handled = true;
+        Activate(xeno);
     }
 
     private void Activate(Entity<ReflectiveShieldComponent> xeno)
@@ -140,14 +140,18 @@ public sealed class ReflectiveShieldSystem : EntitySystem
 
     private void Deactivate(Entity<ReflectiveShieldComponent> xeno)
     {
-        var cooldown = xeno.Comp.MinCooldown;
+        TimeSpan cooldown;
         if (xeno.Comp.ActivatedAt != null)
         {
-            var timeActive = _timing.CurTime - xeno.Comp.ActivatedAt.Value;
-            var ratio = Math.Clamp(timeActive.TotalSeconds / xeno.Comp.Duration.TotalSeconds, 0, 1);
-            var cooldownSeconds = xeno.Comp.MinCooldown.TotalSeconds +
-                                  ratio * (xeno.Comp.MaxCooldown.TotalSeconds - xeno.Comp.MinCooldown.TotalSeconds);
-            cooldown = TimeSpan.FromSeconds(cooldownSeconds);
+            var elapsed = _timing.CurTime - xeno.Comp.ActivatedAt.Value;
+            var seconds = Math.Max(
+                xeno.Comp.MinCooldown.TotalSeconds,
+                elapsed.TotalSeconds * xeno.Comp.CooldownPerSecond);
+            cooldown = TimeSpan.FromSeconds(seconds);
+        }
+        else
+        {
+            cooldown = xeno.Comp.FullCooldown;
         }
 
         xeno.Comp.Active = false;
