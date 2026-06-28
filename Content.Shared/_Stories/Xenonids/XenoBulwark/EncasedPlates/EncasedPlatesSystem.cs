@@ -30,6 +30,25 @@ public sealed class EncasedPlatesSystem : EntitySystem
         SubscribeLocalEvent<EncasedPlatesComponent, GetMeleeDamageEvent>(OnEncasedPlatesGetMeleeDamage);
         SubscribeLocalEvent<EncasedPlatesComponent, BeforeStatusEffectAddedEvent>(OnEncasedPlatesBeforeStatusAdded);
         SubscribeLocalEvent<EncasedPlatesComponent, XenoRestAttemptEvent>(OnEncasedPlatesRestAttempt);
+        SubscribeLocalEvent<EncasedPlatesComponent, ComponentShutdown>(OnEncasedPlatesShutdown);
+    }
+
+    private void OnEncasedPlatesShutdown(Entity<EncasedPlatesComponent> xeno, ref ComponentShutdown args)
+    {
+        if (!xeno.Comp.Active)
+            return;
+
+        xeno.Comp.Active = false;
+
+        if (TryComp<RMCSizeComponent>(xeno, out var size))
+        {
+            size.Size = xeno.Comp.OriginalSize ?? RMCSizes.Xeno;
+            Dirty(xeno.Owner, size);
+        }
+
+        _appearance.SetData(xeno, XenoVisualLayers.EncasedPlates, false);
+        _armor.UpdateArmorValue((xeno, null));
+        _movementSpeed.RefreshMovementSpeedModifiers(xeno);
     }
 
     private void OnEncasedPlatesAction(Entity<EncasedPlatesComponent> xeno, ref EncasedPlatesActionEvent args)

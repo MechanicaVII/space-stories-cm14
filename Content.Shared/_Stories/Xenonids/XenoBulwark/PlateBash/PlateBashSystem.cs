@@ -49,6 +49,31 @@ public sealed class PlateBashSystem : EntitySystem
 
         SubscribeLocalEvent<PlateBashComponent, PlateBashActionEvent>(OnPlateBashAction);
         SubscribeLocalEvent<PlateBashComponent, ThrowDoHitEvent>(OnPlateBashHit);
+        SubscribeLocalEvent<PlateBashComponent, LandEvent>(OnPlateBashLand);
+        SubscribeLocalEvent<PlateBashComponent, ComponentShutdown>(OnPlateBashShutdown);
+    }
+
+    private void OnPlateBashShutdown(Entity<PlateBashComponent> xeno, ref ComponentShutdown args)
+    {
+        xeno.Comp.IsCharging = false;
+        xeno.Comp.Target = null;
+        xeno.Comp.Charge = null;
+    }
+
+    private void OnPlateBashLand(Entity<PlateBashComponent> xeno, ref LandEvent args)
+    {
+        if (!xeno.Comp.IsCharging)
+            return;
+
+        if (_timing.IsFirstTimePredicted && xeno.Comp.Charge is { } charge)
+        {
+            xeno.Comp.Charge = null;
+            _xenoAnimations.PlayLungeAnimationEvent(xeno, charge);
+        }
+
+        xeno.Comp.IsCharging = false;
+        xeno.Comp.Target = null;
+        Dirty(xeno);
     }
 
     private void OnPlateBashAction(Entity<PlateBashComponent> xeno, ref PlateBashActionEvent args)

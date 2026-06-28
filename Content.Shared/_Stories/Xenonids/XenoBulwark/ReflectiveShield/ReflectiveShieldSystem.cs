@@ -35,6 +35,23 @@ public sealed class ReflectiveShieldSystem : EntitySystem
         SubscribeLocalEvent<ReflectiveShieldComponent, ChangeDirectionAttemptEvent>(OnChangeDirectionAttempt);
         SubscribeLocalEvent<ReflectiveShieldComponent, AttackAttemptEvent>(OnAttackAttempt);
         SubscribeLocalEvent<ReflectiveShieldComponent, ToggleCombatActionEvent>(OnCombatModeToggle);
+        SubscribeLocalEvent<ReflectiveShieldComponent, ComponentShutdown>(OnReflectiveShieldShutdown);
+    }
+
+    private void OnReflectiveShieldShutdown(Entity<ReflectiveShieldComponent> xeno, ref ComponentShutdown args)
+    {
+        if (!xeno.Comp.Active)
+            return;
+
+        RemComp<RMCReflectiveComponent>(xeno);
+        RemComp<AuraComponent>(xeno);
+        RemComp<MouseRotatorComponent>(xeno);
+        RemComp<NoRotateOnMoveComponent>(xeno);
+
+        xeno.Comp.Active = false;
+        xeno.Comp.DeactivateAt = null;
+        xeno.Comp.ActivatedAt = null;
+        xeno.Comp.PendingCooldown = null;
     }
 
     public override void Update(float frameTime)
