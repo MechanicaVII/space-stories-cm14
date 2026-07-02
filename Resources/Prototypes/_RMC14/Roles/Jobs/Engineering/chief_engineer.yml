@@ -41,7 +41,8 @@
         RMCSkillOverwatch: 1
         RMCSkillPolice: 1
         RMCSkillPowerLoader: 2
-        RMCSkillVehicles: 1
+        RMCSkillPilot: 2
+        RMCSkillVehicles: 2
     - type: CMVendorUser
       id: CMChiefEngineer
       points: 45

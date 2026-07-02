@@ -1021,6 +1021,8 @@
       - CMChiefEngineer
       takeAll: CMStandard
       entries:
+      - id: STCMKitCE # Stories-CE
+      - id: RMCFireAxe # Stories-CE
       - id: CMHeadsetCE
       - id: CMBootsBlack
       - id: ClothingEyesGlassesMeson # TODO change to CM13 engi goggles.
