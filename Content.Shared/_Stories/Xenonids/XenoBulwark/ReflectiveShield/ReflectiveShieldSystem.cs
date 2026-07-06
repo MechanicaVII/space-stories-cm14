@@ -3,6 +3,7 @@ using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Aura;
 using Content.Shared._RMC14.Projectiles.Reflect;
 using Content.Shared._RMC14.Pulling;
+using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Plasma;
 using Content.Shared.Actions;
@@ -107,6 +108,12 @@ public sealed class ReflectiveShieldSystem : EntitySystem
 
         projectileComp.IgnoreShooter = false;
         Dirty(projUid, projectileComp);
+
+        if (TryComp<ProjectileIFFComponent>(projUid, out var iffComp))
+        {
+            iffComp.Enabled = false;
+            Dirty(projUid, iffComp);
+        }
 
         args.Cancelled = true;
     }
