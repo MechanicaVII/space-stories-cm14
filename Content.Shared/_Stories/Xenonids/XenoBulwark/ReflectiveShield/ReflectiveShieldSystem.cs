@@ -109,11 +109,7 @@ public sealed class ReflectiveShieldSystem : EntitySystem
         projectileComp.IgnoreShooter = false;
         Dirty(projUid, projectileComp);
 
-        if (TryComp<ProjectileIFFComponent>(projUid, out var iffComp))
-        {
-            iffComp.Enabled = false;
-            Dirty(projUid, iffComp);
-        }
+        RemComp<ProjectileIFFComponent>(projUid);
 
         args.Cancelled = true;
     }
