@@ -6,6 +6,7 @@ using Content.Shared._RMC14.Pulling;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Plasma;
+using Content.Shared._RMC14.Xenonids.Projectile;
 using Content.Shared.Actions;
 using Content.Shared.CombatMode;
 using Content.Shared.Interaction.Events;
@@ -70,6 +71,9 @@ public sealed class ReflectiveShieldSystem : EntitySystem
             return;
 
         var projUid = args.OtherEntity;
+
+        if (HasComp<XenoProjectileComponent>(projUid))
+            return;
 
         var meta = MetaData(projUid);
         if (meta.EntityPrototype != null &&
