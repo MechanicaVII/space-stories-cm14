@@ -21,7 +21,7 @@ public sealed partial class XenoToggleChargingDamageComponent : Component
     public bool Destroy;
 
     [DataField, AutoNetworkedField]
-    public int? DestroyMinimumStage; // Stories-CrusherTaran
+    public int? DestroyMinimumStage; // Stories-CrusherCharger
 
     [DataField, AutoNetworkedField]
     public bool Stop;

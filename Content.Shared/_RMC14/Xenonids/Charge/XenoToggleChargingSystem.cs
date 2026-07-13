@@ -1,5 +1,5 @@
 ﻿using Content.Shared._RMC14.Actions;
-using Content.Shared._RMC14.CameraShake; // Stories-CrusherTaran
+using Content.Shared._RMC14.CameraShake; // Stories-CrusherCharger
 using Content.Shared._RMC14.Damage;
 using Content.Shared._RMC14.Damage.ObstacleSlamming;
 using Content.Shared._RMC14.Emote;
@@ -61,8 +61,8 @@ public sealed class XenoToggleChargingSystem : EntitySystem
     [Dependency] private readonly SharedXenoHiveSystem _xenoHive = default!;
     [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
     [Dependency] private readonly RMCPullingSystem _rmcPulling = default!;
-    [Dependency] private readonly RMCCameraShakeSystem _rmcCameraShake = default!; // Stories-CrusherTaran
-    [Dependency] private readonly SharedPhysicsSystem _physics = default!; // Stories-CrusherTaran
+    [Dependency] private readonly RMCCameraShakeSystem _rmcCameraShake = default!; // Stories-CrusherCharger
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!; // Stories-CrusherCharger
 
     private readonly ProtoId<DamageTypePrototype> _blunt = "Blunt";
 
@@ -90,12 +90,12 @@ public sealed class XenoToggleChargingSystem : EntitySystem
         SubscribeLocalEvent<ActiveXenoToggleChargingComponent, MoveInputEvent>(OnActiveToggleChargingMoveInput);
         SubscribeLocalEvent<ActiveXenoToggleChargingComponent, MoveEvent>(OnActiveToggleChargingMove);
         SubscribeLocalEvent<ActiveXenoToggleChargingComponent, StartCollideEvent>(OnActiveToggleChargingCollide);
-        // Stories-CrusherTaran-Start
+        // Stories-CrusherCharger-Start
         SubscribeLocalEvent<ActiveXenoToggleChargingComponent, PreventCollideEvent>(
             OnActiveToggleChargingPreventCollide);
         SubscribeLocalEvent<ActiveXenoToggleChargingComponent, AttemptMobTargetCollideEvent>(
             OnActiveToggleChargingAttemptMobCollide);
-        // Stories-CrusherTaran-End
+        // Stories-CrusherCharger-End
         SubscribeLocalEvent<ActiveXenoToggleChargingComponent, MobStateChangedEvent>(
             OnActiveToggleChargingMobStateChanged);
 
@@ -112,7 +112,7 @@ public sealed class XenoToggleChargingSystem : EntitySystem
         SubscribeLocalEvent<XenoToggleChargingStopComponent, XenoToggleChargingCollideEvent>(OnChargingStopCollide);
 
         SubscribeLocalEvent<HiveLeaderComponent, XenoToggleChargingCollideEvent>(OnLeaderCollide);
-        // Stories-CrusherTaran-End
+        // Stories-CrusherCharger-End
 
         Subs.CVar(_config, CCVars.RelativeMovement, v => _relativeMovement = v, true);
     }
@@ -123,7 +123,7 @@ public sealed class XenoToggleChargingSystem : EntitySystem
         args.Handled = true;
 
         var ent = args.Charger;
-        if (args.Stage < damage.Comp.MinimumStage) // Stories-CrusherTaran
+        if (args.Stage < damage.Comp.MinimumStage) // Stories-CrusherCharger
             return;
 
         if (_net.IsServer)
@@ -132,7 +132,7 @@ public sealed class XenoToggleChargingSystem : EntitySystem
         var damageable = CompOrNull<DamageableComponent>(damage);
 
         // TODO RMC14 this needs to keep the charge going if the entity is deleted (or queue deleted)
-        // Stories-CrusherTaran-Start
+        // Stories-CrusherCharger-Start
         var destroyNow = damage.Comp.Destroy &&
             (damage.Comp.DestroyMinimumStage is not { } destroyMin || args.Stage >= destroyMin);
 
@@ -147,7 +147,7 @@ public sealed class XenoToggleChargingSystem : EntitySystem
                 );
             }
 
-            _physics.SetCanCollide(damage.Owner, false, force: true); // Stories-CrusherTaran
+            _physics.SetCanCollide(damage.Owner, false, force: true); // Stories-CrusherCharger
 
             if (_net.IsClient)
                 _transform.DetachEntity(damage, Transform(damage));
@@ -165,7 +165,7 @@ public sealed class XenoToggleChargingSystem : EntitySystem
                 );
             }
 
-            var stage = args.Stage; // Stories-CrusherTaran
+            var stage = args.Stage; // Stories-CrusherCharger
             if (damage.Comp.StageMultipliers != null &&
                 damage.Comp.StageMultipliers.TryGetValue(stage, out var stageMult))
             {
@@ -220,7 +220,7 @@ public sealed class XenoToggleChargingSystem : EntitySystem
 
         if (damage.Comp.Stop)
             ResetCharging(ent, false);
-        else if (damage.Comp.StageLoss > 0 && _random.Prob(damage.Comp.StageLossProbability)) // Stories-CrusherTaran
+        else if (damage.Comp.StageLoss > 0 && _random.Prob(damage.Comp.StageLossProbability)) // Stories-CrusherCharger
             IncrementStages(ent, -damage.Comp.StageLoss);
     }
 
@@ -259,16 +259,16 @@ public sealed class XenoToggleChargingSystem : EntitySystem
         var diff = perpendicular.ToVec().Normalized();
 
         _throwing.TryThrow(ent, diff, compensateFriction: true);
-        _rmcCameraShake.ShakeCamera(ent.Owner, 1, 3); // Stories-CrusherTaran
+        _rmcCameraShake.ShakeCamera(ent.Owner, 1, 3); // Stories-CrusherCharger
         IncrementStages(args.Charger, -1);
 
-        // Stories-CrusherTaran-Start
+        // Stories-CrusherCharger-Start
         if (args.Charger.Comp.Stage <= 0)
         {
             args.Charger.Comp.Stage = 1;
             Dirty(args.Charger);
         }
-        // Stories-CrusherTaran-End
+        // Stories-CrusherCharger-End
 
         if (_net.IsServer)
         {
@@ -292,7 +292,7 @@ public sealed class XenoToggleChargingSystem : EntitySystem
         args.Cancelled = true;
     }
 
-    // Stories-CrusherTaran-Start
+    // Stories-CrusherCharger-Start
     private void OnActiveToggleChargingPreventCollide(Entity<ActiveXenoToggleChargingComponent> ent,
         ref PreventCollideEvent args)
     {
@@ -325,14 +325,14 @@ public sealed class XenoToggleChargingSystem : EntitySystem
 
         args.Cancelled = true;
     }
-    // Stories-CrusherTaran-End
+    // Stories-CrusherCharger-End
 
     private void OnChargingParalyzeCollide(Entity<XenoToggleChargingParalyzeComponent> ent,
         ref XenoToggleChargingCollideEvent args)
     {
         args.Handled = true;
 
-        var stage = args.Stage; // Stories-CrusherTaran
+        var stage = args.Stage; // Stories-CrusherCharger
         if (stage <= 0)
             return;
 
@@ -348,10 +348,10 @@ public sealed class XenoToggleChargingSystem : EntitySystem
     private void OnChargingStopCollide(Entity<XenoToggleChargingStopComponent> ent,
         ref XenoToggleChargingCollideEvent args)
     {
-        // Stories-CrusherTaran-Start
+        // Stories-CrusherCharger-Start
         if (_mobState.IsDead(ent.Owner))
             return;
-        // Stories-CrusherTaran-End
+        // Stories-CrusherCharger-End
 
         args.Handled = true;
         ResetStage(args.Charger);
@@ -359,10 +359,10 @@ public sealed class XenoToggleChargingSystem : EntitySystem
 
     private void OnLeaderCollide(Entity<HiveLeaderComponent> ent, ref XenoToggleChargingCollideEvent args)
     {
-        // Stories-CrusherTaran-Start
+        // Stories-CrusherCharger-Start
         if (_mobState.IsDead(ent.Owner))
             return;
-        // Stories-CrusherTaran-End
+        // Stories-CrusherCharger-End
 
         args.Handled = true;
         ResetStage(args.Charger);
@@ -666,7 +666,7 @@ public sealed class XenoToggleChargingSystem : EntitySystem
                     continue;
                 }
 
-                var ev = new XenoToggleChargingCollideEvent(hit.Crusher, hit.Crusher.Comp.Stage); // Stories-CrusherTaran
+                var ev = new XenoToggleChargingCollideEvent(hit.Crusher, hit.Crusher.Comp.Stage); // Stories-CrusherCharger
                 RaiseLocalEvent(hit.Target, ref ev);
 
                 if (!ev.Handled)
