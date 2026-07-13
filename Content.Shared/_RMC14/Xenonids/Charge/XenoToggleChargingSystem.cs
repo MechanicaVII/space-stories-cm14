@@ -137,7 +137,6 @@ public sealed class XenoToggleChargingSystem : EntitySystem
             (damage.Comp.DestroyMinimumStage is not { } destroyMin || args.Stage >= destroyMin);
 
         if (destroyNow)
-        // Stories-CrusherTaran-End
         {
             if (_net.IsServer)
             {
