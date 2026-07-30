@@ -32,8 +32,10 @@ public sealed class RMCHumanoidAppearanceSystem : EntitySystem
     {
         SubscribeLocalEvent<PlayerSpawnCompleteEvent>(OnPlayerSpawnComplete);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
+        // Stories-SetGenderOnMapInit-Start
         SubscribeLocalEvent<STSetGenderOnMapInitComponent, MapInitEvent>(OnSetGenderMapInit,
             after: new[] { typeof(SharedHumanoidAppearanceSystem), typeof(SharedStationSpawningSystem) });
+        // Stories-SetGenderOnMapInit-End
 
         Subs.CVar(_config, RMCCVars.HidePlayerIdentities, OnHidePlayerIdentitiesChanged, true);
     }
@@ -111,6 +113,7 @@ public sealed class RMCHumanoidAppearanceSystem : EntitySystem
                _entityWhitelist.IsWhitelistPass(hiddenComp.Whitelist, player);
     }
 
+    // Stories-SetGenderOnMapInit-Start
     private void OnSetGenderMapInit(Entity<STSetGenderOnMapInitComponent> ent, ref MapInitEvent args)
     {
         if (!TryComp<HumanoidAppearanceComponent>(ent.Owner, out var appearance))
@@ -122,4 +125,5 @@ public sealed class RMCHumanoidAppearanceSystem : EntitySystem
         if (TryComp<GrammarComponent>(ent.Owner, out var grammar))
             _grammarSystem.SetGender((ent.Owner, grammar), ent.Comp.Gender);
     }
+    // Stories-SetGenderOnMapInit-End
 }

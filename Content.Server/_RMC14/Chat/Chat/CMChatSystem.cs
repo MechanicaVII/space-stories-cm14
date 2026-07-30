@@ -95,9 +95,7 @@ public sealed class CMChatSystem : SharedCMChatSystem
             // Disabling ghost hearing removes this component, so the `GhostComponent` check is needed to keep ghosts included.
             if (!HasComp<XenoComponent>(session.AttachedEntity) && !HasComp<GhostComponent>(session.AttachedEntity))
             {
-                // Stories-XenoLanguageLearning: synths learning Xeno (e.g. the colony synth survivor
-                // preset) need to actually receive xeno chat to learn words from it, matching upstream
-                // RMC-14 PR #10359's LanguageLearningComponent exception -- scoped to synths only here.
+                // Stories-XenoLanguageLearning
                 if (HasComp<SynthComponent>(session.AttachedEntity) && HasComp<LanguageLearningComponent>(session.AttachedEntity))
                     continue;
 

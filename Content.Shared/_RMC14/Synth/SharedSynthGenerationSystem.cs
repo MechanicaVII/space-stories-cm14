@@ -34,18 +34,15 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
         SubscribeLocalEvent<SynthGenerationComponent, MapInitEvent>(OnGenerationMapInit);
         SubscribeLocalEvent<SynthGenerationComponent, PlayerAttachedEvent>(OnGenerationPlayerAttached);
         SubscribeLocalEvent<SynthGenerationComponent, PlayerSpawnCompleteEvent>(OnGenerationSpawnComplete);
-        SubscribeLocalEvent<SynthComponent, PlayerSpawnCompleteEvent>(OnSynthSpawnComplete);
+        SubscribeLocalEvent<SynthComponent, PlayerSpawnCompleteEvent>(OnSynthSpawnComplete); // Stories-SynthGenerationFix
     }
 
-    // Job AddComponentSpecial (which is how forced generations like colony synth's or ARES
-    // Worker's are set) runs after MapInitEvent, so SynthStartup's first call (from
-    // SharedSynthSystem.OnMapInit) can fire before the forced Generation exists, leaving a
-    // dangling "Select Generation" action even though the job already forces one. Re-running
-    // SynthStartup once the job special has actually applied reconciles that.
+    // Stories-SynthGenerationFix-Start
     private void OnSynthSpawnComplete(Entity<SynthComponent> ent, ref PlayerSpawnCompleteEvent args)
     {
         SynthStartup(ent);
     }
+    // Stories-SynthGenerationFix-End
 
     public void SynthStartup(Entity<SynthComponent> ent)
     {
@@ -53,12 +50,14 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
 
         if (comp.Generation is { } generation)
         {
+            // Stories-SynthGenerationFix-Start
             if (comp.SelectGenerationActionEntity != null)
             {
                 _actions.RemoveAction(ent.Owner, comp.SelectGenerationActionEntity);
                 comp.SelectGenerationActionEntity = null;
                 Dirty(ent.Owner, comp);
             }
+            // Stories-SynthGenerationFix-End
 
             if (_prototype.TryIndex(generation, out var proto))
             {

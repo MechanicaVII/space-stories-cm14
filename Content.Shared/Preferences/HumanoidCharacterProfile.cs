@@ -62,13 +62,12 @@ namespace Content.Shared.Preferences
         [DataField]
         private Dictionary<ProtoId<JobPrototype>, ProtoId<RankPrototype>?> _rankPreferences = new();
 
-        /// <summary>
-        /// When spawning in, decides which job-defined variant (e.g. Working Joe Standard/Hazmat) to give.
-        /// </summary>
+        // Stories-JobVariantPreference-Start
         [DataField]
         private Dictionary<ProtoId<JobPrototype>, string?> _variantPreferences = new();
 
         public IReadOnlyDictionary<ProtoId<JobPrototype>, string?> VariantPreferences => _variantPreferences;
+        // Stories-JobVariantPreference-End
 
         /// <summary>
         /// <see cref="_loadouts"/>
@@ -258,7 +257,7 @@ namespace Content.Shared.Preferences
                 other.XenoPrefix,
                 other.XenoPostfix)
         {
-            _variantPreferences = new Dictionary<ProtoId<JobPrototype>, string?>(other.VariantPreferences);
+            _variantPreferences = new Dictionary<ProtoId<JobPrototype>, string?>(other.VariantPreferences); // Stories-JobVariantPreference
         }
 
         /// <summary>
@@ -412,6 +411,7 @@ namespace Content.Shared.Preferences
             return new(this) { _rankPreferences = dictionary };
         }
 
+        // Stories-JobVariantPreference-Start
         public HumanoidCharacterProfile WithVariantPreference(ProtoId<JobPrototype> jobId, string? variantId)
         {
             var dictionary = new Dictionary<ProtoId<JobPrototype>, string?>(_variantPreferences);
@@ -423,6 +423,7 @@ namespace Content.Shared.Preferences
 
             return new(this) { _variantPreferences = dictionary };
         }
+        // Stories-JobVariantPreference-End
 
         public HumanoidCharacterProfile WithSquadPreference(EntProtoId<SquadTeamComponent>? squadPreference)
         {

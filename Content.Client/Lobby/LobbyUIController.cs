@@ -520,11 +520,7 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
             // Special type like borg or AI, do not spawn a human just spawn the entity.
             dummyEnt = EntityManager.SpawnEntity(previewEntity, MapCoordinates.Nullspace);
 
-            // Stories-WorkingJoePreviewGear-Start: jobs with a JobPreviewEntity but no clothing
-            // (borg, AI) have no DummyStartingGear either, so this is a no-op for them -- but
-            // fixed-appearance jobs that DO have gear (e.g. Working Joe) still need it applied
-            // here, since GiveDummyJobClothes below is never reached for this branch and normally
-            // requires a StartingGear reference these jobs don't have.
+            // Stories-WorkingJoePreviewGear-Start
             if (job != null &&
                 _prototypeManager.TryIndex(job.DummyStartingGear, out var previewGear) &&
                 _inventory.TryGetSlots(dummyEnt, out var previewSlots))

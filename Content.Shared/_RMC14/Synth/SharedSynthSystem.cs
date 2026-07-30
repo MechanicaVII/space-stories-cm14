@@ -97,7 +97,7 @@ public abstract class SharedSynthSystem : EntitySystem
         RemCompDeferred<RMCRevivableComponent>(ent.Owner);
         RemCompDeferred<SlowOnDamageComponent>(ent.Owner);
 
-        _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner);
+        _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner); // Stories-Synth
     }
 
     private void OnMeleeAttempted(Entity<SynthComponent> ent, ref AttackAttemptEvent args)

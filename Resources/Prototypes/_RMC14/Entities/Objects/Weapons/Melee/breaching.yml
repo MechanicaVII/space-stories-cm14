@@ -20,8 +20,7 @@
       collection: GenericHit
     wideAnimationRotation: 90
   - type: MeleeRequiresWield
-  # Stories-Breaching: replaces WhitelistPickupBy with a proper deny-popup ("too heavy") and adds
-  # the actual wall-breaching DoAfter mechanic (previously this hammer only did Structural melee damage).
+  # Stories-Breaching
   - type: STSynthItemRestriction
     denyPopup: st-synth-item-too-heavy
     checkEquip: false

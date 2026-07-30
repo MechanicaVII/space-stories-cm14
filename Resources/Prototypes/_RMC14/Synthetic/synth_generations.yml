@@ -32,7 +32,7 @@
       0: Alive
       399: Critical
       400: Dead
-  - type: MovementSpeedModifier
+  - type: MovementSpeedModifier # Stories-Synth
     baseSprintSpeed: 4.5
     baseWalkSpeed: 2.4
   - type: ShowHealthIcons
@@ -49,8 +49,10 @@
   - type: SynthGeneration
     generation: RMCSynthGenTwo
     damageModifier: RMCSynthGenTwo
+  # Stories-Synth-Start
   - type: LanguageLearning
     preset: RMCLanguageLearningPresetSynthColonist
+  # Stories-Synth-End
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -70,9 +72,11 @@
       RMCSkillJtac: 1
       RMCSkillIntel: 1
       RMCSkillDomestics: 2
+  # Stories-Synth-Start
   - type: MovementSpeedModifier
     baseSprintSpeed: 4.5
     baseWalkSpeed: 2.4
+  # Stories-Synth-End
   - type: ShowHealthIcons
   - type: ShowHealthBars
   - type: RMCAllowSuitStorage
@@ -86,8 +90,10 @@
   components:
   - type: SynthGeneration
     generation: RMCSynthGenThree
+  # Stories-Synth-Start
   - type: LanguageLearning
     preset: RMCLanguageLearningPresetSynthColonist
+  # Stories-Synth-End
   - type: Skills
     skills:
       RMCSkillCqc: 5
@@ -109,9 +115,11 @@
       RMCSkillIntel: 2
       RMCSkillDomestics: 2
       RMCSkillNavigations: 1
+  # Stories-Synth-Start
   - type: MovementSpeedModifier
     baseSprintSpeed: 5
     baseWalkSpeed: 2.7
+  # Stories-Synth-End
   - type: ShowHealthIcons
   - type: ShowHealthBars
   - type: RMCAllowSuitStorage
@@ -119,6 +127,7 @@
     components:
     - type: HiddenAppearance
 
+# Stories-Synth-Start
 - type: entity
   id: RMCARESWorker
   name: ARES Worker
@@ -154,3 +163,4 @@
   - type: RemoveComponents
     components:
     - type: HiddenAppearance
+# Stories-Synth-End
