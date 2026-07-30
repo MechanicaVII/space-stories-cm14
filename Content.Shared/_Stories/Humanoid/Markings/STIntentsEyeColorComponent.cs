@@ -2,10 +2,6 @@ using Robust.Shared.GameStates;
 
 namespace Content.Shared._Stories.Humanoid.Markings;
 
-/// <summary>
-/// Changes the entity's eye color based on their "intent".
-/// If they grab something, their eyes turn orange. If they are in harm mode, their eyes turn red, etc.
-/// </summary>
 [RegisterComponent, NetworkedComponent]
 public sealed partial class STIntentsEyeColorComponent : Component
 {
