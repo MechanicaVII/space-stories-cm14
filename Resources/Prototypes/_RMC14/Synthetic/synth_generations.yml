@@ -5,6 +5,7 @@
   - type: SynthGeneration
     generation: RMCSynthGenOne
     damageModifier: RMCSynthGenOne
+  - type: STSynthHeavyGrab # Stories-SynthHeavyGrab
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -136,6 +137,7 @@
     generation: RMCARESWorker
     damageModifier: RMCSynthGenOne
     selectable: false
+  - type: STSynthHeavyGrab # Stories-SynthHeavyGrab
   - type: Skills
     skills:
       RMCSkillCqc: 5
