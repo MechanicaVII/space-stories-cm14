@@ -20,8 +20,10 @@
       collection: GenericHit
     wideAnimationRotation: 90
   - type: MeleeRequiresWield
-  - type: WhitelistPickupBy
-    whitelist:
-      components:
-        - Synth
-# TODO RMC14: This hammer needs to be ONLY picked up by Synths, It should be impossible for a regular person to pick it up. Ideally there should be an error message saying "This is too heavy for you to pick up!" or something like that.
+  # Stories-Breaching: replaces WhitelistPickupBy with a proper deny-popup ("too heavy") and adds
+  # the actual wall-breaching DoAfter mechanic (previously this hammer only did Structural melee damage).
+  - type: STSynthItemRestriction
+    denyPopup: st-synth-item-too-heavy
+    checkEquip: false
+    checkUse: false
+  - type: STWallBreacher

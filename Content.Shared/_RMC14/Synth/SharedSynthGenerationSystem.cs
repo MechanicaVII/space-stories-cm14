@@ -6,6 +6,7 @@ using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Damage;
 using Content.Shared.GameTicking;
+using Content.Shared.Movement.Systems;
 using Content.Shared.Prototypes;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
@@ -22,6 +23,7 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
     [Dependency] private readonly DialogSystem _dialog = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly IComponentFactory _compFactory = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
 
     public override void Initialize()
     {
@@ -32,14 +34,38 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
         SubscribeLocalEvent<SynthGenerationComponent, MapInitEvent>(OnGenerationMapInit);
         SubscribeLocalEvent<SynthGenerationComponent, PlayerAttachedEvent>(OnGenerationPlayerAttached);
         SubscribeLocalEvent<SynthGenerationComponent, PlayerSpawnCompleteEvent>(OnGenerationSpawnComplete);
+        SubscribeLocalEvent<SynthComponent, PlayerSpawnCompleteEvent>(OnSynthSpawnComplete);
+    }
+
+    // Job AddComponentSpecial (which is how forced generations like colony synth's or ARES
+    // Worker's are set) runs after MapInitEvent, so SynthStartup's first call (from
+    // SharedSynthSystem.OnMapInit) can fire before the forced Generation exists, leaving a
+    // dangling "Select Generation" action even though the job already forces one. Re-running
+    // SynthStartup once the job special has actually applied reconciles that.
+    private void OnSynthSpawnComplete(Entity<SynthComponent> ent, ref PlayerSpawnCompleteEvent args)
+    {
+        SynthStartup(ent);
     }
 
     public void SynthStartup(Entity<SynthComponent> ent)
     {
         EnsureComp(ent, out SynthGenerationComponent comp);
 
-        if (comp.Generation != null)
+        if (comp.Generation is { } generation)
         {
+            if (comp.SelectGenerationActionEntity != null)
+            {
+                _actions.RemoveAction(ent.Owner, comp.SelectGenerationActionEntity);
+                comp.SelectGenerationActionEntity = null;
+                Dirty(ent.Owner, comp);
+            }
+
+            if (_prototype.TryIndex(generation, out var proto))
+            {
+                EntityManager.AddComponents(ent.Owner, proto);
+                _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner);
+            }
+
             ApplyGenerationModifier((ent.Owner, comp));
             return;
         }
@@ -70,6 +96,14 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
         if (!HasComp<RMCAdminSpawnedComponent>(ent))
             return;
 
+        if (ent.Comp.Generation is { } current &&
+            _prototype.TryIndex<EntityPrototype>(current, out var currentProto) &&
+            currentProto.TryGetComponent<SynthGenerationComponent>(out var currentGenComp, _compFactory) &&
+            !currentGenComp.Selectable)
+        {
+            return;
+        }
+
         ClearGeneration(ent);
         GenerationPopup(ent);
     }
@@ -91,6 +125,8 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
         ent.Comp.Generation = null;
         Dirty(ent);
         _actions.AddAction(ent.Owner, ref ent.Comp.SelectGenerationActionEntity, ent.Comp.GenerationAction);
+
+        _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner);
     }
 
     private void OnGenerationSelectAction(Entity<SynthGenerationComponent> ent, ref GenerationSelectActionEvent args)
@@ -121,7 +157,7 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
 
         foreach (var proto in _prototype.EnumeratePrototypes<EntityPrototype>())
         {
-            if (proto.HasComponent<SynthGenerationComponent>())
+            if (proto.TryGetComponent<SynthGenerationComponent>(out var genComp, _compFactory) && genComp.Selectable)
                 synthTypes.Add(proto.ID);
         }
 
@@ -150,6 +186,8 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
 
         if (TryComp<SynthGenerationComponent>(ent, out var gen))
             ApplyGenerationModifier((ent.Owner, gen));
+
+        _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner);
 
         _actions.RemoveAction(ent.Owner, ent.Comp.SelectGenerationActionEntity);
     }

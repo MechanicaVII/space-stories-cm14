@@ -21,4 +21,11 @@ public sealed partial class SynthGenerationComponent : Component
 
     [DataField]
     public ProtoId<DamageModifierSetPrototype>? DamageModifier;
+
+    /// <summary>
+    /// Whether this generation can be manually picked from the generation popup.
+    /// Forced generations (e.g. ARES Worker) set this to false.
+    /// </summary>
+    [DataField]
+    public bool Selectable = true;
 }

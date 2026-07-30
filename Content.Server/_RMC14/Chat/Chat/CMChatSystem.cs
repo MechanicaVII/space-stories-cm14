@@ -5,8 +5,10 @@ using Content.Server.Radio.Components;
 using Content.Server.Speech.EntitySystems;
 using Content.Server.Speech.Prototypes;
 using Content.Shared._RMC14.Chat;
+using Content.Shared._RMC14.Language.Components;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Mentor.ImaginaryFriend;
+using Content.Shared._RMC14.Synth;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._Stories.Hunter.Bracer.Components;
 using Content.Shared._Stories.Hunter.Bracer;
@@ -92,7 +94,15 @@ public sealed class CMChatSystem : SharedCMChatSystem
             // `data.Observer` only indicates whether the recipient has `GhostHearingComponent`.
             // Disabling ghost hearing removes this component, so the `GhostComponent` check is needed to keep ghosts included.
             if (!HasComp<XenoComponent>(session.AttachedEntity) && !HasComp<GhostComponent>(session.AttachedEntity))
+            {
+                // Stories-XenoLanguageLearning: synths learning Xeno (e.g. the colony synth survivor
+                // preset) need to actually receive xeno chat to learn words from it, matching upstream
+                // RMC-14 PR #10359's LanguageLearningComponent exception -- scoped to synths only here.
+                if (HasComp<SynthComponent>(session.AttachedEntity) && HasComp<LanguageLearningComponent>(session.AttachedEntity))
+                    continue;
+
                 _toRemove.Add(session);
+            }
         }
 
         foreach (var session in _toRemove)
