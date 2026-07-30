@@ -130,7 +130,7 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
         Dirty(ent);
         _actions.AddAction(ent.Owner, ref ent.Comp.SelectGenerationActionEntity, ent.Comp.GenerationAction);
 
-        _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner);
+        _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner); // Stories-Synth
     }
 
     private void OnGenerationSelectAction(Entity<SynthGenerationComponent> ent, ref GenerationSelectActionEvent args)
@@ -161,6 +161,7 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
 
         foreach (var proto in _prototype.EnumeratePrototypes<EntityPrototype>())
         {
+            // Stories-Synth
             if (proto.TryGetComponent<SynthGenerationComponent>(out var genComp, _compFactory) && genComp.Selectable)
                 synthTypes.Add(proto.ID);
         }
@@ -191,7 +192,7 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
         if (TryComp<SynthGenerationComponent>(ent, out var gen))
             ApplyGenerationModifier((ent.Owner, gen));
 
-        _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner);
+        _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner); // Stories-Synth
 
         _actions.RemoveAction(ent.Owner, ent.Comp.SelectGenerationActionEntity);
     }
