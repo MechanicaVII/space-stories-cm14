@@ -71,7 +71,6 @@ public sealed class STWallBreacherSystem : EntitySystem
 
         args.Handled = true;
 
-        // Stories-Breaching: the wall may have been destroyed by something else during the DoAfter
         if (TerminatingOrDeleted(target))
             return;
 

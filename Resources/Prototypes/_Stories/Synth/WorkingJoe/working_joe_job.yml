@@ -43,13 +43,11 @@
       interfaces:
         enum.STSynthVoiceUIKey.Key:
           type: STSynthVoiceSynthesizerBui
-    # Stories-JobVariantGear-Start
     - type: STJobVariantGear
       variants:
         Hazmat:
         - STJumpsuitHazmatJoe
         - STJumpsuitHazmatJoeOveralls
-    # Stories-JobVariantGear-End
     - type: Loadout
       prototypes: [ STGearWorkingJoeEquipped ]
 
