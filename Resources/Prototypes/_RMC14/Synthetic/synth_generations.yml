@@ -50,10 +50,6 @@
   - type: SynthGeneration
     generation: RMCSynthGenTwo
     damageModifier: RMCSynthGenTwo
-  # Stories-Synth-Start
-  - type: LanguageLearning
-    preset: RMCLanguageLearningPresetSynthColonist
-  # Stories-Synth-End
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -91,10 +87,6 @@
   components:
   - type: SynthGeneration
     generation: RMCSynthGenThree
-  # Stories-Synth-Start
-  - type: LanguageLearning
-    preset: RMCLanguageLearningPresetSynthColonist
-  # Stories-Synth-End
   - type: Skills
     skills:
       RMCSkillCqc: 5

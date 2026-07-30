@@ -1,4 +1,5 @@
 using Content.Server.Chat.Systems;
+using Content.Shared._Stories.Synth;
 using Content.Shared._Stories.Synth.VoiceSynthesizer;
 using Content.Shared.Actions;
 using Content.Shared.Chat;
@@ -22,7 +23,19 @@ public sealed class STSynthVoiceSynthesizerSystem : EntitySystem
         SubscribeLocalEvent<STSynthVoiceSynthesizerComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<STSynthVoiceSynthesizerComponent, STSynthVoiceOpenEvent>(OnOpen);
         SubscribeLocalEvent<STSynthVoiceSynthesizerComponent, STSynthVoicePlayLineMsg>(OnPlayLine);
+        SubscribeLocalEvent<STSynthVoiceSynthesizerComponent, STJobVariantGearAppliedEvent>(OnVariantGearApplied); // Stories-JobVariantGear
     }
+
+    // Stories-JobVariantGear-Start
+    private void OnVariantGearApplied(Entity<STSynthVoiceSynthesizerComponent> ent, ref STJobVariantGearAppliedEvent args)
+    {
+        if (!ent.Comp.AlternateSoundVariants.Contains(args.Variant))
+            return;
+
+        ent.Comp.UseAlternateSound = true;
+        Dirty(ent);
+    }
+    // Stories-JobVariantGear-End
 
     private void OnStartup(Entity<STSynthVoiceSynthesizerComponent> ent, ref ComponentStartup args)
     {

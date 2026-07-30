@@ -37,10 +37,19 @@
         sprite: /Textures/_RMC14/Interface/map_blips.rsi
         state: synth
     - type: STSynthVoiceSynthesizer
+      alternateSoundVariants:
+      - Hazmat
     - type: UserInterface
       interfaces:
         enum.STSynthVoiceUIKey.Key:
           type: STSynthVoiceSynthesizerBui
+    # Stories-JobVariantGear-Start
+    - type: STJobVariantGear
+      variants:
+        Hazmat:
+        - STJumpsuitHazmatJoe
+        - STJumpsuitHazmatJoeOveralls
+    # Stories-JobVariantGear-End
     - type: Loadout
       prototypes: [ STGearWorkingJoeEquipped ]
 

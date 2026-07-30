@@ -91,16 +91,15 @@ public sealed class CMChatSystem : SharedCMChatSystem
                 continue;
             // Stories-Hunter-End
 
+            // Stories-XenoLanguageLearning-Start
+            if (HasComp<SynthComponent>(session.AttachedEntity) && HasComp<LanguageLearningComponent>(session.AttachedEntity))
+                continue;
+            // Stories-XenoLanguageLearning-End
+
             // `data.Observer` only indicates whether the recipient has `GhostHearingComponent`.
             // Disabling ghost hearing removes this component, so the `GhostComponent` check is needed to keep ghosts included.
             if (!HasComp<XenoComponent>(session.AttachedEntity) && !HasComp<GhostComponent>(session.AttachedEntity))
-            {
-                // Stories-XenoLanguageLearning
-                if (HasComp<SynthComponent>(session.AttachedEntity) && HasComp<LanguageLearningComponent>(session.AttachedEntity))
-                    continue;
-
                 _toRemove.Add(session);
-            }
         }
 
         foreach (var session in _toRemove)

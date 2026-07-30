@@ -15,7 +15,8 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
 
     private bool _onCooldown;
 
-    private int _cooldownGeneration;
+    // Stories-VoiceSynthCooldownLeak
+    private System.Threading.CancellationTokenSource? _cooldownCancel;
 
     private readonly List<(string Id, string Text, Button SearchButton)> _allLines = new();
 
@@ -127,14 +128,24 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
     {
         _onCooldown = onCooldown;
 
-        var generation = ++_cooldownGeneration;
+        // Stories-VoiceSynthCooldownLeak-Start
+        _cooldownCancel?.Cancel();
+        _cooldownCancel = null;
+
         if (onCooldown && remaining > TimeSpan.Zero)
         {
-            Timer.Spawn(remaining, () =>
-            {
-                if (generation == _cooldownGeneration)
-                    _onCooldown = false;
-            });
+            _cooldownCancel = new System.Threading.CancellationTokenSource();
+            Timer.Spawn(remaining, () => _onCooldown = false, _cooldownCancel.Token);
         }
+        // Stories-VoiceSynthCooldownLeak-End
     }
+
+    // Stories-VoiceSynthCooldownLeak-Start
+    public override void Close()
+    {
+        base.Close();
+        _cooldownCancel?.Cancel();
+        _cooldownCancel = null;
+    }
+    // Stories-VoiceSynthCooldownLeak-End
 }

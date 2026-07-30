@@ -59,13 +59,22 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
             }
             // Stories-SynthGenerationFix-End
 
+            // Stories-SynthGenerationFix-Start
+            var selectable = comp.Selectable;
+
             if (_prototype.TryIndex(generation, out var proto))
             {
                 EntityManager.AddComponents(ent.Owner, proto);
                 _movementSpeed.RefreshMovementSpeedModifiers(ent.Owner);
             }
 
-            ApplyGenerationModifier((ent.Owner, comp));
+            if (TryComp(ent.Owner, out SynthGenerationComponent? applied))
+            {
+                applied.Selectable = selectable;
+                Dirty(ent.Owner, applied);
+                ApplyGenerationModifier((ent.Owner, applied));
+            }
+            // Stories-SynthGenerationFix-End
             return;
         }
 
@@ -95,13 +104,9 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
         if (!HasComp<RMCAdminSpawnedComponent>(ent))
             return;
 
-        if (ent.Comp.Generation is { } current &&
-            _prototype.TryIndex<EntityPrototype>(current, out var currentProto) &&
-            currentProto.TryGetComponent<SynthGenerationComponent>(out var currentGenComp, _compFactory) &&
-            !currentGenComp.Selectable)
-        {
+        // Stories-SynthGenerationFix
+        if (ent.Comp.Generation != null && !ent.Comp.Selectable)
             return;
-        }
 
         ClearGeneration(ent);
         GenerationPopup(ent);

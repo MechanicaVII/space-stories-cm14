@@ -13,6 +13,10 @@ public sealed partial class STSynthVoiceSynthesizerComponent : Component
     [DataField, AutoNetworkedField]
     public bool UseAlternateSound;
 
+    // Stories-JobVariantGear: job variants (see STJobVariantGearComponent) whose name should flip UseAlternateSound.
+    [DataField]
+    public HashSet<string> AlternateSoundVariants = new();
+
     [DataField, AutoNetworkedField]
     public TimeSpan Cooldown = TimeSpan.FromSeconds(2);
 
