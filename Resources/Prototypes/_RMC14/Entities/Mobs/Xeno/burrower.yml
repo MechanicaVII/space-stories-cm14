@@ -12,6 +12,7 @@
   description: A beefy alien with sharp claws.
   components:
   - type: XenoBaseCaste
+  - type: XenoBuilderCaste
   - type: CanBuildThickFromConstructNode
   - type: GuideHelp
     guides:
