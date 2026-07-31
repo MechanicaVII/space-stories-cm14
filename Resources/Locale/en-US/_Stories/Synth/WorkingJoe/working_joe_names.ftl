@@ -1,1 +1,1 @@
-st-name-average-joe-0 = Joe
+st-name-average-joe-1 = Joe

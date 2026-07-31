@@ -1,3 +1,5 @@
+using Content.Shared.Damage;
+using Content.Shared.Damage.Prototypes;
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
@@ -13,6 +15,7 @@ namespace Content.Shared._Stories.Synth;
 public sealed class STWallBreacherSystem : EntitySystem
 {
     private static readonly ProtoId<TagPrototype> WallTag = "Wall";
+    private static readonly ProtoId<DamageTypePrototype> StructuralDamage = "Structural";
 
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly TagSystem _tag = default!;
@@ -21,6 +24,7 @@ public sealed class STWallBreacherSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
 
     public override void Initialize()
     {
@@ -80,15 +84,12 @@ public sealed class STWallBreacherSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        if (!_prototype.TryIndex(ent.Comp.Girder, out _))
+        if (!TryComp<DamageableComponent>(target, out var damageable))
             return;
 
-        var xform = Transform(target);
-        var girder = Spawn(ent.Comp.Girder, xform.Coordinates);
-        Transform(girder).LocalRotation = xform.LocalRotation;
+        var damage = new DamageSpecifier(_prototype.Index(StructuralDamage), ent.Comp.Damage);
+        _damageable.TryChangeDamage(target, damage, true, damageable: damageable, origin: ent, tool: ent);
 
-        _audio.PlayPvs(ent.Comp.FinishSound, xform.Coordinates);
-
-        QueueDel(target);
+        _audio.PlayPvs(ent.Comp.FinishSound, Transform(target).Coordinates);
     }
 }

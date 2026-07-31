@@ -54,7 +54,7 @@
 - type: entity
   parent: CMSpawnPointJobBase
   id: STSpawnPointWorkingJoe
-  name: st-spawn-point-working-joe
+  name: working joe spawn point
   components:
   - type: SpawnPoint
     job_id: STJobWorkingJoe
@@ -82,7 +82,6 @@
     back:
     - RMCSprayBottleSpaceCleaner
     - RMCSprayBottleSpaceCleaner
-    - RMCBucketJanitorial
     - CMMop
   inhand:
   - TrashBag

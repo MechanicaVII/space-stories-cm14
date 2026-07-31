@@ -1,8 +1,8 @@
 using Content.Shared.DoAfter;
+using Content.Shared.FixedPoint;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._Stories.Synth;
@@ -14,7 +14,7 @@ public sealed partial class STWallBreacherComponent : Component
     public TimeSpan Duration = TimeSpan.FromSeconds(5);
 
     [DataField, AutoNetworkedField]
-    public EntProtoId Girder = "RMCGirderDamaged";
+    public FixedPoint2 Damage = 9999;
 
     [DataField, AutoNetworkedField]
     public EntityWhitelist? Blacklist;
