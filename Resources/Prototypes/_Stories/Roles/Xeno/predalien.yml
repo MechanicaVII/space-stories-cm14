@@ -6,12 +6,10 @@
 
 - type: playTimeTracker
   id: STJobXenoPredalien
+  isXeno: true
 
 - type: job
   parent: CMJobXenoBase
   id: STXenoPredalienLarva
   name: st-job-name-xeno-predalien-larva
-  playTimeTracker: STJobXenoPredalienLarva
-
-- type: playTimeTracker
-  id: STJobXenoPredalienLarva
+  playTimeTracker: CMJobXenoLarva

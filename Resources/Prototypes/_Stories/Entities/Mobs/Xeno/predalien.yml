@@ -68,6 +68,7 @@
   - type: XenoClaws
     clawType: VerySharp
   - type: MeleeWeapon
+    attackRate: 1.18
     damage:
       groups:
         Brute: 35
@@ -76,8 +77,9 @@
       groups:
         Brute: 48
   - type: Tackle
+    min: 3
     stunMin: 3
-    stunMax: 6
+    stunMax: 10
   - type: Fixtures
     fixtures:
       fix1:
@@ -151,4 +153,4 @@
       components:
       - Hunter
   - type: IntelRecoverCorpseObjectiveOnDeath
-    value: 1.2
+    value: 1.4

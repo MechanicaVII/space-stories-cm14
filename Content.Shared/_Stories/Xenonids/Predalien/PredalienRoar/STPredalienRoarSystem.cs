@@ -1,9 +1,6 @@
-using Content.Shared._RMC14.Armor.ThermalCloak;
-using Content.Shared._RMC14.MotionDetector;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.Stab;
-using Content.Shared._Stories.Hunter.Bracer;
 using Content.Shared._Stories.Hunter.Marking.Components;
 using Content.Shared.Coordinates;
 using Content.Shared.Damage;
@@ -23,16 +20,13 @@ namespace Content.Shared._Stories.Xenonids.Predalien.PredalienRoar;
 public sealed class STPredalienRoarSystem : EntitySystem
 {
     [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly BracerSystem _bracer = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly MotionDetectorSystem _motionDetector = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _speed = default!;
-    [Dependency] private readonly ThermalCloakSystem _thermalCloak = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
     private readonly HashSet<Entity<MobStateComponent>> _nearby = new();
@@ -84,14 +78,11 @@ public sealed class STPredalienRoarSystem : EntitySystem
             if (receiver.Owner == xeno.Owner)
                 continue;
 
-            _thermalCloak.TrySetInvisibility(receiver.Owner, false, true);
-            _motionDetector.DisableDetectorsOnMob(receiver.Owner);
+            var reveal = new STPredalienRevealEvent(receiver.Owner);
+            RaiseLocalEvent(receiver.Owner, reveal, true);
 
             if (HasComp<HunterComponent>(receiver.Owner))
-            {
-                _bracer.STTryForceDecloak(receiver.Owner);
                 continue;
-            }
 
             if (!HasComp<XenoComponent>(receiver.Owner) || !_hive.FromSameHive(xeno.Owner, receiver.Owner))
                 continue;
