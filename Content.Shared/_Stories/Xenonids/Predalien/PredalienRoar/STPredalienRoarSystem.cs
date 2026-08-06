@@ -2,6 +2,7 @@ using Content.Shared._RMC14.Armor.ThermalCloak;
 using Content.Shared._RMC14.MotionDetector;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._RMC14.Xenonids.Stab;
 using Content.Shared._Stories.Hunter.Bracer;
 using Content.Shared._Stories.Hunter.Marking.Components;
 using Content.Shared.Coordinates;
@@ -45,6 +46,7 @@ public sealed class STPredalienRoarSystem : EntitySystem
         SubscribeLocalEvent<STPredalienRoarBuffedComponent, ComponentShutdown>(OnBuffedShutdown);
         SubscribeLocalEvent<STPredalienRoarBuffedComponent, RefreshMovementSpeedModifiersEvent>(OnBuffedRefreshSpeed);
         SubscribeLocalEvent<STPredalienRoarBuffedComponent, GetMeleeDamageEvent>(OnBuffedGetMeleeDamage);
+        SubscribeLocalEvent<STPredalienRoarBuffedComponent, RMCGetTailStabBonusDamageEvent>(OnBuffedGetTailStabDamage);
     }
 
     private void OnRoarAction(Entity<STPredalienRoarComponent> xeno, ref STPredalienRoarActionEvent args)
@@ -124,6 +126,15 @@ public sealed class STPredalienRoarSystem : EntitySystem
     }
 
     private void OnBuffedGetMeleeDamage(Entity<STPredalienRoarBuffedComponent> ent, ref GetMeleeDamageEvent args)
+    {
+        if (_timing.CurTime >= ent.Comp.ExpireAt)
+            return;
+
+        if (ent.Comp.BonusDamage > 0 && _proto.TryIndex<DamageGroupPrototype>("Brute", out var brute))
+            args.Damage += new DamageSpecifier(brute, ent.Comp.BonusDamage);
+    }
+
+    private void OnBuffedGetTailStabDamage(Entity<STPredalienRoarBuffedComponent> ent, ref RMCGetTailStabBonusDamageEvent args)
     {
         if (_timing.CurTime >= ent.Comp.ExpireAt)
             return;

@@ -47,7 +47,7 @@ public sealed partial class STFeralFrenzyComponent : Component
     public SoundSpecifier AoeSound = new SoundPathSpecifier("/Audio/_Stories/Voice/Predalien/predalien_death.ogg");
 
     [DataField, AutoNetworkedField]
-    public EntProtoId GoreEffect = "RMCGibEffectXenoSmall";
+    public EntProtoId GoreEffect = "RMCEffectTailHit";
 }
 
 [Serializable, NetSerializable]

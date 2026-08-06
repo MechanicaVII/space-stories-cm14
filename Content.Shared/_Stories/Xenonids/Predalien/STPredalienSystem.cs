@@ -1,10 +1,12 @@
 using Content.Shared._RMC14.Xenonids;
+using Content.Shared._RMC14.Xenonids.Stab;
 using Content.Shared._Stories.Hunter.Marking.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Examine;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Rejuvenate;
 using Content.Shared.Weapons.Melee.Events;
 using Robust.Shared.Prototypes;
 
@@ -22,10 +24,12 @@ public sealed class STPredalienSystem : EntitySystem
         SubscribeLocalEvent<STPredalienComponent, ComponentStartup>(OnPredalienStartup);
         SubscribeLocalEvent<STPredalienLarvaComponent, ComponentStartup>(OnPredalienLarvaStartup);
         SubscribeLocalEvent<STPredalienComponent, GetMeleeDamageEvent>(OnGetMeleeDamage);
+        SubscribeLocalEvent<STPredalienComponent, RMCGetTailStabBonusDamageEvent>(OnGetTailStabBonusDamage);
         SubscribeLocalEvent<STPredalienComponent, ExaminedEvent>(OnPredalienExamine);
         SubscribeLocalEvent<HunterComponent, BeforeDamageChangedEvent>(OnHunterBeforeDamageChanged);
         SubscribeLocalEvent<MobStateComponent, DamageChangedEvent>(OnVictimDamageChanged,
             after: new[] { typeof(MobThresholdSystem) });
+        SubscribeLocalEvent<STPredalienKillCreditedComponent, RejuvenateEvent>(OnKillCreditedRejuvenate);
     }
 
     private void OnPredalienStartup(Entity<STPredalienComponent> ent, ref ComponentStartup args)
@@ -49,6 +53,13 @@ public sealed class STPredalienSystem : EntitySystem
     }
 
     private void OnGetMeleeDamage(Entity<STPredalienComponent> predalien, ref GetMeleeDamageEvent args)
+    {
+        var kills = Math.Min(predalien.Comp.Kills, predalien.Comp.MaxKills);
+        if (kills > 0 && _proto.TryIndex<DamageGroupPrototype>("Brute", out var brute))
+            args.Damage += new DamageSpecifier(brute, predalien.Comp.DamagePerKill * kills);
+    }
+
+    private void OnGetTailStabBonusDamage(Entity<STPredalienComponent> predalien, ref RMCGetTailStabBonusDamageEvent args)
     {
         var kills = Math.Min(predalien.Comp.Kills, predalien.Comp.MaxKills);
         if (kills > 0 && _proto.TryIndex<DamageGroupPrototype>("Brute", out var brute))
@@ -96,5 +107,10 @@ public sealed class STPredalienSystem : EntitySystem
 
         predalien.Kills++;
         Dirty(origin, predalien);
+    }
+
+    private void OnKillCreditedRejuvenate(Entity<STPredalienKillCreditedComponent> ent, ref RejuvenateEvent args)
+    {
+        RemCompDeferred<STPredalienKillCreditedComponent>(ent);
     }
 }

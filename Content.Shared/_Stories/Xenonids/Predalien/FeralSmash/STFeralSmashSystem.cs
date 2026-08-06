@@ -21,6 +21,7 @@ public sealed class STFeralSmashSystem : EntitySystem
 
     private void OnFeralSmashLeapHit(Entity<STFeralSmashComponent> xeno, ref XenoLeapHitEvent args)
     {
+        RemComp<XenoLeapingComponent>(xeno.Owner);
         _pulling.TryStartPull(xeno.Owner, args.Hit);
 
         var kills = TryComp<STPredalienComponent>(xeno.Owner, out var predalien)
