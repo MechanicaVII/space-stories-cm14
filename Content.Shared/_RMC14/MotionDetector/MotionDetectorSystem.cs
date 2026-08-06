@@ -274,7 +274,7 @@ public sealed class MotionDetectorSystem : EntitySystem
         }
     }
 
-    private void DisableDetectorsOnMob(EntityUid uid)
+    public void DisableDetectorsOnMob(EntityUid uid) // Stories-Abomination
     {
         foreach (var held in _hands.EnumerateHeld(uid))
         {

@@ -1,0 +1,17 @@
+- type: job
+  parent: CMJobXenoBase
+  id: STXenoPredalien
+  name: st-job-name-xeno-predalien
+  playTimeTracker: STJobXenoPredalien
+
+- type: playTimeTracker
+  id: STJobXenoPredalien
+
+- type: job
+  parent: CMJobXenoBase
+  id: STXenoPredalienLarva
+  name: st-job-name-xeno-predalien-larva
+  playTimeTracker: STJobXenoPredalienLarva
+
+- type: playTimeTracker
+  id: STJobXenoPredalienLarva
