@@ -79,7 +79,7 @@
   - type: Tackle
     min: 3
     stunMin: 3
-    stunMax: 10
+    stunMax: 5
   - type: Fixtures
     fixtures:
       fix1:
