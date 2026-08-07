@@ -12,6 +12,7 @@
     useDelay: 15
   - type: TargetAction
     range: 2
+    checkCanAccess: false
     deselectOnMiss: false
   - type: EntityTargetAction
     toggleOutline: false
