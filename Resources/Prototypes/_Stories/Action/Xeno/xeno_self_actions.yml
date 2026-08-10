@@ -15,7 +15,7 @@
 - type: entity
   parent: ActionXenoBase
   id: STActionXenoCrusherShield
-  name: Defensive Shield
+  name: Defensive Barrier
   description: Toggle a barrier that accumulates and reduces incoming damage while active, or a passive resistance that scales with your missing health while off.
   components:
   - type: Action
