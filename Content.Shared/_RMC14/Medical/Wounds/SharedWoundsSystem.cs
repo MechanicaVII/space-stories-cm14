@@ -483,6 +483,9 @@ public abstract class SharedWoundsSystem : EntitySystem
             if (wound.Type != type)
                 continue;
 
+            if (wound.Untreatable) // Stories-CrusherDeepWounds
+                continue;
+
             var healing = -FixedPoint2.Max(-(wound.Damage * limit.Value - wound.Healed), amount);
             if (healing == FixedPoint2.Zero)
                 continue;
