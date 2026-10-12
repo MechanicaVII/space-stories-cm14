@@ -127,6 +127,9 @@
       path: /Audio/Machines/button.ogg
       params:
         variation: 0.15
+  - type: ItemTogglePrefix
+    prefixOn: on
+    prefixOff: off
   - type: MeleeWeapon
     wideAnimationRotation: -135
     damage:

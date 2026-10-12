@@ -1,13 +1,16 @@
 using Content.Shared._RMC14.Stamina;
 using Content.Shared._RMC14.Weapons.Common;
 using Content.Shared._RMC14.Weapons.Melee;
+using Content.Shared.Item.ItemToggle;
 using Content.Shared.Item.ItemToggle.Components;
 using Content.Shared.Popups;
+using Content.Shared.Weapons.Melee;
 
 namespace Content.Shared._Stories.Weapons.Melee.TelescopicBaton;
 
 public sealed class STTelescopicBatonModeSystem : EntitySystem
 {
+    [Dependency] private readonly ItemToggleSystem _toggle = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     public override void Initialize()
@@ -45,6 +48,14 @@ public sealed class STTelescopicBatonModeSystem : EntitySystem
         {
             toggleMelee.ActivatedDamage = ent.Comp.StunMode ? new() : ent.Comp.CombatDamage;
             Dirty(ent, toggleMelee);
+
+            if (_toggle.IsActivated(ent.Owner) &&
+                toggleMelee.ActivatedDamage != null &&
+                TryComp(ent, out MeleeWeaponComponent? melee))
+            {
+                melee.Damage = toggleMelee.ActivatedDamage;
+                DirtyField(ent, melee, nameof(MeleeWeaponComponent.Damage));
+            }
         }
 
         if (ent.Comp.StunMode)
