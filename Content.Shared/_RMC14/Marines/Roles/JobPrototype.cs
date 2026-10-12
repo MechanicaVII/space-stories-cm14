@@ -39,7 +39,7 @@ public sealed partial class JobPrototype : IInheritingPrototype, ICMSpecific
     public readonly bool OverwatchShowName;
 
     [DataField]
-    public readonly string? OverwatchRoleName;
+    public readonly LocId? OverwatchRoleName;
 
     /// <summary>
     /// Should this job have rank preferences appear in the preferences menu?
