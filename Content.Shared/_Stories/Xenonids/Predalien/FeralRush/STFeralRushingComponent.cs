@@ -15,5 +15,8 @@ public sealed partial class STFeralRushingComponent : Component
     public TimeSpan SpeedExpireAt;
 
     [DataField, AutoNetworkedField]
+    public bool SpeedExpired;
+
+    [DataField, AutoNetworkedField]
     public TimeSpan ArmorExpireAt;
 }

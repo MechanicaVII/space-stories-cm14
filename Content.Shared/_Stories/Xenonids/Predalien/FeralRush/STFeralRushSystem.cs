@@ -93,13 +93,20 @@ public sealed class STFeralRushSystem : EntitySystem
 
     public override void Update(float frameTime)
     {
-        if (_net.IsClient)
-            return;
-
         var time = _timing.CurTime;
         var query = EntityQueryEnumerator<STFeralRushingComponent>();
         while (query.MoveNext(out var uid, out var rushing))
         {
+            if (!rushing.SpeedExpired && time >= rushing.SpeedExpireAt)
+            {
+                rushing.SpeedExpired = true;
+                Dirty(uid, rushing);
+                _speed.RefreshMovementSpeedModifiers(uid);
+            }
+
+            if (_net.IsClient)
+                continue;
+
             if (time < rushing.SpeedExpireAt || time < rushing.ArmorExpireAt)
                 continue;
 

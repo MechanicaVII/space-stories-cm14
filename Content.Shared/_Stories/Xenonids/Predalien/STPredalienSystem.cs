@@ -4,6 +4,7 @@ using Content.Shared._Stories.Hunter.Marking.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Examine;
+using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Rejuvenate;
@@ -89,6 +90,9 @@ public sealed class STPredalienSystem : EntitySystem
     private void OnVictimDamageChanged(EntityUid victim, MobStateComponent victimComp, DamageChangedEvent args)
     {
         if (!args.DamageIncreased || args.Origin is not { } origin)
+            return;
+
+        if (!HasComp<HumanoidAppearanceComponent>(victim))
             return;
 
         if (HasComp<STPredalienKillCreditedComponent>(victim))
