@@ -62,6 +62,7 @@ namespace Content.Server.Database
                 .Include(p => p.Profiles).ThenInclude(p => p.NamedItems)
                 .Include(p => p.Profiles).ThenInclude(h => h.Ranks)
                 .Include(p => p.Profiles).ThenInclude(p => p.SquadPreference)
+                .Include(p => p.Profiles).ThenInclude(p => p.VariantPreferences) // Stories-SynthVariantPreference
                 .AsSplitQuery()
                 .SingleOrDefaultAsync(p => p.UserId == userId.UserId, cancel);
 
@@ -120,6 +121,7 @@ namespace Content.Server.Database
                 .Include(p => p.Ranks)
                 .Include(p => p.NamedItems)
                 .Include(p => p.SquadPreference)
+                .Include(p => p.VariantPreferences) // Stories-SynthVariantPreference
                 .AsSplitQuery()
                 .SingleOrDefault(h => h.Slot == slot);
 

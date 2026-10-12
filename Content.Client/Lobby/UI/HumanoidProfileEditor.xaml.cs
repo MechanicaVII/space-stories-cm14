@@ -1022,6 +1022,7 @@ namespace Content.Client.Lobby.UI
             _jobCategories.Clear();
             _jobPriorities.Clear();
             _rankPriorities.Clear();
+            _variantPriorities.Clear(); // Stories-JobVariantPreference
             var firstCategory = true;
 
             // Get all displayed departments

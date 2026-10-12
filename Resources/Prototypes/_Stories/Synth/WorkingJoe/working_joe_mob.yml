@@ -104,11 +104,6 @@
   - type: SynthGeneration
     generation: RMCARESWorker
     selectable: false
-  - type: MobThresholds
-    thresholds:
-      0: Alive
-      199: Critical
-      200: Dead
   - type: STRandomName
     baseName: st-species-name-working-joe-base
     postFix: st-species-name-working-joe-postfix
