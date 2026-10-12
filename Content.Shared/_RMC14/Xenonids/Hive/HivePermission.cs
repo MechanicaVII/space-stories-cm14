@@ -6,7 +6,6 @@ namespace Content.Shared._RMC14.Xenonids.Hive;
 public enum XenoHarmPermission : byte
 {
     Forbidden,
-    RestrictedInfected,
     Allowed,
 }
 

@@ -132,7 +132,6 @@ public sealed class ManageHiveSystem : EntitySystem
         var options = new List<DialogOption>
         {
             new(Loc.GetString("rmc-hivemanagement-permissions-harm-forbidden"), new ManageHivePermissionsHarmChosenEvent(XenoHarmPermission.Forbidden)),
-            new(Loc.GetString("rmc-hivemanagement-permissions-harm-restricted"), new ManageHivePermissionsHarmChosenEvent(XenoHarmPermission.RestrictedInfected)),
             new(Loc.GetString("rmc-hivemanagement-permissions-harm-allowed"), new ManageHivePermissionsHarmChosenEvent(XenoHarmPermission.Allowed)),
         };
 
@@ -303,7 +302,6 @@ public sealed class ManageHiveSystem : EntitySystem
         return permission switch
         {
             XenoHarmPermission.Forbidden => "rmc-hivemanagement-permissions-harm-forbidden",
-            XenoHarmPermission.RestrictedInfected => "rmc-hivemanagement-permissions-harm-restricted",
             XenoHarmPermission.Allowed => "rmc-hivemanagement-permissions-harm-allowed",
             _ => string.Empty,
         };

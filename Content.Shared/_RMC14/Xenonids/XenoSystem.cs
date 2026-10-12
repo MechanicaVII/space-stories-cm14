@@ -249,9 +249,10 @@ public sealed partial class XenoSystem : EntitySystem
             return;
         }
 
-        if (!args.Disarm && HasComp<MarineComponent>(target) && !_hive.CanXenoHarm(xeno.Owner, target))
+        if (!args.Disarm && _victimInfectedQuery.HasComp(target) && !_hive.CanXenoHarm(xeno.Owner))
         {
             args.Cancel();
+            _popup.PopupClient(Loc.GetString("rmc-xeno-harm-permission-denied"), target, xeno, PopupType.MediumCaution);
             return;
         }
 

@@ -6,7 +6,6 @@ using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared._RMC14.Xenonids.Construction;
 using Content.Shared._RMC14.Xenonids.Evolution;
 using Content.Shared._RMC14.Xenonids.HiveLeader;
-using Content.Shared._RMC14.Xenonids.Parasite;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
@@ -547,10 +546,10 @@ public abstract class SharedXenoHiveSystem : EntitySystem
     }
 
     /// <summary>
-    /// Returns true if the queen has permitted harming the given victim, per the hive's harming permission.
+    /// Returns true if the queen has permitted harming infected hosts, per the hive's harming permission.
     /// The queen and hive leaders always ignore the hive's permission.
     /// </summary>
-    public bool CanXenoHarm(EntityUid xeno, EntityUid victim)
+    public bool CanXenoHarm(EntityUid xeno)
     {
         if (HasComp<XenoActionsRestrictedComponent>(xeno))
             return false;
@@ -564,7 +563,6 @@ public abstract class SharedXenoHiveSystem : EntitySystem
         return hive.Comp.HarmPermission switch
         {
             XenoHarmPermission.Allowed => true,
-            XenoHarmPermission.RestrictedInfected => !HasComp<VictimInfectedComponent>(victim),
             XenoHarmPermission.Forbidden => false,
             _ => true,
         };

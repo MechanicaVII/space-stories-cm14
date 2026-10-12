@@ -62,7 +62,6 @@ rmc-hivemanagement-permissions-cooldown = You must wait { $seconds } more second
 rmc-hivemanagement-permissions-already-set = That is already the current setting.
 
 rmc-hivemanagement-permissions-harm-forbidden = Forbidden
-rmc-hivemanagement-permissions-harm-restricted = Restricted - Infected Hosts
 rmc-hivemanagement-permissions-harm-allowed = Allowed
 
 rmc-hivemanagement-permissions-level-queen = Queen Only

@@ -62,7 +62,6 @@ rmc-hivemanagement-permissions-cooldown = Вам нужно подождать �
 rmc-hivemanagement-permissions-already-set = Это уже текущая настройка.
 
 rmc-hivemanagement-permissions-harm-forbidden = Запрещено
-rmc-hivemanagement-permissions-harm-restricted = Ограничено - заражённые носители
 rmc-hivemanagement-permissions-harm-allowed = Разрешено
 
 rmc-hivemanagement-permissions-level-queen = Только королева
