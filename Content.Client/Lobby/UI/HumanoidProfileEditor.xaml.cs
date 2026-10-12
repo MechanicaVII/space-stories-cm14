@@ -614,6 +614,8 @@ namespace Content.Client.Lobby.UI
             add => TabContainer.OnTabChanged += value;
             remove => TabContainer.OnTabChanged -= value;
         }
+
+        public event Action<HumanoidCharacterProfile?>? OnProfileSet;
         // Stories-SynthProfileTab-End
 
         /// <summary>
@@ -995,6 +997,7 @@ namespace Content.Client.Lobby.UI
             RefreshTraits();
             RefreshFlavorText();
             ReloadPreview();
+            OnProfileSet?.Invoke(Profile); // Stories-SynthProfileTab
         }
 
 

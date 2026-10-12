@@ -140,6 +140,14 @@ namespace Content.Server.Database
                 .IsUnique();
             // Stories-Hunter-End
 
+            // Stories-SynthProfile-Start
+            modelBuilder.Entity<STSynthProfile>()
+                .HasOne(s => s.Profile)
+                .WithOne(p => p.SynthProfile)
+                .HasForeignKey<STSynthProfile>(s => s.ProfileId)
+                .OnDelete(DeleteBehavior.Cascade);
+            // Stories-SynthProfile-End
+
             modelBuilder.Entity<Admin>()
                 .HasOne(p => p.AdminRank)
                 .WithMany(p => p!.Admins)
@@ -591,16 +599,6 @@ namespace Content.Server.Database
         public string FacialHairColor { get; set; } = null!;
         public string EyeColor { get; set; } = null!;
         public string SkinColor { get; set; } = null!;
-        // Stories-SynthAppearance-Start
-        [Column(TypeName = "jsonb")] public JsonDocument? SynthMarkings { get; set; }
-        public string? SynthHairName { get; set; }
-        public string? SynthHairColor { get; set; }
-        public string? SynthFacialHairName { get; set; }
-        public string? SynthFacialHairColor { get; set; }
-        public string? SynthEyeColor { get; set; }
-        public string? SynthSkinColor { get; set; }
-        public string SynthName { get; set; } = string.Empty;
-        // Stories-SynthAppearance-End
         public int SpawnPriority { get; set; } = 0;
         public List<Job> Jobs { get; } = new();
         public List<Antag> Antags { get; } = new();
@@ -617,6 +615,7 @@ namespace Content.Server.Database
         public string ArmorPreference { get; set; } = null!;
         public List<Rank> Ranks { get; } = new();
         public List<VariantPreference> VariantPreferences { get; } = new(); // Stories-SynthVariantPreference
+        public STSynthProfile? SynthProfile { get; set; } // Stories-SynthProfile
         public bool PlaytimePerks { get; set; } = true;
         public string XenoPrefix { get; set; } = string.Empty;
         public string XenoPostfix { get; set; } = string.Empty;
@@ -716,6 +715,25 @@ namespace Content.Server.Database
         public string VariantName { get; set; } = null!;
     }
     // Stories-SynthVariantPreference-End
+
+    // Stories-SynthProfile-Start
+    [Table("st_synth_profile")]
+    public class STSynthProfile
+    {
+        [Key]
+        public int ProfileId { get; set; }
+        public Profile Profile { get; set; } = null!;
+
+        public string Name { get; set; } = string.Empty;
+        [Column(TypeName = "jsonb")] public JsonDocument? Markings { get; set; }
+        public string? HairName { get; set; }
+        public string? HairColor { get; set; }
+        public string? FacialHairName { get; set; }
+        public string? FacialHairColor { get; set; }
+        public string? EyeColor { get; set; }
+        public string? SkinColor { get; set; }
+    }
+    // Stories-SynthProfile-End
 
 
     #region Loadouts

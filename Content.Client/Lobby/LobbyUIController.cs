@@ -198,10 +198,6 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
             profileEditor.SetTabVisible(profileEditor.GetHunterTabIndex(), isWhitelisted);
         }
         // Stories-End
-
-        // Stories-SynthProfileTab-Start
-        _synthProfileEditor?.SetProfile(profileEditor.Profile);
-        // Stories-SynthProfileTab-End
     }
 
     /// <summary>
@@ -338,6 +334,8 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
                 _profileEditor.Profile = updated;
                 _profileEditor.IsDirty = true;
             };
+
+            _profileEditor.OnProfileSet += _synthProfileEditor.SetProfile;
 
             _profileEditor.OnTabChanged += tab =>
             {

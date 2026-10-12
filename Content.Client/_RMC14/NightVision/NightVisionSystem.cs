@@ -122,10 +122,13 @@ public sealed class NightVisionSystem : SharedNightVisionSystem
 
     private void SetMesonSprites(bool mesons)
     {
-        if (_player.LocalEntity == null)
+        // Stories-MesonPerf-Start
+        var local = _player.LocalEntity;
+        if (local == null && mesons)
             return;
 
-        var isXeno = _xenoQuery.HasComp(_player.LocalEntity.Value);
+        var isXeno = local != null && _xenoQuery.HasComp(local.Value);
+        // Stories-MesonPerf-End
 
         var query = EntityQueryEnumerator<RMCMesonsNonviewableComponent, SpriteComponent>();
         while (query.MoveNext(out var uid, out var viewable, out var sprite))
@@ -139,7 +142,7 @@ public sealed class NightVisionSystem : SharedNightVisionSystem
             if (TryComp<XenoBurrowComponent>(uid, out var burrow) && burrow.Active)
                 continue;
 
-            sprite.Visible = !mesons || _examine.InRangeUnOccluded(_player.LocalEntity.Value, uid);
+            sprite.Visible = !mesons || _examine.InRangeUnOccluded(local!.Value, uid); // Stories-MesonPerf
         }
     }
 

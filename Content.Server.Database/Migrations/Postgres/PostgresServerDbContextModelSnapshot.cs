@@ -1023,39 +1023,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("species");
 
-                    b.Property<string>("SynthEyeColor")
-                        .HasColumnType("text")
-                        .HasColumnName("synth_eye_color");
-
-                    b.Property<string>("SynthFacialHairColor")
-                        .HasColumnType("text")
-                        .HasColumnName("synth_facial_hair_color");
-
-                    b.Property<string>("SynthFacialHairName")
-                        .HasColumnType("text")
-                        .HasColumnName("synth_facial_hair_name");
-
-                    b.Property<string>("SynthHairColor")
-                        .HasColumnType("text")
-                        .HasColumnName("synth_hair_color");
-
-                    b.Property<string>("SynthHairName")
-                        .HasColumnType("text")
-                        .HasColumnName("synth_hair_name");
-
-                    b.Property<JsonDocument>("SynthMarkings")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("synth_markings");
-
-                    b.Property<string>("SynthName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("synth_name");
-
-                    b.Property<string>("SynthSkinColor")
-                        .HasColumnType("text")
-                        .HasColumnName("synth_skin_color");
-
                     b.Property<string>("Voice")
                         .IsRequired()
                         .HasColumnType("text")
@@ -1723,6 +1690,51 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.HasIndex("StartDate");
 
                     b.ToTable("round", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.STSynthProfile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer")
+                        .HasColumnName("profile_id");
+
+                    b.Property<string>("EyeColor")
+                        .HasColumnType("text")
+                        .HasColumnName("eye_color");
+
+                    b.Property<string>("FacialHairColor")
+                        .HasColumnType("text")
+                        .HasColumnName("facial_hair_color");
+
+                    b.Property<string>("FacialHairName")
+                        .HasColumnType("text")
+                        .HasColumnName("facial_hair_name");
+
+                    b.Property<string>("HairColor")
+                        .HasColumnType("text")
+                        .HasColumnName("hair_color");
+
+                    b.Property<string>("HairName")
+                        .HasColumnType("text")
+                        .HasColumnName("hair_name");
+
+                    b.Property<JsonDocument>("Markings")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("markings");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("SkinColor")
+                        .HasColumnType("text")
+                        .HasColumnName("skin_color");
+
+                    b.HasKey("ProfileId")
+                        .HasName("PK_st_synth_profile");
+
+                    b.ToTable("st_synth_profile", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.Server", b =>
@@ -2833,6 +2845,18 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Server");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.STSynthProfile", b =>
+                {
+                    b.HasOne("Content.Server.Database.Profile", "Profile")
+                        .WithOne("SynthProfile")
+                        .HasForeignKey("Content.Server.Database.STSynthProfile", "ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_st_synth_profile_profile_profile_id");
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("Content.Server.Database.ServerBan", b =>
                 {
                     b.HasOne("Content.Server.Database.Player", "CreatedBy")
@@ -3139,6 +3163,8 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Ranks");
 
                     b.Navigation("SquadPreference");
+
+                    b.Navigation("SynthProfile");
 
                     b.Navigation("Traits");
 

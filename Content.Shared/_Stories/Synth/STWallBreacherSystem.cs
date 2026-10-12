@@ -32,6 +32,7 @@ public sealed class STWallBreacherSystem : EntitySystem
 
         SubscribeLocalEvent<STWallBreacherComponent, AfterInteractEvent>(OnAfterInteract);
         SubscribeLocalEvent<STWallBreacherComponent, STWallBreachDoAfterEvent>(OnDoAfter);
+        SubscribeLocalEvent<STWallBreacherComponent, DoAfterAttemptEvent<STWallBreachDoAfterEvent>>(OnDoAfterAttempt);
     }
 
     private void OnAfterInteract(Entity<STWallBreacherComponent> ent, ref AfterInteractEvent args)
@@ -42,7 +43,7 @@ public sealed class STWallBreacherSystem : EntitySystem
         if (!_tag.HasTag(target, WallTag))
             return;
 
-        if (!TryComp<WieldableComponent>(ent, out var wieldable) || !wieldable.Wielded)
+        if (!IsWielded(ent))
         {
             _popup.PopupClient(Loc.GetString("st-synth-wall-breacher-not-wielded", ("tool", ent.Owner)), args.User, args.User, PopupType.SmallCaution);
             args.Handled = true;
@@ -63,9 +64,16 @@ public sealed class STWallBreacherSystem : EntitySystem
             BreakOnMove = true,
             BreakOnDamage = true,
             NeedHand = true,
+            AttemptFrequency = AttemptFrequency.EveryTick,
         };
 
         _doAfter.TryStartDoAfter(doAfter);
+    }
+
+    private void OnDoAfterAttempt(Entity<STWallBreacherComponent> ent, ref DoAfterAttemptEvent<STWallBreachDoAfterEvent> args)
+    {
+        if (!IsWielded(ent))
+            args.Cancel();
     }
 
     private void OnDoAfter(Entity<STWallBreacherComponent> ent, ref STWallBreachDoAfterEvent args)
@@ -74,6 +82,9 @@ public sealed class STWallBreacherSystem : EntitySystem
             return;
 
         args.Handled = true;
+
+        if (!IsWielded(ent))
+            return;
 
         if (TerminatingOrDeleted(target))
             return;
@@ -91,5 +102,10 @@ public sealed class STWallBreacherSystem : EntitySystem
         _damageable.TryChangeDamage(target, damage, true, damageable: damageable, origin: ent, tool: ent);
 
         _audio.PlayPvs(ent.Comp.FinishSound, Transform(target).Coordinates);
+    }
+
+    private bool IsWielded(EntityUid uid)
+    {
+        return TryComp<WieldableComponent>(uid, out var wieldable) && wieldable.Wielded;
     }
 }
