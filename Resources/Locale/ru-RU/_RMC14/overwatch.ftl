@@ -3,7 +3,9 @@ rmc-overwatch-console = Наблюдение
 rmc-overwatch-console-tactical-map = Тактическая карта
 rmc-overwatch-console-stop-overwatch = Прекратить наблюдение
 rmc-overwatch-console-squad-message-title = Сообщение отряду
+rmc-overwatch-console-confirm = Подтвердить
 rmc-overwatch-console-message-squad = Введите сообщение
+rmc-overwatch-console-message-squad-leader = Отправить сообщение командиру отряда
 rmc-overwatch-console-squad-objectives = Задачи отряда
 rmc-overwatch-console-show-squad-info = Открыть информацию об отряде
 rmc-overwatch-console-hide-squad-info = Закрыть информацию об отряде
@@ -52,6 +54,13 @@ rmc-overwatch-tripod-camera-collapsed = Тренога с полевой кам�
 rmc-overwatch-tripod-camera-destroyed = Тренога с полевой камерой уничтожена.
 rmc-overwatch-tripod-camera-examine-label = На табличке написано: [color=cyan]{ $label }[/color].
 rmc-overwatch-tripod-camera-examine-squad = Сейчас камера закреплена за отрядом: [color=cyan]{ $squad }[/color].
+rmc-overwatch-tripod-camera-change-squad = Сменить отряд
+rmc-overwatch-tripod-camera-squad-selection-title = Назначение камеры отряду
+rmc-overwatch-tripod-camera-squad-selection-prompt = Выберите отряд, за которым будет закреплена эта камера.
+rmc-overwatch-tripod-camera-squad-changed = Камера закреплена за отрядом { $squad }.
+rmc-overwatch-tripod-camera-squad-change-iff-denied = Ваша система IFF не позволяет переназначить эту камеру.
+rmc-overwatch-tripod-camera-squad-change-no-options = Других активных отрядов группы { $group } нет.
+rmc-overwatch-tripod-camera-default-squad-unavailable = Для полевой камеры на треноге нет доступного отряда по умолчанию.
 rmc-overwatch-console-state-unconscious = Без сознания
 rmc-overwatch-console-state-dead = Мёртв
 rmc-overwatch-console-state-conscious = В сознании
@@ -79,7 +88,13 @@ rmc-overwatch-console-no-crate-loaded = [color=red][bold] \[ ЯЩИК НЕ ЗА�
 rmc-overwatch-console-crate-loaded = [color=green][bold] \[ ЯЩИК ЗАГРУЖЕН \][/bold][/color]
 rmc-overwatch-console-ready = [color=green][bold] \[ ГОТОВО \][/bold][/color]
 rmc-overwatch-console-not-ready = [color=red][bold] \[ НЕ ГОТОВО \][/bold][/color]
+rmc-overwatch-console-orbital-safety-engaged = [color=red][bold][ БЛОКИРОВКА АКТИВНА ][/bold][/color]
 rmc-overwatch-console-cooldown = [color=#D3B400][bold][ ПЕРЕЗАРЯДКА — { $seconds } СЕКУНД ][/bold][/color]
+rmc-overwatch-console-announcement-cooldown = Следующее объявление этому отряду можно отправить через { $seconds } { $seconds ->
+    [one] секунду
+    [few] секунды
+    *[other] секунд
+}.
 rmc-overwatch-console-no-warhead-loaded = [color=red][bold]БОЕГОЛОВКА НЕ ЗАРЯЖЕНА[/bold][/color]
 
 # Transfer messages
@@ -101,7 +116,10 @@ rmc-overwatch-console-pain-kicked-out = Боль вытолкнула тебя �
 
 # Squad message announcements
 rmc-overwatch-console-announce-message = [color=#3C70FF][bold]Наблюдение:[/bold] { $operatorName } передает: [font size=16][bold]{ $message }[/bold][/font][/color]
+rmc-overwatch-console-announce-leader-message = [color=#3C70FF][bold]Наблюдение — командир отряда:[/bold] { $operatorName } передаёт: [font size=16][bold]{ $message }[/bold][/font][/color]
 rmc-overwatch-console-squad-message-sent = [bold][color=#6685F5]'{ $squadName }' получил сообщение от наблюдателя: '{ $message }'.[/color][/bold]
+rmc-overwatch-console-no-squad-leader = В выбранном отряде нет живого командира.
+rmc-overwatch-console-leader-message-sent = Сообщение отправлено командиру отряда { $leader }.
 
 # Squad leader promotion messages
 rmc-overwatch-console-marine-unfit-to-lead = { $marineName } не пригоден для руководства!
@@ -122,5 +140,15 @@ rmc-overwatch-console-objective-updated = [bold][color=#7FFFD4]'{ $squadName }' 
 rmc-overwatch-console-objective-cancelled = [bold][color=#7FFFD4]'{ $squadName }' { $objectiveType } '{ $objective }' отменена.[/color][/bold]
 rmc-overwatch-console-objectives = Задачи вашего отряда:
     { $objectives }
+
+# Role summaries
+rmc-overwatch-role-specialist = Специалисты по вооружению
+rmc-overwatch-role-squad-leader = Командиры отрядов
+rmc-overwatch-role-smart-gun-operator = Операторы смартганов
+rmc-overwatch-role-hospital-corpsmen = Санитары госпиталя
+rmc-overwatch-role-fireteam-leaders = Командиры огневых групп
+rmc-overwatch-role-combat-technicians = Боевые техники
+rmc-overwatch-console-scoped = Вы слишком заняты наблюдением через оптику.
+
 ent-RMCOverwatchCameraTripod = Полевая камера на треноге
     .desc = Развёртываемая полевая камера Motoca-430-T на треноге, подключающаяся к сети наблюдения. Её можно переименовать и установить.
