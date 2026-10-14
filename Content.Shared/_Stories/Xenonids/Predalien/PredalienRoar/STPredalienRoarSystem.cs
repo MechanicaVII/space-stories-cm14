@@ -78,7 +78,7 @@ public sealed class STPredalienRoarSystem : EntitySystem
             if (receiver.Owner == xeno.Owner)
                 continue;
 
-            var reveal = new STPredalienRevealEvent(receiver.Owner);
+            var reveal = new STPredalienRevealEvent(receiver.Owner, xeno.Comp.HunterRecloakPenalty);
             RaiseLocalEvent(receiver.Owner, reveal, true);
 
             if (HasComp<HunterComponent>(receiver.Owner))

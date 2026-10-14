@@ -4,6 +4,7 @@ using Content.Shared.Coordinates;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.DoAfter;
+using Content.Shared.Interaction;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
@@ -21,6 +22,7 @@ public sealed class STFeralFrenzySystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly INetManager _net = default!;
@@ -154,6 +156,9 @@ public sealed class STFeralFrenzySystem : EntitySystem
                 continue;
 
             if (!_xeno.CanAbilityAttackTarget(xeno, receiver.Owner))
+                continue;
+
+            if (!_interaction.InRangeUnobstructed(xeno.Owner, receiver.Owner, xeno.Comp.AoeRange))
                 continue;
 
             DealDamage(xeno, receiver.Owner, damage, xeno.Comp.AoeSound);

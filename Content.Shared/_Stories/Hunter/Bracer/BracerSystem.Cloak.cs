@@ -171,12 +171,12 @@ public sealed partial class BracerSystem
             _actions.SetToggled(action, enabled);
     }
 
-    private void ForceUncloak(EntityUid user, bool quiet = false)
+    private void ForceUncloak(EntityUid user)
     {
         if (!TryFindWornBracer(user, out var bracer))
             return;
 
-        SetCloak(user, bracer.Value, false, true, quiet);
+        SetCloak(user, bracer.Value, false, true);
     }
 
     private bool TryFindWornBracer(EntityUid user, [NotNullWhen(true)] out Entity<HunterBracerComponent>? bracer)
@@ -214,7 +214,13 @@ public sealed partial class BracerSystem
 
     private void OnPredalienReveal(Entity<BracerCloakedComponent> ent, ref STPredalienRevealEvent args)
     {
-        ForceUncloak(ent.Owner, quiet: true);
+        if (!TryFindWornBracer(ent.Owner, out var bracer))
+            return;
+
+        SetCloak(ent.Owner, bracer.Value, false, true, true);
+
+        if (bracer.Value.Comp.ToggleCloakAction is { } action)
+            _actions.SetIfBiggerCooldown(action, args.RecloakPenalty);
     }
 
     private void OnProjectileHit(Entity<BracerCloakedComponent> ent, ref ProjectileHitEvent args)

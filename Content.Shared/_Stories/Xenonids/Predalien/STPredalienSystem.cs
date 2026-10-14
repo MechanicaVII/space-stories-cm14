@@ -5,9 +5,9 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Examine;
 using Content.Shared.Humanoid;
+using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
-using Content.Shared.Rejuvenate;
 using Content.Shared.Weapons.Melee.Events;
 using Robust.Shared.Prototypes;
 
@@ -30,7 +30,7 @@ public sealed class STPredalienSystem : EntitySystem
         SubscribeLocalEvent<HunterComponent, BeforeDamageChangedEvent>(OnHunterBeforeDamageChanged);
         SubscribeLocalEvent<MobStateComponent, DamageChangedEvent>(OnVictimDamageChanged,
             after: new[] { typeof(MobThresholdSystem) });
-        SubscribeLocalEvent<STPredalienKillCreditedComponent, RejuvenateEvent>(OnKillCreditedRejuvenate);
+        SubscribeLocalEvent<STPredalienKillCreditedComponent, MobStateChangedEvent>(OnKillCreditedMobStateChanged);
     }
 
     private void OnPredalienStartup(Entity<STPredalienComponent> ent, ref ComponentStartup args)
@@ -113,8 +113,11 @@ public sealed class STPredalienSystem : EntitySystem
         Dirty(origin, predalien);
     }
 
-    private void OnKillCreditedRejuvenate(Entity<STPredalienKillCreditedComponent> ent, ref RejuvenateEvent args)
+    private void OnKillCreditedMobStateChanged(Entity<STPredalienKillCreditedComponent> ent, ref MobStateChangedEvent args)
     {
+        if (args.OldMobState != MobState.Dead || args.NewMobState == MobState.Dead)
+            return;
+
         RemCompDeferred<STPredalienKillCreditedComponent>(ent);
     }
 }

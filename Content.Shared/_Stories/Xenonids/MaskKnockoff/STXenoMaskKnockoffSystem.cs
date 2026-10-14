@@ -6,6 +6,7 @@ using Content.Shared.Inventory;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Weapons.Melee.Events;
+using Robust.Shared.Network;
 using Robust.Shared.Random;
 
 namespace Content.Shared._Stories.Xenonids.MaskKnockoff;
@@ -14,6 +15,7 @@ public sealed class STXenoMaskKnockoffSystem : EntitySystem
 {
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
 
@@ -26,6 +28,9 @@ public sealed class STXenoMaskKnockoffSystem : EntitySystem
 
     private void OnMeleeHit(Entity<STXenoMaskKnockoffComponent> xeno, ref MeleeHitEvent args)
     {
+        if (_net.IsClient)
+            return;
+
         if (!args.IsHit || args.HitEntities.Count == 0)
             return;
 
@@ -64,10 +69,9 @@ public sealed class STXenoMaskKnockoffSystem : EntitySystem
         if (!_inventory.TryUnequip(target, target, "mask", force: true))
             return;
 
-        _popup.PopupPredicted(
+        _popup.PopupEntity(
             Loc.GetString("rmc-xeno-mask-knockoff", ("xeno", xeno.Owner), ("target", target)),
-            xeno,
-            null,
+            target,
             PopupType.MediumCaution
         );
     }
