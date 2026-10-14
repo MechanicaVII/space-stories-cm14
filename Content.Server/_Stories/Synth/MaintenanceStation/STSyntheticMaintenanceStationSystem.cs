@@ -30,21 +30,22 @@ namespace Content.Server._Stories.Synth;
 
 public sealed class STSyntheticMaintenanceStationSystem : EntitySystem
 {
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly SharedBloodstreamSystem _bloodstream = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly EuiManager _euiManager = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly ISharedPlayerManager _player = default!;
+
     [Dependency] private readonly ContainerSystem _container = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
+    [Dependency] private readonly RottingSystem _rotting = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedBloodstreamSystem _bloodstream = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly RottingSystem _rotting = default!;
-    [Dependency] private readonly EuiManager _euiManager = default!;
-    [Dependency] private readonly SharedMindSystem _mind = default!;
-    [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -331,7 +332,7 @@ public sealed class STSyntheticMaintenanceStationSystem : EntitySystem
         if (this.IsPowered(station.Owner, EntityManager) && station.Comp.CurrentInternalCharge > 0)
             return true;
 
-        _popup.PopupEntity(Loc.GetString("st-synthetic-maintenance-station-no-power", ("station", station.Owner)), station, user);
+        _popup.PopupEntity(Loc.GetString("stories-synthetic-maintenance-station-no-power", ("station", station.Owner)), station, user);
         return false;
     }
 

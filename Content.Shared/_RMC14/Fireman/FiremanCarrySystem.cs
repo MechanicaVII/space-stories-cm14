@@ -275,8 +275,10 @@ public sealed class FiremanCarrySystem : EntitySystem
         if (!ent.Comp.BeingCarried && !IsBeingAggressivelyGrabbed(ent))
             return;
 
-        if (HasComp<STSynthGrippedComponent>(ent)) // Stories-SynthGrip
+        // Stories-SynthGrip-Start
+        if (HasComp<STSynthGrippedComponent>(ent))
             return;
+        // Stories-SynthGrip-End
 
         var ev = new BreakFiremanCarryDoAfterEvent();
         var doAfter = new DoAfterArgs(EntityManager, ent, ent.Comp.Delay, ev, ent);

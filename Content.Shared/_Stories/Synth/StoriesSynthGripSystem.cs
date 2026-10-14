@@ -1,5 +1,6 @@
 using Content.Shared._RMC14.Synth;
 using Content.Shared.ActionBlocker;
+using Content.Shared.Buckle.Components;
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Events;
@@ -8,7 +9,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared._Stories.Synth;
 
-public sealed class STSynthGripSystem : EntitySystem
+public sealed class StoriesSynthGripSystem : EntitySystem
 {
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
@@ -22,6 +23,7 @@ public sealed class STSynthGripSystem : EntitySystem
         SubscribeLocalEvent<STSynthGrippedComponent, ComponentRemove>(OnGrippedRemove);
         SubscribeLocalEvent<STSynthGrippedComponent, UpdateCanMoveEvent>(OnGrippedCanMove);
         SubscribeLocalEvent<STSynthGrippedComponent, StopBeingPulledAlertEvent>(OnGrippedStopBeingPulledAlert, before: [typeof(PullingSystem)]);
+        SubscribeLocalEvent<STSynthGrippedComponent, BuckleAttemptEvent>(OnGrippedBuckleAttempt);
     }
 
     private void OnSynthPullStarted(Entity<SynthComponent> ent, ref PullStartedMessage args)
@@ -64,5 +66,16 @@ public sealed class STSynthGripSystem : EntitySystem
     private void OnGrippedStopBeingPulledAlert(Entity<STSynthGrippedComponent> ent, ref StopBeingPulledAlertEvent args)
     {
         args.Handled = true;
+    }
+
+    private void OnGrippedBuckleAttempt(Entity<STSynthGrippedComponent> ent, ref BuckleAttemptEvent args)
+    {
+        if (!TryComp(ent, out PullableComponent? pullable) || pullable.Puller == null)
+            return;
+
+        if (args.User == pullable.Puller)
+            return;
+
+        args.Cancelled = true;
     }
 }
