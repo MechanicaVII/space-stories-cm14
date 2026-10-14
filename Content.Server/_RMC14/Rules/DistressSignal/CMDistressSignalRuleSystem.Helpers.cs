@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Content.Server._Stories.Spawners; // Stories-SpawnPhase
+using Content.Server.GameTicking; // Stories-SpawnPhase
 using Content.Server.Power.Components;
 using Content.Server.Spawners.Components;
 using Content.Shared._RMC14.Item;
@@ -263,6 +265,14 @@ public sealed partial class CMDistressSignalRuleSystem
         {
             if (spawner.Job == null)
                 continue;
+
+            // Stories-SpawnPhase-Start
+            if (TryComp(uid, out STSpawnPointPhaseComponent? phase) &&
+                !(GameTicker.RunLevel == GameRunLevel.InRound ? phase.LateJoin : phase.RoundStart))
+            {
+                continue;
+            }
+            // Stories-SpawnPhase-End
 
             var target = IsChamberFull(uid)
                 ? spawners.NonSquadFull.GetOrNew(spawner.Job.Value)
