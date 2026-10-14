@@ -43,7 +43,9 @@ namespace Content.Server.Ghost.Roles;
 public sealed class GhostRoleSystem : EntitySystem
 {
     [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly IChatManager _chat = default!; // Stories-GhostRoleWhitelist
     [Dependency] private readonly EuiManager _euiManager = default!;
+    [Dependency] private readonly JobWhitelistManager _jobWhitelist = default!; // Stories-GhostRoleWhitelist
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IAdminLogManager _adminLogger = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -54,8 +56,6 @@ public sealed class GhostRoleSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly JobWhitelistManager _jobWhitelist = default!; // Stories-GhostRoleWhitelist
-    [Dependency] private readonly IChatManager _chat = default!; // Stories-GhostRoleWhitelist
 
     private uint _nextRoleIdentifier;
     private bool _needsUpdateGhostRoleCount = true;
@@ -520,6 +520,14 @@ public sealed class GhostRoleSystem : EntitySystem
         if (!_ghostRoles.TryGetValue(identifier, out var role))
             return false;
 
+        // Stories-GhostRoleWhitelist-Start
+        if (role.Comp.JobProto is { } job && !_jobWhitelist.IsAllowed(player, job))
+        {
+            _chat.DispatchServerMessage(player, Loc.GetString("role-not-whitelisted"));
+            return false;
+        }
+        // Stories-GhostRoleWhitelist-End
+
         var ev = new TakeGhostRoleEvent(player);
         RaiseLocalEvent(role, ref ev);
 
@@ -632,7 +640,7 @@ public sealed class GhostRoleSystem : EntitySystem
                 Kind = kind,
                 RafflePlayerCount = rafflePlayerCount,
                 RaffleEndTime = raffleEndTime,
-                Job = role.JobProto?.Id, // Stories-GhostRoleWhitelist
+                Job = role.JobProto, // Stories-GhostRoleWhitelist
             });
         }
 

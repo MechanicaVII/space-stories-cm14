@@ -25,5 +25,5 @@ ent-STBeltUtilityWorkingJoe = рабочий пояс Working Joe
 
 ent-STOuterClothingExternalWebbingWorkingJoe = внешняя разгрузка Working Joe
 
-st-unstrippable-while-able-unequip = Хватка слишком крепкая, снаряжение не поддаётся!
-st-unstrippable-while-able-equip = Он слишком силён, на него ничего не надеть!
+stories-unstrippable-while-able-unequip = Хватка слишком крепкая, снаряжение не поддаётся!
+stories-unstrippable-while-able-equip = Он слишком силён, на него ничего не надеть!

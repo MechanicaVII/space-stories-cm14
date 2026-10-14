@@ -56,7 +56,7 @@
     generation: RMCSynthGenTwo
     selectable: false
   - type: GhostRole
-    name: st-ghost-name-pmc-synth-no-whitelist
+    name: stories-ghost-name-pmc-synth-no-whitelist
     description: rmc-ghost-role-information-pmc-description
     rules: rmc-ghost-role-information-pmc-rules
     reregister: false
@@ -118,7 +118,7 @@
     generation: RMCSynthGenThree
     selectable: false
   - type: GhostRole
-    name: st-ghost-name-spp-hostile-synth
+    name: stories-ghost-name-spp-hostile-synth
     description: rmc-ghost-role-information-spp-hostile-description
     rules: rmc-ghost-role-information-spp-rules
     reregister: false
@@ -136,7 +136,7 @@
     generation: RMCSynthGenThree
     selectable: false
   - type: GhostRole
-    name: st-ghost-name-spp-friendly-synth
+    name: stories-ghost-name-spp-friendly-synth
     description: rmc-ghost-role-information-spp-friendly-description
     rules: rmc-ghost-role-information-spp-rules
     reregister: false
@@ -154,7 +154,7 @@
     generation: RMCSynthGenTwo
     selectable: false
   - type: GhostRole
-    name: st-ghost-name-spp-hostile-synth-no-whitelist
+    name: stories-ghost-name-spp-hostile-synth-no-whitelist
     description: rmc-ghost-role-information-spp-hostile-description
     rules: rmc-ghost-role-information-spp-rules
     reregister: false
@@ -172,7 +172,7 @@
     generation: RMCSynthGenTwo
     selectable: false
   - type: GhostRole
-    name: st-ghost-name-spp-friendly-synth-no-whitelist
+    name: stories-ghost-name-spp-friendly-synth-no-whitelist
     description: rmc-ghost-role-information-spp-friendly-description
     rules: rmc-ghost-role-information-spp-rules
     reregister: false

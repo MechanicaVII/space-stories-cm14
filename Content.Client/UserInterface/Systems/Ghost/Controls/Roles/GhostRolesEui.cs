@@ -3,7 +3,6 @@ using Content.Client.Eui;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Shared.Eui;
 using Content.Shared.Ghost.Roles;
-using Content.Shared.Roles; // Stories-GhostRoleWhitelist
 using Robust.Shared.Prototypes; // Stories-GhostRoleWhitelist
 using JetBrains.Annotations;
 using Robust.Client.GameObjects;
@@ -111,7 +110,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
                 // Stories-GhostRoleWhitelist-Start
                 if (hasAccess &&
                     group.First().Job is { } jobId &&
-                    prototypes.TryIndex<JobPrototype>(jobId, out var job) &&
+                    prototypes.TryIndex(jobId, out var job) &&
                     !requirementsManager.CheckWhitelist(job, out var whitelistReason))
                 {
                     hasAccess = false;

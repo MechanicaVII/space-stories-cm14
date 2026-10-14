@@ -416,8 +416,10 @@ public abstract class SharedStrippableSystem : EntitySystem
             return false;
         }
 
-        if (!CanStripHandAttempt(user.Owner, target.Owner, activeItem.Value, true)) // Stories-StripHandAttempt
+        // Stories-StripHandAttempt-Start
+        if (!CanStripHandAttempt(user.Owner, target.Owner, activeItem.Value, true))
             return false;
+        // Stories-StripHandAttempt-End
 
         return true;
     }
@@ -545,8 +547,10 @@ public abstract class SharedStrippableSystem : EntitySystem
             return false;
         }
 
-        if (!CanStripHandAttempt(user, target.Owner, item, false)) // Stories-StripHandAttempt
+        // Stories-StripHandAttempt-Start
+        if (!CanStripHandAttempt(user, target.Owner, item, false))
             return false;
+        // Stories-StripHandAttempt-End
 
         return true;
     }

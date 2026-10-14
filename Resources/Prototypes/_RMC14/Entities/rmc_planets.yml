@@ -27,6 +27,16 @@
       scenarioProbability: 0.1
     - scenarioName: none
       scenarioProbability: 0.9
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
       # Stories-SynthSurvivor-Start
       RMCSyntheticColony:
@@ -115,6 +125,7 @@
       scenarioProbability: 0.8
     survivorJobs:
     - RMCSurvivorCommandingOfficer: 1
+    - RMCSyntheticColony: 1 # Stories-SynthSurvivor
     - CMSurvivor: -1
     - CMSurvivorCorporate: 2
     - CMSurvivorDoctor: 3
@@ -231,6 +242,16 @@
       scenarioProbability: 0.15
     - scenarioName: none # 85% chance of regular surv. Reduce to 75% (0.75) once CLF survs are in.
       scenarioProbability: 0.85
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants: # Civ survivor is default one
       # Stories-SynthSurvivor-Start
       RMCSyntheticColony:
@@ -309,6 +330,16 @@
       scenarioProbability: 0.15
     - scenarioName: none
       scenarioProbability: 0.85
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
       # Stories-SynthSurvivor-Start
       RMCSyntheticColony:
@@ -388,6 +419,16 @@
       scenarioProbability: 0.6
     - scenarioName: spp_bar
       scenarioProbability: 0.4
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
       # Stories-SynthSurvivor-Start
       RMCSyntheticColony:
@@ -528,6 +569,7 @@
       scenarioProbability: 1
     survivorJobs:
     - RMCSurvivorCommandingOfficer: 1
+    - RMCSyntheticColony: 1 # Stories-SynthSurvivor
     - CMSurvivor: -1
     - CMSurvivorCorporate: 2
     - CMSurvivorDoctor: 3
@@ -595,6 +637,16 @@
       scenarioProbability: 1
     specialFaxes:
       Liaison: RMCPaperWeYaLiaisonBriefingKutjevo
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
       # Stories-SynthSurvivor-Start
       RMCSyntheticColony:
@@ -706,6 +758,16 @@
     - scenarioName: none
       scenarioProbability: 0.7
     minPlayers: 130
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
       CMSurvivor:
       - RMCSurvivorHybrisaCivilian: -1
@@ -806,6 +868,16 @@
       scenarioProbability: 0.4
     - scenarioName: none # reduce by 0.1 once clf survs are in
       scenarioProbability: 0.6
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
       # Stories-SynthSurvivor-Start
       RMCSyntheticColony:

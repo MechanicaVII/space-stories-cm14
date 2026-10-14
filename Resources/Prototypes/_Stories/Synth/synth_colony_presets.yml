@@ -45,56 +45,331 @@
     tryRandomOutfitsInhand: true
     randomOutfits:
     # Doctor
-    - [ CMSatchelMedical, CMJumpsuitCMO, ClothingOuterCoatLab, CMMaskSterile, RMCGlassesMedicalHUDGlasses, CMBeltMedicBagFilled, CMHandsLatex, RMCShoesLaceupDress, CMPortableSurgicalBedSpawnFolded, RMCFlashlightPen, CMHealthAnalyzer, RMCFireAxe ]
+    -
+      - CMSatchelMedical
+      - CMJumpsuitCMO
+      - ClothingOuterCoatLab
+      - CMMaskSterile
+      - RMCGlassesMedicalHUDGlasses
+      - CMBeltMedicBagFilled
+      - CMHandsLatex
+      - RMCShoesLaceupDress
+      - CMPortableSurgicalBedSpawnFolded
+      - RMCFlashlightPen
+      - CMHealthAnalyzer
+      - RMCFireAxe
     # Surgeon
-    - [ CMSatchelMedical, CMScrubsGreen, RMCMedicalApron, CMMaskSterile, RMCGlassesMedicalHUDGlasses, CMBeltMedicBagFilled, CMHandsLatex, RMCShoesWhite, CMPortableSurgicalBedSpawnFolded, RMCFlashlightPen, CMHealthAnalyzer, RMCFireAxe ]
+    -
+      - CMSatchelMedical
+      - CMScrubsGreen
+      - RMCMedicalApron
+      - CMMaskSterile
+      - RMCGlassesMedicalHUDGlasses
+      - CMBeltMedicBagFilled
+      - CMHandsLatex
+      - RMCShoesWhite
+      - CMPortableSurgicalBedSpawnFolded
+      - RMCFlashlightPen
+      - CMHealthAnalyzer
+      - RMCFireAxe
     # EMT (teal)
-    - [ CMSatchelMedical, RMCJumpsuitEMTGreen, RMCHazardVestEMTGreen, RMCHeadCapFlippable, CMMaskSterile, RMCGlassesMedicalHUDGlasses, CMBeltMedicalFilled, CMHandsLatex, CMBootsBlackFilled, CMRollerBedSpawnFolded, RMCFlashlightPen, CMHealthAnalyzer, RMCFireAxe ]
+    -
+      - CMSatchelMedical
+      - RMCJumpsuitEMTGreen
+      - RMCHazardVestEMTGreen
+      - RMCHeadCapFlippable
+      - CMMaskSterile
+      - RMCGlassesMedicalHUDGlasses
+      - CMBeltMedicalFilled
+      - CMHandsLatex
+      - CMBootsBlackFilled
+      - CMRollerBedSpawnFolded
+      - RMCFlashlightPen
+      - CMHealthAnalyzer
+      - RMCFireAxe
     # EMT (red)
-    - [ CMSatchelMedical, RMCJumpsuitEMT, RMCCoatParamedic, CMMaskSterile, RMCGlassesMedicalHUDGlasses, CMBeltMedicalFilled, CMHandsLatex, CMBootsBlackFilled, CMRollerBedSpawnFolded, RMCFlashlightPen, CMHealthAnalyzer, RMCFireAxe ]
+    -
+      - CMSatchelMedical
+      - RMCJumpsuitEMT
+      - RMCCoatParamedic
+      - CMMaskSterile
+      - RMCGlassesMedicalHUDGlasses
+      - CMBeltMedicalFilled
+      - CMHandsLatex
+      - CMBootsBlackFilled
+      - CMRollerBedSpawnFolded
+      - RMCFlashlightPen
+      - CMHealthAnalyzer
+      - RMCFireAxe
     # Scientist
-    - [ CMSatchel, CMJumpsuitLiaisonBrown, RMCLabcoatScience, RMCGlassesReagentHUDGlasses, CMBeltMedicBagFilled, CMHandsLatex, RMCShoesLaceupDress, RMCMotionDetector, RMCFireAxe ]
+    -
+      - CMSatchel
+      - CMJumpsuitLiaisonBrown
+      - RMCLabcoatScience
+      - RMCGlassesReagentHUDGlasses
+      - CMBeltMedicBagFilled
+      - CMHandsLatex
+      - RMCShoesLaceupDress
+      - RMCMotionDetector
+      - RMCFireAxe
     # Biohazard
-    - [ RMCSatchelVirology, RMCJumpsuitCivilianScientist, RMCSuitBioGeneral, RMCHoodBioGeneral, CMMaskSterile, RMCGlassesReagentHUDGlasses, CMBeltMedicBagFilled, CMHandsLatex, RMCShoesWhite, RMCMotionDetector, RMCFireAxe ]
+    -
+      - RMCSatchelVirology
+      - RMCJumpsuitCivilianScientist
+      - RMCSuitBioGeneral
+      - RMCHoodBioGeneral
+      - CMMaskSterile
+      - RMCGlassesReagentHUDGlasses
+      - CMBeltMedicBagFilled
+      - CMHandsLatex
+      - RMCShoesWhite
+      - RMCMotionDetector
+      - RMCFireAxe
     # Archaeologist
-    - [ CMSatchel, RMCJumpsuitBlueWorkwear, CMUtilityVest, RMCBoonieTan, CMHandsLatex, RMCShoesLaceupBrown, RMCToolSpade, RMCExplosivePlastic, RMCFlashlightLantern, CMSandbagEmpty25, RMCPickaxe ]
+    -
+      - CMSatchel
+      - RMCJumpsuitBlueWorkwear
+      - CMUtilityVest
+      - RMCBoonieTan
+      - CMHandsLatex
+      - RMCShoesLaceupBrown
+      - RMCToolSpade
+      - RMCExplosivePlastic
+      - RMCFlashlightLantern
+      - CMSandbagEmpty25
+      - RMCPickaxe
     # Engineer
-    - [ CMSatchelEngineer, RMCJumpsuitCivilianEngineerWorker, RMCHazardVestYellow, RMCHardHat, CMBeltUtilityFilled, CMHandsInsulated, CMBootsBlackFilled, CMSheetMetal20, RMCNailgunCompact, RMCMagazineSMGNailgun, STMaintenanceJack ]
+    -
+      - CMSatchelEngineer
+      - RMCJumpsuitCivilianEngineerWorker
+      - RMCHazardVestYellow
+      - RMCHardHat
+      - CMBeltUtilityFilled
+      - CMHandsInsulated
+      - CMBootsBlackFilled
+      - CMSheetMetal20
+      - RMCNailgunCompact
+      - RMCMagazineSMGNailgun
+      - STMaintenanceJack
     # Firefighter
-    - [ RMCJumpsuitCivilianEngineerWorker, RMCSuitFirefighter, RMCHardhatRed, RMCBeltUtilityGeneral, CMHandsInsulated, CMBootsBlackFilled, CMFireExtinguisherPortable, STMaintenanceJack ]
+    -
+      - RMCJumpsuitCivilianEngineerWorker
+      - RMCSuitFirefighter
+      - RMCHardhatRed
+      - RMCBeltUtilityGeneral
+      - CMHandsInsulated
+      - CMBootsBlackFilled
+      - CMFireExtinguisherPortable
+      - STMaintenanceJack
     # Miner
-    - [ CMSatchelEngineer, RMCJumpsuitTMCC, RMCHazardVestTMCC, RMCHardhatOrange, CMBeltUtilityFilled, CMHandsBrown, CMBootsBrownFilled, STMaintenanceJack, RMCPickaxe ]
+    -
+      - CMSatchelEngineer
+      - RMCJumpsuitTMCC
+      - RMCHazardVestTMCC
+      - RMCHardhatOrange
+      - CMBeltUtilityFilled
+      - CMHandsBrown
+      - CMBootsBrownFilled
+      - STMaintenanceJack
+      - RMCPickaxe
     # Chef
-    - [ RMCSatchelVirology, CMJumpsuitLiaisonBlack, RMCChefApron, ClothingHeadHatChef, CMMaskSterile, RMCGogglesBallistic, CMHandsLatex, CMBootsBlackFilled, RMCBoxPizzaGalaxyMystery, RMCKitchenKnifeButcher ]
+    -
+      - RMCSatchelVirology
+      - CMJumpsuitLiaisonBlack
+      - RMCChefApron
+      - ClothingHeadHatChef
+      - CMMaskSterile
+      - RMCGogglesBallistic
+      - CMHandsLatex
+      - CMBootsBlackFilled
+      - RMCBoxPizzaGalaxyMystery
+      - RMCKitchenKnifeButcher
     # Teacher
-    - [ RMCSatchelNorm, RMCJumpsuitCivilianBrown, RMCCoatBomberBlack, RMCHipsterGlasses, CMBootsBlackFilled, CMSparePDTLBattleBuddyKit, RMCFoodSnackChipsPepper, CMHealthAnalyzer, RMCSprayBottleSpaceCleaner, RMCCrayonBox ]
+    -
+      - RMCSatchelNorm
+      - RMCJumpsuitCivilianBrown
+      - RMCCoatBomberBlack
+      - RMCHipsterGlasses
+      - CMBootsBlackFilled
+      - CMSparePDTLBattleBuddyKit
+      - RMCFoodSnackChipsPepper
+      - CMHealthAnalyzer
+      - RMCSprayBottleSpaceCleaner
+      - RMCCrayonBox
     # Surveyor
-    - [ RMCSatchelLightpack, RMCJumpsuitCivilianGreen, RMCJacketWindbreakerExpedition, CMHeadFlapCap, RMCMaskTornScarfBlack, RMCBeltUtilityGeneral, RMCHandsVeteran, CMBootsBlackFilled, CMPackFlare, RMCBinoculars, RMCScabbardMacheteFilled ]
+    -
+      - RMCSatchelLightpack
+      - RMCJumpsuitCivilianGreen
+      - RMCJacketWindbreakerExpedition
+      - CMHeadFlapCap
+      - RMCMaskTornScarfBlack
+      - RMCBeltUtilityGeneral
+      - RMCHandsVeteran
+      - CMBootsBlackFilled
+      - CMPackFlare
+      - RMCBinoculars
+      - RMCScabbardMacheteFilled
     # Freelancer
-    - [ RMCSatchelLightpack, CMUtilityVest, RMCHelmetWelding, CMMaskCoif, CMBeltMarine, RMCHandsVeteran, RMCBootsSPPFilled, CMGrenadeSmoke, RMCPouchFlareFilled, RMCScabbardKatana ]
+    -
+      - RMCSatchelLightpack
+      - RMCJumpsuitFreelancer
+      - CMUtilityVest
+      - RMCHelmetWelding
+      - CMMaskCoif
+      - CMBeltMarine
+      - RMCHandsVeteran
+      - RMCBootsSPPFilled
+      - CMGrenadeSmoke
+      - RMCPouchFlareFilled
+      - RMCScabbardKatana
     # Trucker
-    - [ RMCSatchelNorm, RMCJumpsuitCivilianFrontier, ClothingHeadHatTrucker, CMBootsBlackFilled, CMPamphletPowerloader, RMCVanWheel, RMCBaseballBatMetal ]
+    -
+      - RMCSatchelNorm
+      - RMCJumpsuitCivilianFrontier
+      - ClothingHeadHatTrucker
+      - CMBootsBlackFilled
+      - CMPamphletPowerloader
+      - RMCVanWheel
+      - RMCBaseballBatMetal
     # Bartender
-    - [ RMCSatchelBlack, RMCJumsuitWhiteService, RMCCoatWaistcoat, ClothingHeadHatBowlerHat, CMHandsBlackMarine, CMBootsBlackFilled, RMCDrinkAlcoholRum, RMCBeerPack, RMCBaseballBat ]
+    -
+      - RMCSatchelBlack
+      - RMCJumsuitWhiteService
+      - RMCCoatWaistcoat
+      - ClothingHeadHatBowlerHat
+      - CMHandsBlackMarine
+      - CMBootsBlackFilled
+      - RMCDrinkAlcoholRum
+      - RMCBeerPack
+      - RMCBaseballBat
     # Fisher
-    - [ CMSatchel, RMCJumpsuitLiaisonGreyWorkwear, RMCBoonieTan, RMCHipsterGlasses, CMBeltUtilityFilled, CMHandsBrown, CMBootsBrownFilled, RMCSprayBottleSpaceCleaner, RMCFishingPole, RMCFoodFishCrab ]
+    -
+      - CMSatchel
+      - RMCJumpsuitLiaisonGreyWorkwear
+      - RMCBoonieTan
+      - RMCHipsterGlasses
+      - CMBeltUtilityFilled
+      - CMHandsBrown
+      - CMBootsBrownFilled
+      - RMCSprayBottleSpaceCleaner
+      - RMCFishingPole
+      - RMCFoodFishCrab
     # Botanist
-    - [ RMCSatchelHydro, RMCJumpsuitLiaisonGreenWorkwear, RMCVestBrown, RMCHeadCapFlippable, RMCHipsterGlasses, CMHandsBrown, RMCShoesBrown, RMCToolSpade, RMCToolHatchet ]
+    -
+      - RMCSatchelHydro
+      - RMCJumpsuitLiaisonGreenWorkwear
+      - RMCVestBrown
+      - RMCHeadCapFlippable
+      - RMCHipsterGlasses
+      - CMHandsBrown
+      - RMCShoesBrown
+      - RMCToolSpade
+      - RMCToolHatchet
     # Journalist
-    - [ CMSatchel, CMJumpsuitLiaisonBlack, RMCJacketCorporateBlack, RMCHipsterGlasses, RMCShoesLaceupDress, RMCUniversalRecorder, RMCSprayBottleSpaceCleaner, RMCCameraBroadcasting ]
+    -
+      - CMSatchel
+      - CMJumpsuitLiaisonBlack
+      - RMCJacketCorporateBlack
+      - RMCHipsterGlasses
+      - RMCShoesLaceupDress
+      - RMCUniversalRecorder
+      - RMCSprayBottleSpaceCleaner
+      - RMCCameraBroadcasting
     # Air Traffic Controller
-    - [ RMCSatchelNorm, RMCJumpsuitCivilianYellow, RMCHazardVest, RMCHeadCapFlippable, RMCEarmuffs, RMCBeltUtilityGeneral, RMCHandsVeteran, CMBootsBlackFilled, CMPackFlare, RMCBinoculars, RMCScabbardMacheteFilled ]
+    -
+      - RMCSatchelNorm
+      - RMCJumpsuitCivilianYellow
+      - RMCHazardVest
+      - RMCHeadCapFlippable
+      - RMCEarmuffs
+      - RMCBeltUtilityGeneral
+      - RMCHandsVeteran
+      - CMBootsBlackFilled
+      - CMPackFlare
+      - RMCBinoculars
+      - RMCScabbardMacheteFilled
     # CMB
-    - [ CMSatchelSecurity, RMCMarshalCMBUniform, RMCCoatBureauDeputy, RMCHeadCapBureau, CMGlassesSecurity, CMBeltSecurityMarshalFilled, RMCHandsVeteran, CMBootsBlackFilled, RMCUniversalRecorder, RMCTelescopicBaton, RMCScabbardMacheteFilled ]
+    -
+      - CMSatchelSecurity
+      - RMCMarshalCMBUniform
+      - RMCCoatBureauDeputy
+      - RMCHeadCapBureau
+      - CMGlassesSecurity
+      - CMBeltSecurityMarshalFilled
+      - RMCHandsVeteran
+      - CMBootsBlackFilled
+      - RMCUniversalRecorder
+      - RMCTelescopicBaton
+      - RMCScabbardMacheteFilled
     # We-Ya Security
-    - [ CMSatchelSecurity, RMCJumsuitWhiteService, RMCOuterClothingExternalWebbing, RMCHeadCapWestonYamadaDark, CMGlassesSecurity, CMBeltSecurityMPFilled, RMCHandsBlack, CMBootsBlackFilled, RMCHandcuffs, RMCHandcuffs, RMCTelescopicBaton ]
+    -
+      - CMSatchelSecurity
+      - RMCJumsuitWhiteService
+      - RMCOuterClothingExternalWebbing
+      - RMCHeadCapWestonYamadaDark
+      - CMGlassesSecurity
+      - CMBeltSecurityMPFilled
+      - RMCHandsBlack
+      - CMBootsBlackFilled
+      - RMCHandcuffs
+      - RMCHandcuffs
+      - RMCTelescopicBaton
     # We-Ya Corporate
-    - [ CMSatchelSecure, RMCJumpsuitWEYATrainee, CMBeltUtilityFilled, ClothingHandsGlovesLeather, RMCShoesLaceupDress, CMPenClicky, CMFolderBaseEmpty, RMCUniversalRecorder, CMClipboard, RMCFireAxe ]
+    -
+      - CMSatchelSecure
+      - RMCJumpsuitWEYATrainee
+      - CMBeltUtilityFilled
+      - ClothingHandsGlovesLeather
+      - RMCShoesLaceupDress
+      - CMPenClicky
+      - CMFolderBaseEmpty
+      - RMCUniversalRecorder
+      - CMClipboard
+      - RMCFireAxe
     # Detective
-    - [ CMSatchelSecurity, ClothingUniformJumpsuitDetective, RMCCoatBureauTrenchCoatBrown, RMCHeadCapFedoraBrown, CMGlassesSecurity, CMBeltSecurityMPFilled, RMCHandsBlack, CMBootsBlackFilled, RMCUniversalRecorder, RMCTelescopicBaton ]
+    -
+      - CMSatchelSecurity
+      - ClothingUniformJumpsuitDetective
+      - RMCCoatBureauTrenchCoatBrown
+      - RMCHeadCapFedoraBrown
+      - CMGlassesSecurity
+      - CMBeltSecurityMPFilled
+      - RMCHandsBlack
+      - CMBootsBlackFilled
+      - RMCUniversalRecorder
+      - RMCTelescopicBaton
     # ICC
-    - [ CMSatchelSecure, CMJumpsuitLiaisonBlack, RMCHazardVestYellow, RMCHardhatWhite, RMCShoesLaceupDress, CMPenClicky, CMFolderBaseEmpty, RMCUniversalRecorder, CMClipboard, RMCFireAxe ]
+    -
+      - CMSatchelSecure
+      - CMJumpsuitLiaisonBlack
+      - RMCHazardVestYellow
+      - RMCHardhatWhite
+      - RMCShoesLaceupDress
+      - CMPenClicky
+      - CMFolderBaseEmpty
+      - RMCUniversalRecorder
+      - CMClipboard
+      - RMCFireAxe
     # Pilot
-    - [ RMCSatchelBlack, RMCJumpsuitLiaisonPilot, RMCCoatWeYaPilot, RMCHeadWeYaPilotCap, RMCGlassesAviatorsSilver, RMCShoesLaceupDress, CMPenClicky, CMClipboard, RMCTelescopicBaton ]
+    -
+      - RMCSatchelBlack
+      - RMCJumpsuitLiaisonPilot
+      - RMCCoatWeYaPilot
+      - RMCHeadWeYaPilotCap
+      - RMCGlassesAviatorsSilver
+      - RMCShoesLaceupDress
+      - CMPenClicky
+      - CMClipboard
+      - RMCTelescopicBaton
     # Radiation
-    - [ CMSatchelEngineer, CMJumpsuitMaintTech, RMCSuitRadiation, RMCHeadRadiationHood, CMHandsInsulated, CMBootsBlackFilled, RMCWelderIndustrialHighCapacity, RMCDoubleEmergencyOxygenTank, RMCPouchElectronicsFill, STMaintenanceJack ]
+    -
+      - CMSatchelEngineer
+      - CMJumpsuitMaintTech
+      - RMCSuitRadiation
+      - RMCHeadRadiationHood
+      - CMHandsInsulated
+      - CMBootsBlackFilled
+      - RMCWelderIndustrialHighCapacity
+      - RMCDoubleEmergencyOxygenTank
+      - RMCPouchElectronicsFill
+      - STMaintenanceJack

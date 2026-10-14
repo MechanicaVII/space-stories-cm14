@@ -77,7 +77,7 @@
     priority: 30
   # Stories-SynthERT-Start
   - id: synth
-    name: st-ert-role-pmc-synth
+    name: stories-ert-role-pmc-synth
     job: RMCPMCSynthetic
     ghostRoleEntityPool:
     - entity: STRandomHumanoidPMCSynthetic
@@ -89,7 +89,7 @@
     seatTags: [ medic, troop ]
     priority: 40
   - id: synthNoWhitelist
-    name: st-ert-role-pmc-synth-no-whitelist
+    name: stories-ert-role-pmc-synth-no-whitelist
     job: STPMCSyntheticNoWhitelist
     ghostRoleEntityPool:
     - entity: STRandomHumanoidPMCSyntheticNoWhitelist
@@ -203,7 +203,7 @@
     priority: 30
   # Stories-SynthERT-Start
   - id: synth
-    name: st-ert-role-pmc-synth
+    name: stories-ert-role-pmc-synth
     job: RMCPMCSynthetic
     ghostRoleEntityPool:
     - entity: STRandomHumanoidPMCSynthetic
@@ -215,7 +215,7 @@
     seatTags: [ medic, troop ]
     priority: 40
   - id: synthNoWhitelist
-    name: st-ert-role-pmc-synth-no-whitelist
+    name: stories-ert-role-pmc-synth-no-whitelist
     job: STPMCSyntheticNoWhitelist
     ghostRoleEntityPool:
     - entity: STRandomHumanoidPMCSyntheticNoWhitelist

@@ -4,7 +4,7 @@ using Content.Shared.Inventory.Events;
 
 namespace Content.Shared._Stories.Synth.WorkingJoe;
 
-public sealed class STUnstrippableWhileAbleSystem : EntitySystem
+public sealed class StoriesUnstrippableWhileAbleSystem : EntitySystem
 {
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
 

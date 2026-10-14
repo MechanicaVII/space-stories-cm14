@@ -81,7 +81,7 @@
     seatTags: [ troop ]
   # Stories-SynthERT-Start
   - id: synth
-    name: st-ert-role-spp-synth
+    name: stories-ert-role-spp-synth
     job: RMCSPPSynthetic
     ghostRoleEntityPool:
     - entity: STRandomHumanoidSPPSyntheticFriendly
@@ -93,7 +93,7 @@
     seatTags: [ medic, troop ]
     priority: 40
   - id: synthNoWhitelist
-    name: st-ert-role-spp-synth-no-whitelist
+    name: stories-ert-role-spp-synth-no-whitelist
     job: STSPPSyntheticNoWhitelist
     ghostRoleEntityPool:
     - entity: STRandomHumanoidSPPSyntheticFriendlyNoWhitelist
@@ -200,7 +200,7 @@
     seatTags: [ troop ]
   # Stories-SynthERT-Start
   - id: synth
-    name: st-ert-role-spp-synth
+    name: stories-ert-role-spp-synth
     job: RMCSPPSynthetic
     ghostRoleEntityPool:
     - entity: STRandomHumanoidSPPSyntheticHostile
@@ -212,7 +212,7 @@
     seatTags: [ medic, troop ]
     priority: 40
   - id: synthNoWhitelist
-    name: st-ert-role-spp-synth-no-whitelist
+    name: stories-ert-role-spp-synth-no-whitelist
     job: STSPPSyntheticNoWhitelist
     ghostRoleEntityPool:
     - entity: STRandomHumanoidSPPSyntheticHostileNoWhitelist
