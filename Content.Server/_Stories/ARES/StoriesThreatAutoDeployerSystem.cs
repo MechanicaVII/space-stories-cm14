@@ -50,13 +50,20 @@ public sealed class StoriesThreatAutoDeployerSystem : EntitySystem
             {
                 auto.LastThreat = now;
                 if (!deployer.IsDeployed && _deployer.TryDeploy(uid, true, equipmentDeployerComponent: deployer))
+                    auto.PendingAnnouncement = true;
+
+                if (auto.PendingAnnouncement && deployer.IsDeployed)
                     Announce((uid, auto), now);
 
                 continue;
             }
 
-            if (deployer.IsDeployed && now >= auto.LastThreat + auto.RetractDelay)
-                _deployer.TryDeploy(uid, false, equipmentDeployerComponent: deployer);
+            if (deployer.IsDeployed &&
+                now >= auto.LastThreat + auto.RetractDelay &&
+                _deployer.TryDeploy(uid, false, equipmentDeployerComponent: deployer))
+            {
+                auto.PendingAnnouncement = false;
+            }
         }
     }
 
@@ -93,9 +100,16 @@ public sealed class StoriesThreatAutoDeployerSystem : EntitySystem
 
     private void Announce(Entity<StoriesThreatAutoDeployerComponent> ent, TimeSpan now)
     {
-        if (ent.Comp.Announcement is not { } announcement || now < _nextAnnouncement)
+        if (ent.Comp.Announcement is not { } announcement)
+        {
+            ent.Comp.PendingAnnouncement = false;
+            return;
+        }
+
+        if (now < _nextAnnouncement)
             return;
 
+        ent.Comp.PendingAnnouncement = false;
         _nextAnnouncement = now + ent.Comp.AnnouncementCooldown;
         _marineAnnounce.AnnounceARES(ent.Owner, Loc.GetString(announcement), ent.Comp.AnnouncementSound);
     }

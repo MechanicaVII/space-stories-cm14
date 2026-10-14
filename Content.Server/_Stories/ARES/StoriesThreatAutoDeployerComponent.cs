@@ -35,4 +35,7 @@ public sealed partial class StoriesThreatAutoDeployerComponent : Component
 
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
     public TimeSpan LastThreat;
+
+    [DataField]
+    public bool PendingAnnouncement;
 }
