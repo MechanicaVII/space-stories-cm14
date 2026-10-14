@@ -16,7 +16,7 @@
     - name: Standard Equipment
       takeAll: CMStandard
       entries:
-      # /obj/item/coin/marine/synth
+      - id: STSynthExperimentalToolsToken # Stories-SynthExperimentalToken
       # /obj/item/device/defibrillator/synthetic
       - id: RMCSynthResetKey
       - id: RMCHeadsetSynth

@@ -3,6 +3,7 @@ using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Pulling;
 using Content.Shared._RMC14.Sprite;
 using Content.Shared._RMC14.Xenonids;
+using Content.Shared._Stories.Synth; // Stories-SynthGrip
 using Content.Shared.ActionBlocker;
 using Content.Shared.DoAfter;
 using Content.Shared.DragDrop;
@@ -272,6 +273,9 @@ public sealed class FiremanCarrySystem : EntitySystem
             return;
 
         if (!ent.Comp.BeingCarried && !IsBeingAggressivelyGrabbed(ent))
+            return;
+
+        if (HasComp<STSynthGrippedComponent>(ent)) // Stories-SynthGrip
             return;
 
         var ev = new BreakFiremanCarryDoAfterEvent();
