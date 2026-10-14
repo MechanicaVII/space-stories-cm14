@@ -344,6 +344,10 @@
         points: 15
       - id: RMCSatchelMarineIntelChestrig
         points: 15
+      # Stories-SynthExperimentalMeson-Start
+      - id: RMCGlassesExperimentalMeson
+        points: 15
+      # Stories-SynthExperimentalMeson-End
 
 - type: entity
   parent: CMVendorBundleRiflemanApparel
