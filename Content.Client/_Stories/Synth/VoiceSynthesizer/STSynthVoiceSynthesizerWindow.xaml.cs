@@ -66,11 +66,12 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
             }
 
             var lineText = Loc.GetString(line.Text);
+            var labelText = Loc.TryGetString($"{line.Text}.label", out var label) ? label : lineText;
             var lineId = proto.ID;
 
             var tabButton = new Button
             {
-                Text = lineText,
+                Text = labelText,
                 HorizontalExpand = true,
                 ToolTip = lineId,
             };
@@ -79,7 +80,7 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
 
             var searchButton = new Button
             {
-                Text = lineText,
+                Text = labelText,
                 HorizontalExpand = true,
                 ToolTip = lineId,
                 Visible = false,
@@ -87,7 +88,7 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
             searchButton.OnPressed += _ => TryPlayLine(lineId);
             SearchResultsContainer.AddChild(searchButton);
 
-            _allLines.Add((lineId, lineText, searchButton));
+            _allLines.Add((lineId, $"{labelText}\n{lineText}", searchButton));
         }
     }
 
