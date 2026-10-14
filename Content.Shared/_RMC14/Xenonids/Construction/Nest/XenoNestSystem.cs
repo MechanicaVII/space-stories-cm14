@@ -92,8 +92,8 @@ public sealed class XenoNestSystem : EntitySystem
         SubscribeLocalEvent<XenoNestComponent, EntityTerminatingEvent>(OnNestTerminating);
         SubscribeLocalEvent<XenoNestComponent, GetVerbsEvent<InteractionVerb>>(OnNestGetVerbs);
         SubscribeLocalEvent<XenoNestComponent, XenoUnnestDoAfterEvent>(OnUnnestDoAfter);
-        SubscribeLocalEvent<XenoNestComponent, AttackAttemptEvent>(OnNestAttackAttempt);
-        SubscribeLocalEvent<XenoNestSurfaceComponent, AttackAttemptEvent>(OnNestSurfaceAttackAttempt);
+        SubscribeLocalEvent<XenoNestComponent, GettingAttackedAttemptEvent>(OnNestAttackAttempt);
+        SubscribeLocalEvent<XenoNestSurfaceComponent, GettingAttackedAttemptEvent>(OnNestSurfaceAttackAttempt);
 
         SubscribeLocalEvent<XenoNestableComponent, BeforeRangedInteractEvent>(OnNestableBeforeRangedInteract);
         SubscribeLocalEvent<XenoNestableComponent, ShouldHandleVirtualItemInteractEvent>(OnNestableShouldHandle);
@@ -211,30 +211,30 @@ public sealed class XenoNestSystem : EntitySystem
         _adminLog.Add(LogType.RMCXenoNest, $"{ToPrettyString(args.User):user} released {ToPrettyString(nested):victim} from nest {ToPrettyString(ent.Owner):nest}");
     }
 
-    private void OnNestAttackAttempt(Entity<XenoNestComponent> ent, ref AttackAttemptEvent args)
+    private void OnNestAttackAttempt(Entity<XenoNestComponent> ent, ref GettingAttackedAttemptEvent args)
     {
         if (args.Disarm || ent.Comp.Nested is null)
             return;
 
-        if (!HasComp<XenoComponent>(args.Uid) || !_hive.FromSameHive(ent.Owner, args.Uid))
+        if (!HasComp<XenoComponent>(args.Attacker) || !_hive.FromSameHive(ent.Owner, args.Attacker))
             return;
 
-        if (_hive.CanXenoUnnest(args.Uid))
+        if (_hive.CanXenoUnnest(args.Attacker))
             return;
 
-        args.Cancel();
-        _popup.PopupClient(Loc.GetString("rmc-xeno-nest-unnest-permission-denied"), ent.Owner, args.Uid, PopupType.MediumCaution);
+        args.Cancelled = true;
+        _popup.PopupClient(Loc.GetString("rmc-xeno-nest-unnest-permission-denied"), ent.Owner, args.Attacker, PopupType.MediumCaution);
     }
 
-    private void OnNestSurfaceAttackAttempt(Entity<XenoNestSurfaceComponent> ent, ref AttackAttemptEvent args)
+    private void OnNestSurfaceAttackAttempt(Entity<XenoNestSurfaceComponent> ent, ref GettingAttackedAttemptEvent args)
     {
         if (args.Disarm || ent.Comp.Nests.Count == 0)
             return;
 
-        if (!HasComp<XenoComponent>(args.Uid) || !_hive.FromSameHive(ent.Owner, args.Uid))
+        if (!HasComp<XenoComponent>(args.Attacker) || !_hive.FromSameHive(ent.Owner, args.Attacker))
             return;
 
-        if (_hive.CanXenoUnnest(args.Uid))
+        if (_hive.CanXenoUnnest(args.Attacker))
             return;
 
         var occupied = false;
@@ -250,8 +250,8 @@ public sealed class XenoNestSystem : EntitySystem
         if (!occupied)
             return;
 
-        args.Cancel();
-        _popup.PopupClient(Loc.GetString("rmc-xeno-nest-unnest-permission-denied"), ent.Owner, args.Uid, PopupType.MediumCaution);
+        args.Cancelled = true;
+        _popup.PopupClient(Loc.GetString("rmc-xeno-nest-unnest-permission-denied"), ent.Owner, args.Attacker, PopupType.MediumCaution);
     }
 
     private void OnNestableBeforeRangedInteract(Entity<XenoNestableComponent> ent, ref BeforeRangedInteractEvent args)

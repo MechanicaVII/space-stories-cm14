@@ -551,6 +551,9 @@ public sealed partial class XenoSystem : EntitySystem
         if (_xenoNestedQuery.HasComp(target))
             return false;
 
+        if (_victimInfectedQuery.HasComp(target) && !_hive.CanXenoHarm(xeno))
+            return false;
+
         if (canAttackBarricades && HasComp<BarricadeComponent>(target))
             return true;
 
