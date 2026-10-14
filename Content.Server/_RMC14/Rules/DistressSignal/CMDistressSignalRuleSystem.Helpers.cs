@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Content.Server._Stories.Spawners; // Stories-SpawnPhase
 using Content.Server.GameTicking; // Stories-SpawnPhase
+using Content.Server.GameTicking.Events; // Stories-SynthSurvivor
 using Content.Server.Power.Components;
 using Content.Server.Spawners.Components;
 using Content.Shared._RMC14.Item;
@@ -11,6 +11,7 @@ using Content.Shared._RMC14.WeedKiller;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Construction.FloorResin;
 using Content.Shared._RMC14.Xenonids.Construction.Tunnel;
+using Content.Shared._Stories.Spawners; // Stories-SpawnPhase
 using Content.Shared.Coordinates;
 using Content.Shared.Fax.Components;
 using Content.Shared.GameTicking.Components;
@@ -60,6 +61,13 @@ public sealed partial class CMDistressSignalRuleSystem
         var jobBans = _bans.GetJobBans(player.UserId);
         if (jobBans != null && jobBans.Contains(role))
             return false;
+
+        // Stories-SynthSurvivor-Start
+        var ev = new IsJobAllowedEvent(player, role);
+        RaiseLocalEvent(ref ev);
+        if (ev.Cancelled)
+            return false;
+        // Stories-SynthSurvivor-End
 
         return _playTime.IsAllowed(player, role);
     }
@@ -267,7 +275,7 @@ public sealed partial class CMDistressSignalRuleSystem
                 continue;
 
             // Stories-SpawnPhase-Start
-            if (TryComp(uid, out STSpawnPointPhaseComponent? phase) &&
+            if (TryComp(uid, out StoriesSpawnPointPhaseComponent? phase) &&
                 !(GameTicker.RunLevel == GameRunLevel.InRound ? phase.LateJoin : phase.RoundStart))
             {
                 continue;

@@ -5,17 +5,17 @@ using Content.Shared.Whitelist;
 
 namespace Content.Shared._Stories.Synth.ResetKey;
 
-public sealed class STSynthResetKeyRestrictionSystem : EntitySystem
+public sealed class StoriesSynthResetKeyRestrictionSystem : EntitySystem
 {
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<STSynthResetKeyRestrictionComponent, BeforeRangedInteractEvent>(OnBeforeRangedInteract);
+        SubscribeLocalEvent<StoriesSynthResetKeyRestrictionComponent, BeforeRangedInteractEvent>(OnBeforeRangedInteract);
     }
 
-    private void OnBeforeRangedInteract(Entity<STSynthResetKeyRestrictionComponent> ent, ref BeforeRangedInteractEvent args)
+    private void OnBeforeRangedInteract(Entity<StoriesSynthResetKeyRestrictionComponent> ent, ref BeforeRangedInteractEvent args)
     {
         if (args.Handled || !args.CanReach || args.Target is not { } target)
             return;

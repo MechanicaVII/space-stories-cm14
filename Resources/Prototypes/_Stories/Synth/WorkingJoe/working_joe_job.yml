@@ -7,7 +7,7 @@
   playTimeTracker: STJobWorkingJoe
   icon: "RMCJobIconSynth"
   joinNotifyCrew: false
-  lateJoinAnnouncement: st-latejoin-arrival-announcement-working-joe
+  lateJoinAnnouncement: stories-latejoin-arrival-announcement-working-joe
   lateJoinChannels:
   - STApolloLink
   whitelisted: true

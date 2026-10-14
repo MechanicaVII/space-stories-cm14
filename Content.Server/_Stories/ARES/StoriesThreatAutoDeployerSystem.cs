@@ -6,30 +6,39 @@ using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Construction;
 using Content.Shared._RMC14.Xenonids.Weeds;
 using Content.Shared.Examine;
+using Content.Shared.GameTicking;
 using Content.Shared.Mobs.Systems;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Stories.ARES;
 
-public sealed class STThreatAutoDeployerSystem : EntitySystem
+public sealed class StoriesThreatAutoDeployerSystem : EntitySystem
 {
     [Dependency] private readonly SharedRMCEquipmentDeployerSystem _deployer = default!;
     [Dependency] private readonly ExamineSystemShared _examine = default!;
     [Dependency] private readonly GunIFFSystem _iff = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly MarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
-
-    private static readonly TimeSpan AnnouncementCooldown = TimeSpan.FromSeconds(60);
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     private readonly HashSet<EntityUid> _nearby = new();
     private TimeSpan _nextAnnouncement;
 
+    public override void Initialize()
+    {
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
+    }
+
+    private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
+    {
+        _nextAnnouncement = TimeSpan.Zero;
+    }
+
     public override void Update(float frameTime)
     {
         var now = _timing.CurTime;
-        var query = EntityQueryEnumerator<STThreatAutoDeployerComponent, RMCEquipmentDeployerComponent>();
+        var query = EntityQueryEnumerator<StoriesThreatAutoDeployerComponent, RMCEquipmentDeployerComponent>();
         while (query.MoveNext(out var uid, out var auto, out var deployer))
         {
             if (now < auto.NextCheck)
@@ -51,7 +60,7 @@ public sealed class STThreatAutoDeployerSystem : EntitySystem
         }
     }
 
-    private bool HasThreat(Entity<STThreatAutoDeployerComponent> ent)
+    private bool HasThreat(Entity<StoriesThreatAutoDeployerComponent> ent)
     {
         _nearby.Clear();
         _lookup.GetEntitiesInRange(ent.Owner, ent.Comp.Range, _nearby, LookupFlags.Uncontained);
@@ -68,7 +77,7 @@ public sealed class STThreatAutoDeployerSystem : EntitySystem
         return false;
     }
 
-    private bool IsThreat(Entity<STThreatAutoDeployerComponent> ent, EntityUid target)
+    private bool IsThreat(Entity<StoriesThreatAutoDeployerComponent> ent, EntityUid target)
     {
         if (HasComp<XenoWeedsComponent>(target) || HasComp<XenoConstructComponent>(target))
             return true;
@@ -82,12 +91,12 @@ public sealed class STThreatAutoDeployerSystem : EntitySystem
         return false;
     }
 
-    private void Announce(Entity<STThreatAutoDeployerComponent> ent, TimeSpan now)
+    private void Announce(Entity<StoriesThreatAutoDeployerComponent> ent, TimeSpan now)
     {
         if (ent.Comp.Announcement is not { } announcement || now < _nextAnnouncement)
             return;
 
-        _nextAnnouncement = now + AnnouncementCooldown;
+        _nextAnnouncement = now + ent.Comp.AnnouncementCooldown;
         _marineAnnounce.AnnounceARES(ent.Owner, Loc.GetString(announcement), ent.Comp.AnnouncementSound);
     }
 }

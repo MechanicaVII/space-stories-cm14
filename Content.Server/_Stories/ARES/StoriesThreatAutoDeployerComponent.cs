@@ -6,8 +6,8 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 namespace Content.Server._Stories.ARES;
 
 [RegisterComponent, AutoGenerateComponentPause]
-[Access(typeof(STThreatAutoDeployerSystem))]
-public sealed partial class STThreatAutoDeployerComponent : Component
+[Access(typeof(StoriesThreatAutoDeployerSystem))]
+public sealed partial class StoriesThreatAutoDeployerComponent : Component
 {
     [DataField]
     public float Range = 7f;
@@ -22,10 +22,13 @@ public sealed partial class STThreatAutoDeployerComponent : Component
     public EntProtoId<IFFFactionComponent> FriendlyFaction = "FactionMarine";
 
     [DataField]
-    public LocId? Announcement = "st-ares-core-under-attack";
+    public LocId? Announcement = "stories-ares-core-under-attack";
 
     [DataField]
     public SoundSpecifier? AnnouncementSound;
+
+    [DataField]
+    public TimeSpan AnnouncementCooldown = TimeSpan.FromSeconds(60);
 
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
     public TimeSpan NextCheck;

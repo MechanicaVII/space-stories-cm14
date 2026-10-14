@@ -4,7 +4,7 @@
   name: synthetic roundstart spawn point
   suffix: Job Spawn, Round Start
   components:
-  - type: STSpawnPointPhase
+  - type: StoriesSpawnPointPhase
     lateJoin: false
 
 - type: entity
@@ -16,5 +16,5 @@
   - type: Sprite
     state: syn_spawn
     color: "#FFB347"
-  - type: STSpawnPointPhase
+  - type: StoriesSpawnPointPhase
     roundStart: false

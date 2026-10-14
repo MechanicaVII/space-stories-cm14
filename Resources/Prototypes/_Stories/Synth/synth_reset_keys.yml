@@ -15,7 +15,7 @@
       path: /Audio/_Stories/Synth/ResetKey/seegson_revive.ogg
       params:
         volume: -6
-  - type: STSynthResetKeyRestriction
+  - type: StoriesSynthResetKeyRestriction
     whitelist:
       components:
       - STSynthVoiceSynthesizer

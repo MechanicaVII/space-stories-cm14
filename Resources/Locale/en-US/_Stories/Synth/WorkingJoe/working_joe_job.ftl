@@ -5,4 +5,4 @@ st-working-joe-name-prefix = Working Joe
 st-job-working-joe-variant-standard = Standard
 st-job-working-joe-variant-hazmat = Hazmat
 
-st-latejoin-arrival-announcement-working-joe = {$character} has been activated.
+stories-latejoin-arrival-announcement-working-joe = {$character} has been activated.

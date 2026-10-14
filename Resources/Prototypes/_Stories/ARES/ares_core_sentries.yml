@@ -18,6 +18,6 @@
     deployPrototype: STTurretARES
     isDeployableByHand: false
     alertLevelRequired: null
-  - type: STThreatAutoDeployer
+  - type: StoriesThreatAutoDeployer
     range: 7
     announcementSound: /Audio/_RMC14/Announcements/ARES/attention_jingle.ogg

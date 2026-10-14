@@ -1,1 +1,1 @@
-st-synth-reset-key-wrong-type = Этот ключ несовместим с данным типом синтетика!
+stories-synth-reset-key-wrong-type = Этот ключ несовместим с данным типом синтетика!
