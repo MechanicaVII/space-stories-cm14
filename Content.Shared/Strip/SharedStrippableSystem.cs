@@ -23,6 +23,7 @@ using Content.Shared.Verbs;
 using Robust.Shared.Utility;
 using Content.Shared._RMC14.Clothing;
 using Content.Shared._RMC14.Marines.Skills;
+using Content.Shared._Stories.Strip; // Stories-StripHandAttempt
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Strip;
@@ -415,8 +416,26 @@ public abstract class SharedStrippableSystem : EntitySystem
             return false;
         }
 
+        if (!CanStripHandAttempt(user.Owner, target.Owner, activeItem.Value, true)) // Stories-StripHandAttempt
+            return false;
+
         return true;
     }
+
+    // Stories-StripHandAttempt-Start
+    private bool CanStripHandAttempt(EntityUid user, EntityUid target, EntityUid item, bool insert)
+    {
+        var ev = new STStripHandAttemptEvent(user, target, item, insert);
+        RaiseLocalEvent(target, ref ev);
+        if (!ev.Cancelled)
+            return true;
+
+        if (ev.Reason is { } reason)
+            _popupSystem.PopupCursor(Loc.GetString(reason));
+
+        return false;
+    }
+    // Stories-StripHandAttempt-End
 
     /// <summary>
     ///     Begins a DoAfter to insert the item in the user's active hand into one of the target's hands.
@@ -525,6 +544,9 @@ public abstract class SharedStrippableSystem : EntitySystem
             _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop-message", ("owner", Identity.Entity(target, EntityManager))));
             return false;
         }
+
+        if (!CanStripHandAttempt(user, target.Owner, item, false)) // Stories-StripHandAttempt
+            return false;
 
         return true;
     }

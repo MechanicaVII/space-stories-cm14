@@ -24,3 +24,6 @@ ent-STJumpsuitAverageJoeDropPouch = форма "Средний Джо" с под
 ent-STBeltUtilityWorkingJoe = рабочий пояс Working Joe
 
 ent-STOuterClothingExternalWebbingWorkingJoe = внешняя разгрузка Working Joe
+
+st-unstrippable-while-able-unequip = Хватка слишком крепкая, снаряжение не поддаётся!
+st-unstrippable-while-able-equip = Он слишком силён, на него ничего не надеть!

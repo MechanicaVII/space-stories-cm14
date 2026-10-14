@@ -1,0 +1,9 @@
+st-ghost-name-spp-hostile-synth = Синтетик поддержки СПН (Враждебный)
+st-ghost-name-spp-friendly-synth = Синтетик поддержки СПН (Дружественный)
+st-ert-role-pmc-synth = Синтетик поддержки ЧВК
+st-ert-role-spp-synth = Синтетик поддержки SPP
+st-ghost-name-pmc-synth-no-whitelist = Синтетик поддержки ЧВК Ве-Я (Нейтральный, без вайтлиста)
+st-ghost-name-spp-hostile-synth-no-whitelist = Синтетик поддержки СПН (Враждебный, без вайтлиста)
+st-ghost-name-spp-friendly-synth-no-whitelist = Синтетик поддержки СПН (Дружественный, без вайтлиста)
+st-ert-role-pmc-synth-no-whitelist = Синтетик поддержки ЧВК (без вайтлиста)
+st-ert-role-spp-synth-no-whitelist = Синтетик поддержки SPP (без вайтлиста)

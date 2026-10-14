@@ -1,0 +1,9 @@
+st-ghost-name-spp-hostile-synth = SPP Support Synthetic (Hostile)
+st-ghost-name-spp-friendly-synth = SPP Support Synthetic (Friendly)
+st-ert-role-pmc-synth = PMC Support Synthetic
+st-ert-role-spp-synth = SPP Support Synthetic
+st-ghost-name-pmc-synth-no-whitelist = We-Ya PMC Support Synthetic (Neutral, No Whitelist)
+st-ghost-name-spp-hostile-synth-no-whitelist = SPP Support Synthetic (Hostile, No Whitelist)
+st-ghost-name-spp-friendly-synth-no-whitelist = SPP Support Synthetic (Friendly, No Whitelist)
+st-ert-role-pmc-synth-no-whitelist = PMC Support Synthetic (No Whitelist)
+st-ert-role-spp-synth-no-whitelist = SPP Support Synthetic (No Whitelist)

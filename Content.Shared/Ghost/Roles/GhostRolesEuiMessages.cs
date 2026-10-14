@@ -32,6 +32,7 @@ namespace Content.Shared.Ghost.Roles
         /// </summary>
         public TimeSpan RaffleEndTime { get; set; }
 
+        public string? Job { get; set; } // Stories-GhostRoleWhitelist
     }
 
     [NetSerializable, Serializable]

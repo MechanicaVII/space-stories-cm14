@@ -120,6 +120,7 @@
     - STApolloLink
   - type: STSetGenderOnMapInit
     gender: Neuter
+  - type: STUnstrippableWhileAble
 
 - type: entity
   parent: BaseSpeciesDummy

@@ -1,6 +1,8 @@
 using System.Linq;
 using Content.Server._RMC14.Ghost.Roles;
 using Content.Server.Administration.Logs;
+using Content.Server.Chat.Managers; // Stories-GhostRoleWhitelist
+using Content.Server.Players.JobWhitelist; // Stories-GhostRoleWhitelist
 using Content.Server.EUI;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Ghost.Roles.Events;
@@ -52,6 +54,8 @@ public sealed class GhostRoleSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly JobWhitelistManager _jobWhitelist = default!; // Stories-GhostRoleWhitelist
+    [Dependency] private readonly IChatManager _chat = default!; // Stories-GhostRoleWhitelist
 
     private uint _nextRoleIdentifier;
     private bool _needsUpdateGhostRoleCount = true;
@@ -489,6 +493,14 @@ public sealed class GhostRoleSystem : EntitySystem
         if (!_ghostRoles.TryGetValue(identifier, out var roleEnt))
             return;
 
+        // Stories-GhostRoleWhitelist-Start
+        if (roleEnt.Comp.JobProto is { } job && !_jobWhitelist.IsAllowed(player, job))
+        {
+            _chat.DispatchServerMessage(player, Loc.GetString("role-not-whitelisted"));
+            return;
+        }
+        // Stories-GhostRoleWhitelist-End
+
         if (roleEnt.Comp.RaffleConfig is not null)
         {
             JoinRaffle(player, identifier);
@@ -619,7 +631,8 @@ public sealed class GhostRoleSystem : EntitySystem
                 Requirements = role.Requirements,
                 Kind = kind,
                 RafflePlayerCount = rafflePlayerCount,
-                RaffleEndTime = raffleEndTime
+                RaffleEndTime = raffleEndTime,
+                Job = role.JobProto?.Id, // Stories-GhostRoleWhitelist
             });
         }
 
