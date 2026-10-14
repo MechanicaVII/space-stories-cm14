@@ -1,7 +1,9 @@
+using System.Numerics;
 using Content.Server.Atmos.Rotting;
 using Content.Server.EUI;
 using Content.Server.Ghost;
 using Content.Server.Power.EntitySystems;
+using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Synth;
 using Content.Shared._Stories.Synth;
 using Content.Shared.Body.Components;
@@ -12,18 +14,24 @@ using Content.Shared.DoAfter;
 using Content.Shared.DragDrop;
 using Content.Shared.Examine;
 using Content.Shared.FixedPoint;
+using Content.Shared.Maps;
 using Content.Shared.Mind;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Events;
+using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.Stunnable;
+using Content.Shared.Tag;
 using Content.Shared.Traits.Assorted;
 using Content.Shared.Verbs;
 using Robust.Server.Containers;
 using Robust.Shared.Containers;
+using Robust.Shared.Map;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Stories.Synth;
@@ -38,6 +46,7 @@ public sealed class STSyntheticMaintenanceStationSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
+    [Dependency] private readonly RMCMapSystem _rmcMap = default!;
     [Dependency] private readonly RottingSystem _rotting = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedBloodstreamSystem _bloodstream = default!;
@@ -46,6 +55,15 @@ public sealed class STSyntheticMaintenanceStationSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
+
+    private static readonly ProtoId<TagPrototype> WallTag = "Wall";
+
+    private static readonly Vector2[] EjectOffsets =
+    {
+        new(0, -1), new(1, 0), new(0, 1), new(-1, 0),
+        new(1, -1), new(1, 1), new(-1, 1), new(-1, -1),
+    };
 
     public override void Initialize()
     {
@@ -308,11 +326,35 @@ public sealed class STSyntheticMaintenanceStationSystem : EntitySystem
             return;
 
         _container.Remove(contained, station.Comp.BodyContainer);
-        _transform.SetCoordinates(contained, Transform(station).Coordinates);
+        _transform.SetCoordinates(contained, GetEjectCoordinates(station.Owner, contained));
         if (station.Comp.ExitStun > TimeSpan.Zero)
             _stun.TryStun(contained, station.Comp.ExitStun, true);
 
         UpdateAppearance(station);
+    }
+
+    private EntityCoordinates GetEjectCoordinates(EntityUid station, EntityUid ejected)
+    {
+        var origin = Transform(station).Coordinates;
+        var mask = TryComp(ejected, out PhysicsComponent? physics) && physics.CollisionMask != 0
+            ? (CollisionGroup) physics.CollisionMask
+            : CollisionGroup.MobMask;
+        EntityCoordinates? fallback = null;
+
+        foreach (var offset in EjectOffsets)
+        {
+            var coords = origin.Offset(offset);
+            if (!_turf.TryGetTileRef(coords, out var tile) || _turf.IsSpace(tile.Value))
+                continue;
+
+            if (!_turf.IsTileBlocked(tile.Value, mask))
+                return _turf.GetTileCenter(tile.Value);
+
+            if (fallback == null && !_rmcMap.TileHasAnyTag(coords, WallTag))
+                fallback = _turf.GetTileCenter(tile.Value);
+        }
+
+        return fallback ?? origin;
     }
 
     private bool CanInsert(Entity<STSyntheticMaintenanceStationComponent> station, EntityUid target)
