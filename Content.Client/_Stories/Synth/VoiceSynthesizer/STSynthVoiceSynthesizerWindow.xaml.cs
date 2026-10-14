@@ -11,6 +11,8 @@ namespace Content.Client._Stories.Synth.VoiceSynthesizer;
 [GenerateTypedNameReferences]
 public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
 {
+    [Dependency] private readonly ILocalizationManager _loc = default!;
+
     public event Action<string>? OnLinePressed;
 
     private bool _onCooldown;
@@ -22,6 +24,7 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
     public STSynthVoiceSynthesizerWindow()
     {
         RobustXamlLoader.Load(this);
+        IoCManager.InjectDependencies(this);
 
         SearchBar.OnTextChanged += _ => UpdateSearch();
     }
@@ -66,14 +69,15 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
             }
 
             var lineText = Loc.GetString(line.Text);
-            var labelText = Loc.TryGetString($"{line.Text}.label", out var label) ? label : lineText;
+            var labelId = $"{line.Text}-label";
+            var labelText = _loc.HasString(labelId) ? _loc.GetString(labelId) : lineText;
             var lineId = proto.ID;
 
             var tabButton = new Button
             {
                 Text = labelText,
                 HorizontalExpand = true,
-                ToolTip = lineId,
+                ToolTip = lineText,
             };
             tabButton.OnPressed += _ => TryPlayLine(lineId);
             tab.Content.AddChild(tabButton);
@@ -82,7 +86,7 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
             {
                 Text = labelText,
                 HorizontalExpand = true,
-                ToolTip = lineId,
+                ToolTip = lineText,
                 Visible = false,
             };
             searchButton.OnPressed += _ => TryPlayLine(lineId);
