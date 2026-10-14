@@ -59,7 +59,7 @@
   - type: SpawnPoint
     job_id: STJobWorkingJoe
   - type: Sprite
-    state: syn_spawn
+    state: wj_spawn
 
 - type: playTimeTracker
   id: STJobWorkingJoe
