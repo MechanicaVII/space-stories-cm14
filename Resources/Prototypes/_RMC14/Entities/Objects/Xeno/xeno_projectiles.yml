@@ -242,6 +242,7 @@
   name: glob of acid gas
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesIgnoreCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Objects/Xeno/xeno_projectiles.rsi
     layers:
@@ -299,6 +300,7 @@
   name: glob of neurotoxin gas
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesIgnoreCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Objects/Xeno/xeno_projectiles.rsi
     layers:
