@@ -88,7 +88,7 @@ public enum CollisionGroup
     ItemMask = Impassable | HighImpassable,
     // #RMC Vapor-only collision mask for extinguishers on items.
     VaporMask = VaporLayer,
-    ThrownItem = Impassable | HighImpassable | BulletImpassable,
+    ThrownItem = Impassable | HighImpassable | BulletImpassable | ProjectileCover, // Stories-ProjectileCover
     WallLayer = Opaque | Impassable | HighImpassable | MidImpassable | LowImpassable | BulletImpassable | InteractImpassable,
     GlassLayer = Impassable | HighImpassable | MidImpassable | LowImpassable | BulletImpassable | InteractImpassable,
     HalfWallLayer = MidImpassable | LowImpassable,

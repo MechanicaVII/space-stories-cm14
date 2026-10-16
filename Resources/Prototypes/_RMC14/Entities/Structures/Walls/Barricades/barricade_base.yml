@@ -37,6 +37,7 @@
   - type: StoriesProjectileCover # Stories-ProjectileCover
     coverage: 85 # Stories-ProjectileCover
     directional: true # Stories-ProjectileCover
+    blockThrown: true # Stories-ProjectileCover
   - type: Damageable
     damageContainer: Inorganic
     damageModifierSet: CMBarricade

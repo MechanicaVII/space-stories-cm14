@@ -12,6 +12,9 @@ public sealed partial class StoriesProjectileCoverComponent : Component
     [DataField, AutoNetworkedField]
     public bool Directional;
 
+    [DataField, AutoNetworkedField]
+    public bool BlockThrown;
+
     [DataField]
     public string FixtureId = "fix1";
 }

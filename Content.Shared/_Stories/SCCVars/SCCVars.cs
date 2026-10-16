@@ -296,4 +296,10 @@ public sealed class SCCVars
 
     public static readonly CVarDef<float> CoverAccuracyFactor =
         CVarDef.Create("stories.cover.accuracy_factor", 50f, CVar.SERVER | CVar.REPLICATED);
+
+    public static readonly CVarDef<float> CoverStrayDamageMultiplier =
+        CVarDef.Create("stories.cover.stray_damage_multiplier", 0.25f, CVar.SERVER | CVar.REPLICATED);
+
+    public static readonly CVarDef<float> CoverTargetedDamageMultiplier =
+        CVarDef.Create("stories.cover.targeted_damage_multiplier", 0.35f, CVar.SERVER | CVar.REPLICATED);
 }
