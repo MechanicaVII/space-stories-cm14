@@ -31,6 +31,18 @@
       prefix: st-job-prefix-clf-survivor-coordinator
     - type: RMCSurvivor
     - type: MotionDetectorTracked
+    - type: IntelRescueSurvivorObjective
+    - type: RMCAllowSuitStorage
+    - type: STSurvivorScenarioStory
+      locPrefix: st-clf-survivor-story
+      noDamageScenarios: [ clfsmugglers ]
+    - type: TacticalMapIcon
+      icon:
+        sprite: /Textures/_RMC14/Interface/map_blips.rsi
+        state: clf_sl_a
+      background:
+        sprite: /Textures/_RMC14/Interface/map_blips.rsi
+        state: background_clf
   hidden: true
 
 - type: startingGear

@@ -64,7 +64,9 @@
       - CMSurvivorLV624Archeologist: 2
     survivorJobScenarios:
       clf_ship: # Stories-CLFSurvivor-Start
-      - CMSurvivorSecurity: 2
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
@@ -78,8 +80,11 @@
       - CMSurvivor: -1
     survivorJobVariantScenarios:
       clf_ship: # Stories-CLFSurvivor-Start
-        CMSurvivorSecurity:
+        RMCSurvivorCommandingOfficer:
         - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
         - RMCSurvivorCLFLeader: 1
         CMSurvivorEngineer:
         - RMCSurvivorCLFEngineer: 1
@@ -189,7 +194,9 @@
       - CMSurvivorSolarisScientist: -1
     survivorJobScenarios:
       clfmining: # Stories-CLFSurvivor-Start
-      - CMSurvivorSecurity: 2
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
@@ -204,8 +211,11 @@
       - CMSurvivor: -1
     survivorJobVariantScenarios:
       clfmining: # Stories-CLFSurvivor-Start
-        CMSurvivorSecurity:
+        RMCSurvivorCommandingOfficer:
         - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
         - RMCSurvivorCLFLeader: 1
         CMSurvivorEngineer:
         - RMCSurvivorCLFEngineer: 1
@@ -327,7 +337,9 @@
       - RMCSurvivorShivasResearcher: -1
     survivorJobScenarios:
       clfraid_shivas: # Stories-CLFSurvivor-Start
-      - CMSurvivorSecurity: 2
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
@@ -342,8 +354,11 @@
       - CMSurvivorScientist: 2
     survivorJobVariantScenarios:
       clfraid_shivas: # Stories-CLFSurvivor-Start
-        CMSurvivorSecurity:
+        RMCSurvivorCommandingOfficer:
         - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
         - RMCSurvivorCLFLeader: 1
         CMSurvivorEngineer:
         - RMCSurvivorCLFEngineer: 1
@@ -400,10 +415,14 @@
     #smallHostVariants:
       #RMCMobSmallHostFarwa
     nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: rocinante_clf
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: riot_in_progress
       scenarioProbability: 0.15
     - scenarioName: none
-      scenarioProbability: 0.85
+      scenarioProbability: 0.75 # Stories-CLFSurvivor
     # Stories-SynthSurvivor-Start
     survivorJobs:
     - RMCSyntheticColony: 1
@@ -436,12 +455,34 @@
       CMSurvivorScientist:
       - CMSurvivorFiorinaResearcher: 2
     survivorJobScenarios:
+      rocinante_clf: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
       riot_in_progress: # Riot In Progress CMB Team. One as the main CMB RCTL, two as specialized roles, the rest as supporting officers.
         - RMCSyntheticColony: 1 # Stories-SynthSurvivor
         - CMSurvivor: -1
         - CMSurvivorDoctor: 1
         - CMSurvivorEngineer: 1
     survivorJobVariantScenarios:
+      rocinante_clf: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
       riot_in_progress: # Riot In Progress Riot Control team
         # Stories-SynthSurvivor-Start
         RMCSyntheticColony:
@@ -456,6 +497,10 @@
         - RMCSurvivorFiorinaRiotInProgressCMBRiotControlTeamLeader: 1
         - RMCSurvivorFiorinaRiotInProgressCMBOfficer: -1
     survivorJobOverrideScenarios:
+      rocinante_clf: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
       riot_in_progress: # Riot In Progress job overrides.
         CMSurvivorCorporate: CMSurvivor
         CMSurvivorScientist: CMSurvivorDoctor
@@ -535,7 +580,9 @@
       - CMSurvivorTrijentResearcher: 2
     survivorJobScenarios:
       clf_pods: # Stories-CLFSurvivor-Start
-      - CMSurvivorSecurity: 2
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
@@ -548,8 +595,11 @@
       - CMSurvivor: -1
     survivorJobVariantScenarios:
       clf_pods: # Stories-CLFSurvivor-Start
-        CMSurvivorSecurity:
+        RMCSurvivorCommandingOfficer:
         - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
         - RMCSurvivorCLFLeader: 1
         CMSurvivorEngineer:
         - RMCSurvivorCLFEngineer: 1
@@ -742,15 +792,20 @@
       Liaison: RMCPaperWeYaLiaisonBriefingKutjevo
     survivorJobScenarios: # Stories-CLFSurvivor
       clfsmugglers: # Stories-CLFSurvivor-Start
-      - CMSurvivorSecurity: 2
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
       # Stories-CLFSurvivor-End
     survivorJobVariantScenarios: # Stories-CLFSurvivor
       clfsmugglers: # Stories-CLFSurvivor-Start
-        CMSurvivorSecurity:
+        RMCSurvivorCommandingOfficer:
         - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
         - RMCSurvivorCLFLeader: 1
         CMSurvivorEngineer:
         - RMCSurvivorCLFEngineer: 1
@@ -937,7 +992,9 @@
       # Stories-SynthSurvivor-End
     survivorJobScenarios:
       clfspaceport: # Stories-CLFSurvivor-Start
-      - CMSurvivorSecurity: 2
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
@@ -951,8 +1008,11 @@
       - CMSurvivor: -1
     survivorJobVariantScenarios:
       clfspaceport: # Stories-CLFSurvivor-Start
-        CMSurvivorSecurity:
+        RMCSurvivorCommandingOfficer:
         - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
         - RMCSurvivorCLFLeader: 1
         CMSurvivorEngineer:
         - RMCSurvivorCLFEngineer: 1
@@ -1075,7 +1135,9 @@
 #        - : -1
     survivorJobScenarios:
       clfcamp: # Stories-CLFSurvivor-Start
-      - CMSurvivorSecurity: 2
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
@@ -1088,8 +1150,11 @@
       - CMSurvivor: -1
     survivorJobVariantScenarios:
       clfcamp: # Stories-CLFSurvivor-Start
-        CMSurvivorSecurity:
+        RMCSurvivorCommandingOfficer:
         - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
         - RMCSurvivorCLFLeader: 1
         CMSurvivorEngineer:
         - RMCSurvivorCLFEngineer: 1

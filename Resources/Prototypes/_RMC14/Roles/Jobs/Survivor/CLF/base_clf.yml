@@ -10,7 +10,7 @@
   joinNotifyCrew: false
   startingGear: RMCGearCLFBase
   hasIcon: true
-  greeting: rmc-job-greeting-clf-survivor
+  greeting: st-job-greeting-clf-survivor # Stories-CLFSurvivor
   playTimeTracker: RMCJobSurvivorCLF
   spawnMenuRoleName: CLF Survivor (Base)
   useLoadoutOfJob: CMSurvivor
