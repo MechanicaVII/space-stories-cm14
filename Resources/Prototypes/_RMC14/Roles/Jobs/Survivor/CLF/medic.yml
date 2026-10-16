@@ -48,7 +48,7 @@
     mask: RMCM5Bayonet # TODO RMC14
     ears: RMCHeadsetDistressCLF
     eyes: RMCGlassesMedicalHUDGlasses
-    jumpsuit: RMCJumpsuitCLFWebbing
+    jumpsuit: RMCJumpsuitCLFWebbingSurgical # Stories-CLFSurvivor
     id: RMCIDCardCLFMedic
     belt: RMCBeltMedicalDefibAnalyzerFilled
     back: RMCSatchelLightpack

@@ -20,7 +20,7 @@
   id: RMCGearCLFBase
   equipment:
     mask: RMCCombatUtilityKnifeA
-    jumpsuit: RMCJumpsuitCLFSoldier
+    jumpsuit: STJumpsuitCLFWebbing # Stories-CLFSurvivor
     back: RMCSatchelLightpack5Slot
     id: RMCIDCardCLFSoldier
     ears: RMCHeadsetDistressCLF

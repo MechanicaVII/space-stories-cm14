@@ -50,7 +50,7 @@
     mask: RMCM5Bayonet
     ears: RMCHeadsetDistressCLF
     eyes: RMCGlassesMedicalHUDGlasses
-    jumpsuit: RMCJumpsuitCLFWebbing
+    jumpsuit: STJumpsuitCLFWebbing
     outerClothing: RMCCoatMilitia
     gloves: RMCHandsCombat
     shoes: RMCShoesCombat

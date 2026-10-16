@@ -51,7 +51,7 @@
     head: RMCHeadMilitiaHood
     mask: CMMaskGas
     ears: RMCHeadsetDistressCLF
-    jumpsuit: RMCJumpsuitCLFWebbing
+    jumpsuit: STJumpsuitCLFWebbing
     outerClothing: RMCCoatMilitia
     gloves: CMHandsBrown
     shoes: CMBootsBlackFilled

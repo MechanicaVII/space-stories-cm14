@@ -51,7 +51,7 @@
     mask: RMCM5Bayonet # TODO RMC14
     ears: RMCHeadsetDistressCLF
   #  eyes: RMCMesonGoggles TODO RMC14
-    jumpsuit: RMCJumpsuitCLFWebbing
+    jumpsuit: STJumpsuitCLFWebbing # Stories-CLFSurvivor
     outerClothing: RMCCoatMilitia
     gloves: CMHandsInsulated
     shoes: RMCShoesCombat
