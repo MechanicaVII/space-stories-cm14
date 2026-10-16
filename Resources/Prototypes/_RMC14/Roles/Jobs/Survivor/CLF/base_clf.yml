@@ -14,6 +14,10 @@
   playTimeTracker: RMCJobSurvivorCLF
   spawnMenuRoleName: CLF Survivor (Base)
   useLoadoutOfJob: CMSurvivor
+  # Stories-CLFSurvivor-Start
+  camouflageStartingGear:
+    Snow: STGearSurvivorCLFSnow
+  # Stories-CLFSurvivor-End
   hidden: true
 
 - type: startingGear
@@ -24,12 +28,13 @@
     back: RMCSatchelLightpack5Slot
     id: RMCIDCardCLFSoldier
     ears: RMCHeadsetDistressCLF
-    pocket1: RMCPouchFirstAidInjectors
-    pocket2: RMCPouchFirstAidSplintsGauzeOintment
-  # Stories-CLFSurvivor-Start
+    # Stories-CLFSurvivor-Start
+    pocket1: RMCPouchSurvivalFill
+    pocket2: RMCPouchFirstAidInjectors
   storage:
     back:
     - RMCMRECLF
+    - CMSheetMetal10
   # Stories-CLFSurvivor-End
 
 - type: playTimeTracker

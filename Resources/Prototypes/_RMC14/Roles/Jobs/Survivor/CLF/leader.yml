@@ -12,22 +12,24 @@
     - type: NpcFactionMember
       factions:
       - CLF
+    # Stories-CLFSurvivor-Start
     - type: Skills
       skills:
-        RMCSkillFirearms: 2
-        RMCSkillEngineer: 2
-        RMCSkillCqc: 2
-        RMCSkillLeadership: 3
+        RMCSkillCqc: 1
+        RMCSkillFirearms: 1
+        RMCSkillEngineer: 1
+        RMCSkillMedical: 1
+        RMCSkillSurgery: 1
+        RMCSkillLeadership: 2
         RMCSkillOverwatch: 1
         RMCSkillMeleeWeapons: 1
-        RMCSkillPolice: 2
-        RMCSkillFireman: 3
+        RMCSkillFireman: 1
         RMCSkillPowerLoader: 1
-        RMCSkillVehicles: 2
-        RMCSkillEndurance: 5
-        RMCSkillJtac: 4
-        RMCSkillSmartGun: 1
-        RMCSkillExecution: 1
+        RMCSkillVehicles: 1
+        RMCSkillEndurance: 2
+        RMCSkillJtac: 2
+        RMCSkillConstruction: 1
+    # Stories-CLFSurvivor-End
     - type: JobPrefix
       prefix: rmc-job-prefix-clf-survivor-commander
     - type: RMCSurvivor

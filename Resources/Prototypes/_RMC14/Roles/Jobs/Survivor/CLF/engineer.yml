@@ -12,16 +12,19 @@
     - type: NpcFactionMember
       factions:
       - CLF
+    # Stories-CLFSurvivor-Start
     - type: Skills
       skills:
         RMCSkillFireman: 1
         RMCSkillConstruction: 2
-        RMCSkillEngineer: 2
+        RMCSkillEngineer: 3
         RMCSkillMedical: 1
         RMCSkillPowerLoader: 1
         RMCSkillVehicles: 1
-        RMCSkillEndurance: 1
+        RMCSkillEndurance: 2
         RMCSkillJtac: 1
+        RMCSkillFirearms: 1
+    # Stories-CLFSurvivor-End
     - type: JobPrefix
       prefix: rmc-job-prefix-clf-survivor-engineer
     - type: RMCSurvivor
@@ -41,7 +44,7 @@
         state: background_clf
     # Stories-CLFSurvivor-End
     - type: EquipSurvivorPreset
-      preset: RMCSurvivorPresetCLF
+      preset: STSurvivorPresetCLFEngineer # Stories-CLFSurvivor
   hidden: true
 
 - type: startingGear
@@ -52,9 +55,8 @@
     ears: RMCHeadsetDistressCLF
   #  eyes: RMCMesonGoggles TODO RMC14
     jumpsuit: STJumpsuitCLFWebbing # Stories-CLFSurvivor
-    outerClothing: RMCCoatMilitia
+    # Stories-CLFSurvivor
     gloves: CMHandsInsulated
-    shoes: RMCShoesCombat
     id: RMCIDCardCLFEngineer
     belt: CMBeltUtilityFilled
     back: RMCSatchelLightpackWelder
@@ -70,6 +72,7 @@
     - RMCExplosivePlastic
     - RMCGrenadeMolotov
     - RMCMRECLF # Stories: CLF MRE as in CM13
+    - CMFirstAidKitFilled # Stories-CLFSurvivor
     - RMCFlashlight
 
 - type: entity

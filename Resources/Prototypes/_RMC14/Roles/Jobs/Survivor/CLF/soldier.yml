@@ -11,18 +11,16 @@
     - type: NpcFactionMember
       factions:
       - CLF
+    # Stories-CLFSurvivor-Start
     - type: Skills
       skills:
-        RMCSkillFirearms: 1
-        RMCSkillMeleeWeapons: 1
-        RMCSkillPolice: 2
-        RMCSkillFireman: 1
         RMCSkillConstruction: 1
+        RMCSkillEndurance: 2
+        RMCSkillFireman: 2
         RMCSkillEngineer: 1
         RMCSkillMedical: 1
-        RMCSkillVehicles: 1
-        RMCSkillEndurance: 1
-        RMCSkillJtac: 1
+        RMCSkillFirearms: 1
+    # Stories-CLFSurvivor-End
     - type: JobPrefix
       prefix: rmc-job-prefix-clf-survivor-soldier
     - type: RMCSurvivor
@@ -42,7 +40,7 @@
         state: background_clf
     # Stories-CLFSurvivor-End
     - type: EquipSurvivorPreset
-      preset: RMCSurvivorPresetCLF
+      preset: STSurvivorPresetCLFSoldier # Stories-CLFSurvivor
   hidden: true
 
 - type: entity

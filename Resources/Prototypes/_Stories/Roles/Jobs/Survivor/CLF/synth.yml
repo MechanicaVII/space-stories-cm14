@@ -10,6 +10,8 @@
   greeting: st-job-greeting-clf-survivor
   spawnMenuRoleName: CLF Synthetic (Survivor)
   antagRole: RMCHostileSurvivor
+  camouflageStartingGear:
+    Snow: STGearSurvivorCLFNoCamo
   survivorSpawnerFallback: []
   special:
   - !type:AddComponentSpecial

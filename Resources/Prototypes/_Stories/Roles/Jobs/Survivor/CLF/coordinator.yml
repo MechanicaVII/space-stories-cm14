@@ -6,6 +6,8 @@
   startingGear: STGearSurvivorCLFCoordinator
   spawnMenuRoleName: CLF Coordinator (Survivor)
   antagRole: RMCHostileSurvivor
+  camouflageStartingGear:
+    Snow: STGearSurvivorCLFNoCamo
   special:
   - !type:AddComponentSpecial
     components:
