@@ -55,4 +55,4 @@ rmc-distress-signal-scuttle-superheat-aura = Жар реакторного яд�
 rmc-xeno-announcement-scuttle-first-overload = Высокие перегружают пылающие сердца металлического улья. Остановите их, пока небесный улей не разорвал себя на части.
 
 rmc-roles-antag-hostile-survivor-antagonist-name = Враждебный выживший
-rmc-roles-antag-hostile-survivor-objective = Как член CLF, освободите колонию от КМП США.
+rmc-roles-antag-hostile-survivor-objective = Как член КОФ, освободите колонию от КМП США.

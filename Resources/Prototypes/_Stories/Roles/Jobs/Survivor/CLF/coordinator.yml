@@ -33,6 +33,7 @@
       prefix: st-job-prefix-clf-survivor-coordinator
     - type: RMCSurvivor
     - type: MotionDetectorTracked
+    - type: StoriesSurvivorDebuffImmune
     - type: IntelRescueSurvivorObjective
     - type: RMCAllowSuitStorage
     - type: STSurvivorScenarioStory

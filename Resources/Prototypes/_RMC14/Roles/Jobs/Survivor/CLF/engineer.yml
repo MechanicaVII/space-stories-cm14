@@ -30,6 +30,7 @@
     - type: RMCSurvivor
     - type: MotionDetectorTracked
     # Stories-CLFSurvivor-Start
+    - type: StoriesSurvivorDebuffImmune
     - type: IntelRescueSurvivorObjective
     - type: RMCAllowSuitStorage
     - type: STSurvivorScenarioStory
