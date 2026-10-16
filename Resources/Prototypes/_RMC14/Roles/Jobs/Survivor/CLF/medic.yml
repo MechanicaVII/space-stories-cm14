@@ -33,13 +33,6 @@
     - type: STSurvivorScenarioStory
       locPrefix: st-clf-survivor-story
       noDamageScenarios: [ clfsmugglers ]
-    - type: TacticalMapIcon
-      icon:
-        sprite: /Textures/_RMC14/Interface/map_blips.rsi
-        state: clf_med
-      background:
-        sprite: /Textures/_RMC14/Interface/map_blips.rsi
-        state: background_clf
     # Stories-CLFSurvivor-End
     - type: EquipSurvivorPreset
       preset: RMCSurvivorPresetCLFSMG

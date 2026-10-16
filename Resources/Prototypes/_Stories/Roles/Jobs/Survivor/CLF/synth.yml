@@ -30,13 +30,6 @@
     - type: STSurvivorScenarioStory
       locPrefix: st-clf-survivor-story
       noDamageScenarios: [ clfsmugglers ]
-    - type: TacticalMapIcon
-      icon:
-        sprite: /Textures/_RMC14/Interface/map_blips.rsi
-        state: clf_synth
-      background:
-        sprite: /Textures/_RMC14/Interface/map_blips.rsi
-        state: background_clf
     - type: JobPrefix
       prefix: st-job-prefix-clf-survivor-synth
     - type: SynthGeneration
