@@ -287,4 +287,13 @@ public sealed class SCCVars
     /// </summary>
     public static readonly CVarDef<string> BanwordsFile =
         CVarDef.Create("stories.banwords_file", "", CVar.SERVERONLY);
+
+    public static readonly CVarDef<float> CoverStartDistance =
+        CVarDef.Create("stories.cover.start_distance", 1.5f, CVar.SERVER | CVar.REPLICATED);
+
+    public static readonly CVarDef<float> CoverFullDistance =
+        CVarDef.Create("stories.cover.full_distance", 6f, CVar.SERVER | CVar.REPLICATED);
+
+    public static readonly CVarDef<float> CoverAccuracyFactor =
+        CVarDef.Create("stories.cover.accuracy_factor", 50f, CVar.SERVER | CVar.REPLICATED);
 }
