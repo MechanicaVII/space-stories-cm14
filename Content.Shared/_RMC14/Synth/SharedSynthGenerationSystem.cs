@@ -212,10 +212,12 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
             var desc = proto.TryGetComponent(out SynthGenerationComponent? genComp, _compFactory)
                 ? genComp.Description
                 : string.Empty;
+            if (Loc.TryGetString(desc, out var locDesc)) // Stories-SynthGenerationLoc
+                desc = locDesc;
             options.Add(new DialogOption(proto.Name, new GenerationSelectedActionEvent(proto.ID), description: desc));
         }
 
-        _dialog.OpenOptions(ent.Owner, "Select a Generation", options, "Available Generations", enableSearch: false);
+        _dialog.OpenOptions(ent.Owner, Loc.GetString("st-synth-generation-select-title"), options, Loc.GetString("st-synth-generation-select-message"), enableSearch: false); // Stories-SynthGenerationLoc
     }
 
     private void OnGenerationSelectedAction(Entity<SynthGenerationComponent> ent, ref GenerationSelectedActionEvent args)

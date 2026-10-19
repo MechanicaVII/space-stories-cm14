@@ -1,10 +1,12 @@
+using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Stamina;
 using Content.Shared._RMC14.Weapons.Common;
-using Content.Shared._RMC14.Weapons.Melee;
 using Content.Shared.Item.ItemToggle;
 using Content.Shared.Item.ItemToggle.Components;
 using Content.Shared.Popups;
 using Content.Shared.Weapons.Melee;
+using Content.Shared.Weapons.Melee.Events;
+using Content.Shared.Whitelist;
 
 namespace Content.Shared._Stories.Weapons.Melee.TelescopicBaton;
 
@@ -12,11 +14,43 @@ public sealed class STTelescopicBatonModeSystem : EntitySystem
 {
     [Dependency] private readonly ItemToggleSystem _toggle = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SkillsSystem _skills = default!;
+    [Dependency] private readonly RMCStaminaSystem _stamina = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
 
     public override void Initialize()
     {
         SubscribeLocalEvent<STTelescopicBatonModeComponent, UniqueActionEvent>(OnUniqueAction);
         SubscribeLocalEvent<STTelescopicBatonModeComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<STTelescopicBatonModeComponent, MeleeHitEvent>(OnMeleeHit);
+    }
+
+    private void OnMeleeHit(Entity<STTelescopicBatonModeComponent> ent, ref MeleeHitEvent args)
+    {
+        if (!ent.Comp.StunMode || !args.IsHit || !_toggle.IsActivated(ent.Owner))
+            return;
+
+        var targets = new List<Entity<RMCStaminaComponent>>();
+        foreach (var hit in args.HitEntities)
+        {
+            if (hit == args.User || !_whitelist.IsValid(ent.Comp.StunWhitelist, hit))
+                continue;
+
+            if (TryComp(hit, out RMCStaminaComponent? stamina))
+                targets.Add((hit, stamina));
+        }
+
+        if (targets.Count == 0)
+            return;
+
+        var damage = ent.Comp.StunStaminaDamage;
+        if (ent.Comp.StunSkillMultipliers.TryGetValue(_skills.GetSkill(args.User, ent.Comp.StunSkill), out var multiplier))
+            damage *= multiplier;
+
+        foreach (var target in targets)
+        {
+            _stamina.DoStaminaDamage((target, target.Comp), damage / targets.Count);
+        }
     }
 
     private void OnMapInit(Entity<STTelescopicBatonModeComponent> ent, ref MapInitEvent args)
@@ -56,23 +90,6 @@ public sealed class STTelescopicBatonModeSystem : EntitySystem
                 melee.Damage = toggleMelee.ActivatedDamage;
                 DirtyField(ent, melee, nameof(MeleeWeaponComponent.Damage));
             }
-        }
-
-        if (ent.Comp.StunMode)
-        {
-            var stamina = EnsureComp<RMCStaminaDamageOnHitComponent>(ent);
-            stamina.Damage = ent.Comp.StunStaminaDamage;
-            Dirty(ent, stamina);
-
-            var stun = EnsureComp<StunOnHitComponent>(ent);
-            stun.Duration = ent.Comp.StunDuration;
-            stun.Whitelist = ent.Comp.StunWhitelist;
-            Dirty(ent, stun);
-        }
-        else
-        {
-            RemCompDeferred<RMCStaminaDamageOnHitComponent>(ent);
-            RemCompDeferred<StunOnHitComponent>(ent);
         }
     }
 }

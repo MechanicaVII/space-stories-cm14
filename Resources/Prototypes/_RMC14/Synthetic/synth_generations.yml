@@ -7,7 +7,7 @@
     generation: RMCSynthGenOne
     damageModifier: RMCSynthGenOne
     priority: 1
-    description: Slow and sturdy. Pounce resisting.
+    description: st-synth-generation-one-desc # Stories-SynthGenerationLoc
   - type: STSynthHeavyGrab # Stories-SynthHeavyGrab
   - type: Skills
     skills:
@@ -53,7 +53,7 @@
     generation: RMCSynthGenTwo
     damageModifier: RMCSynthGenTwo
     priority: 2
-    description: A better looking Gen 1.
+    description: st-synth-generation-two-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -97,7 +97,7 @@
   - type: SynthGeneration
     generation: RMCSynthGenThree
     priority: 3
-    description: Better skills, agile but fragile.
+    description: st-synth-generation-three-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
       RMCSkillCqc: 5
@@ -141,7 +141,7 @@
   - type: SynthGeneration
     generation: RMCSynthWhiteout
     priority: 4
-    description: Generation Grill.
+    description: st-synth-generation-whiteout-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
         RMCSkillCqc: 5
@@ -203,6 +203,11 @@
       RMCSkillVehicles: 2
       RMCSkillDomestics: 2
       RMCSkillEndurance: 1
+  # Stories-WorkingJoeLeapProtection-Start
+  - type: RMCLeapProtection
+    inherentStunDuration: 3
+    fullProtection: true
+  # Stories-WorkingJoeLeapProtection-End
   - type: MobThresholds
     thresholds:
       0: Alive
