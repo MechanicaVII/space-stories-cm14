@@ -7,3 +7,5 @@ st-synth-generation-one-desc = Медленный и крепкий. Устой�
 st-synth-generation-two-desc = Первое поколение с более человеческим видом.
 st-synth-generation-three-desc = Лучшие навыки, ловкий, но хрупкий.
 st-synth-generation-whiteout-desc = Поколение "Гриль".
+st-synth-generation-confirm-title = Подтверждение поколения
+st-synth-generation-confirm-message = Подтвердите выбор: { $generation }.

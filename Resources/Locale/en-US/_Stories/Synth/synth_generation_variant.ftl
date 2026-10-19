@@ -7,3 +7,5 @@ st-synth-generation-one-desc = Slow and sturdy. Pounce resisting.
 st-synth-generation-two-desc = A better looking Gen 1.
 st-synth-generation-three-desc = Better skills, agile but fragile.
 st-synth-generation-whiteout-desc = Generation Grill.
+st-synth-generation-confirm-title = Confirm Generation
+st-synth-generation-confirm-message = Please confirm { $generation } selection.
