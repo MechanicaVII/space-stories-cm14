@@ -3,6 +3,8 @@
   name: Generation One
   categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.5
   - type: SynthGeneration
     generation: RMCSynthGenOne
     damageModifier: RMCSynthGenOne
@@ -49,6 +51,8 @@
   name: Generation Two
   categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.3
   - type: SynthGeneration
     generation: RMCSynthGenTwo
     damageModifier: RMCSynthGenTwo
@@ -94,6 +98,8 @@
   name: Generation Three
   categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1
   - type: SynthGeneration
     generation: RMCSynthGenThree
     priority: 3
@@ -140,6 +146,7 @@
   components:
   - type: SynthGeneration
     generation: RMCSynthWhiteout
+    damageModifier: STSynthWhiteout # Stories-SynthWhiteout
     priority: 4
     description: st-synth-generation-whiteout-desc # Stories-SynthGenerationLoc
   - type: Skills
@@ -169,6 +176,14 @@
   - type: RMCLeapProtection
     inherentStunDuration: 3
     fullProtection: true
+  # Stories-SynthWhiteout-Start
+  - type: STSynthHeavyGrab
+  - type: TackleResist
+    multiplier: 1.5
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 4.5
+    baseWalkSpeed: 2.4
+  # Stories-SynthWhiteout-End
   - type: MarineOrders
   - type: MobThresholds
     thresholds:
@@ -179,12 +194,15 @@
   - type: RemoveComponents
     components:
     - type: HiddenAppearance
+    - type: AffectableByWeeds # Stories-SynthWhiteout
 
 # Stories-Synth-Start
 - type: entity
   id: RMCARESWorker
   name: ARES Worker
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.5
   - type: SynthGeneration
     generation: RMCARESWorker
     damageModifier: STJoeSynth
