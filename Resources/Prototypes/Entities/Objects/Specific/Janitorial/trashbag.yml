@@ -61,6 +61,10 @@
     quickInsert: true
     areaInsert: true
     areaInsertRadius: 5
+    whitelist: # Stories-TrashBag
+      tags:
+        - Cartridge
+        - Trash
 
 - type: entity
   parent: TrashBag
@@ -72,3 +76,7 @@
     maxItemSize: Huge
     grid:
     - 0,0,7,6
+    whitelist: # Stories-TrashBag
+      tags:
+        - Cartridge
+        - Trash
