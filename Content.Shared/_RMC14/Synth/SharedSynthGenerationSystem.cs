@@ -214,7 +214,7 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
             options.Add(new DialogOption(proto.Name, new GenerationSelectedActionEvent(proto.ID), description: desc));
         }
 
-        _dialog.OpenOptions(ent.Owner, Loc.GetString("st-synth-generation-select-title"), options, Loc.GetString("st-synth-generation-select-message"), enableSearch: false); // Stories-SynthGenerationLoc
+        _dialog.OpenOptions(ent.Owner, Loc.GetString("stories-synth-generation-select-title"), options, Loc.GetString("stories-synth-generation-select-message"), enableSearch: false); // Stories-SynthGenerationLoc
     }
 
     private void OnGenerationSelectedAction(Entity<SynthGenerationComponent> ent, ref GenerationSelectedActionEvent args)
@@ -230,8 +230,8 @@ public sealed class SharedSynthGenerationSystem : EntitySystem
 
         _dialog.OpenConfirmation(
             ent.Owner,
-            Loc.GetString("st-synth-generation-confirm-title"), // Stories-SynthGenerationLoc
-            Loc.GetString("st-synth-generation-confirm-message", ("generation", proto.Name)), // Stories-SynthGenerationLoc
+            Loc.GetString("stories-synth-generation-confirm-title"), // Stories-SynthGenerationLoc
+            Loc.GetString("stories-synth-generation-confirm-message", ("generation", proto.Name)), // Stories-SynthGenerationLoc
             new GenerationConfirmedEvent(args.Generation));
     }
 

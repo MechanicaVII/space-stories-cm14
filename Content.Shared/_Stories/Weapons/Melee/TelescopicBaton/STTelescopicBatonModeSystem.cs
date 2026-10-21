@@ -1,8 +1,8 @@
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Stamina;
 using Content.Shared._RMC14.Synth;
-using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Weapons.Common;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Item.ItemToggle;
 using Content.Shared.Item.ItemToggle.Components;
 using Content.Shared.Popups;
@@ -16,13 +16,14 @@ namespace Content.Shared._Stories.Weapons.Melee.TelescopicBaton;
 
 public sealed class STTelescopicBatonModeSystem : EntitySystem
 {
-    [Dependency] private readonly ItemToggleSystem _toggle = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SkillsSystem _skills = default!;
-    [Dependency] private readonly RMCStaminaSystem _stamina = default!;
-    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
-    [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+
+    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
+    [Dependency] private readonly ItemToggleSystem _toggle = default!;
+    [Dependency] private readonly RMCStaminaSystem _stamina = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!;
+    [Dependency] private readonly SkillsSystem _skills = default!;
 
     public override void Initialize()
     {
@@ -67,7 +68,7 @@ public sealed class STTelescopicBatonModeSystem : EntitySystem
             return;
 
         var time = _timing.CurTime;
-        if (time < ent.Comp.NextXenoStun)
+        if (TryComp(args.User, out STXenoStunCooldownComponent? cooldown) && time < cooldown.NextXenoStun)
             return;
 
         var stunned = false;
@@ -86,8 +87,9 @@ public sealed class STTelescopicBatonModeSystem : EntitySystem
         if (!stunned)
             return;
 
-        ent.Comp.NextXenoStun = time + ent.Comp.XenoStunCooldown;
-        Dirty(ent);
+        cooldown = EnsureComp<STXenoStunCooldownComponent>(args.User);
+        cooldown.NextXenoStun = time + ent.Comp.XenoStunCooldown;
+        Dirty(args.User, cooldown);
     }
 
     private void OnMapInit(Entity<STTelescopicBatonModeComponent> ent, ref MapInitEvent args)

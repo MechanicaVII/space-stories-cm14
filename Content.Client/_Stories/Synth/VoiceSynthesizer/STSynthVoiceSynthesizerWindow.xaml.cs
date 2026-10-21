@@ -23,7 +23,7 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
 
     private readonly ButtonGroup _categoryGroup = new();
 
-    private readonly List<(Button Button, ScrollContainer Content)> _categories = new();
+    private readonly List<(STSynthVoiceCategoryButton Button, ScrollContainer Content)> _categories = new();
 
     public STSynthVoiceSynthesizerWindow()
     {
@@ -61,12 +61,10 @@ public sealed partial class STSynthVoiceSynthesizerWindow : DefaultWindow
                 scroll.AddChild(content);
                 CategoryContents.AddChild(scroll);
 
-                var categoryButton = new Button
+                var categoryButton = new STSynthVoiceCategoryButton
                 {
                     Text = categoryName,
-                    ToggleMode = true,
                     Group = _categoryGroup,
-                    HorizontalExpand = true,
                     Pressed = _categories.Count == 0,
                 };
                 categoryButton.OnPressed += _ => SelectCategory(scroll);

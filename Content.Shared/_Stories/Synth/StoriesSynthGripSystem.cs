@@ -108,9 +108,9 @@ public sealed class StoriesSynthGripSystem : EntitySystem
             args.Cancelled = true;
     }
 
-    private void OnGrippedAttempt(EntityUid uid, STSynthGrippedComponent comp, CancellableEntityEventArgs args)
+    private void OnGrippedAttempt<T>(Entity<STSynthGrippedComponent> ent, ref T args) where T : CancellableEntityEventArgs
     {
-        if (IsGripped((uid, comp)))
+        if (IsGripped(ent))
             args.Cancel();
     }
 

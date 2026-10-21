@@ -62,7 +62,8 @@ public sealed partial class RMCPepperSpray : EntityEffect
             return;
         }
 
-        if (!entMan.HasComponent<SynthComponent>(target)) // Stories-SynthNoPainEmote
+        // Stories-SynthNoPainEmote-Start
+        if (!entMan.HasComponent<SynthComponent>(target))
         {
             entMan.System<SharedRMCEmoteSystem>().TryEmoteWithChat(
                 target,
@@ -72,6 +73,7 @@ public sealed partial class RMCPepperSpray : EntityEffect
                 forceEmote: true
             );
         }
+        // Stories-SynthNoPainEmote-End
 
         popup.PopupEntity(Loc.GetString("rmc-pepper-spray-hit"), target, target, PopupType.LargeCaution);
         status.TryAddStatusEffect<RMCBlindedComponent>(target, "Blinded", BlurTime, true);

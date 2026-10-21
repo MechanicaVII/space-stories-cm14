@@ -17,8 +17,10 @@ public sealed class OnCollideSystem : SharedOnCollideSystem
         if (ent.Comp.Emote is not { } emote)
             return;
 
-        if (HasComp<SynthComponent>(other)) // Stories-SynthNoPainEmote
+        // Stories-SynthNoPainEmote-Start
+        if (HasComp<SynthComponent>(other))
             return;
+        // Stories-SynthNoPainEmote-End
 
 
         if (HasComp<XenoComponent>(other) && ent.Comp.XenoEmote != null)

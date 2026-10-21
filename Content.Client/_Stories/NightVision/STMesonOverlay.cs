@@ -4,7 +4,6 @@ using Content.Shared.Maps;
 using Content.Shared.Tag;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
-using Robust.Client.Player;
 using Robust.Client.ResourceManagement;
 using Robust.Shared.Enums;
 using Robust.Shared.Map;
@@ -31,9 +30,9 @@ public sealed class STMesonOverlay : Overlay
     };
 
     [Dependency] private readonly IEntityManager _entity = default!;
+    [Dependency] private readonly IEyeManager _eye = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IMapManager _mapManager = default!;
-    [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IResourceCache _resourceCache = default!;
     [Dependency] private readonly ITileDefinitionManager _tileDefinitions = default!;
 
@@ -71,10 +70,10 @@ public sealed class STMesonOverlay : Overlay
 
     protected override void Draw(in OverlayDrawArgs args)
     {
-        if (_player.LocalEntity is not { } local)
+        if (args.Viewport.Eye is not { } eye || eye != _eye.CurrentEye)
             return;
 
-        UpdateOrigin(local);
+        UpdateOrigin(eye.Position);
 
         var handle = args.WorldHandle;
 
@@ -85,17 +84,17 @@ public sealed class STMesonOverlay : Overlay
         handle.SetTransform(Matrix3x2.Identity);
     }
 
-    private void UpdateOrigin(EntityUid local)
+    private void UpdateOrigin(MapCoordinates origin)
     {
-        _origin = _transform.GetMapCoordinates(local);
+        var mapChanged = origin.MapId != _origin.MapId;
+        _origin = origin;
 
         Vector2i? originTile = null;
-        var xform = _entity.GetComponent<TransformComponent>(local);
-        if (xform.GridUid is { } grid && _entity.TryGetComponent(grid, out MapGridComponent? gridComp))
-            originTile = _map.TileIndicesFor(grid, gridComp, xform.Coordinates);
+        if (_mapManager.TryFindGridAt(origin, out var grid, out var gridComp))
+            originTile = _map.TileIndicesFor(grid, gridComp, origin);
 
         var time = _timing.RealTime;
-        if (originTile == _originTile && time < _nextRefresh)
+        if (!mapChanged && originTile == _originTile && time < _nextRefresh)
             return;
 
         _originTile = originTile;

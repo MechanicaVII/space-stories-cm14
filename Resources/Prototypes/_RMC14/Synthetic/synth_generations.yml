@@ -9,7 +9,7 @@
     generation: RMCSynthGenOne
     damageModifier: RMCSynthGenOne
     priority: 1
-    description: st-synth-generation-one-desc # Stories-SynthGenerationLoc
+    description: stories-synth-generation-one-desc # Stories-SynthGenerationLoc
   - type: STSynthHeavyGrab # Stories-SynthHeavyGrab
   - type: Skills
     skills:
@@ -57,7 +57,7 @@
     generation: RMCSynthGenTwo
     damageModifier: RMCSynthGenTwo
     priority: 2
-    description: st-synth-generation-two-desc # Stories-SynthGenerationLoc
+    description: stories-synth-generation-two-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -103,7 +103,7 @@
   - type: SynthGeneration
     generation: RMCSynthGenThree
     priority: 3
-    description: st-synth-generation-three-desc # Stories-SynthGenerationLoc
+    description: stories-synth-generation-three-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
       RMCSkillCqc: 5
@@ -148,7 +148,7 @@
     generation: RMCSynthWhiteout
     damageModifier: STSynthWhiteout # Stories-SynthWhiteout
     priority: 4
-    description: st-synth-generation-whiteout-desc # Stories-SynthGenerationLoc
+    description: stories-synth-generation-whiteout-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
         RMCSkillCqc: 5

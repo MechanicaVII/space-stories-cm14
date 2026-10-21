@@ -3,11 +3,10 @@ using Content.Shared.Damage;
 using Content.Shared.Whitelist;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared._Stories.Weapons.Melee.TelescopicBaton;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class STTelescopicBatonModeComponent : Component
 {
     [DataField, AutoNetworkedField]
@@ -42,7 +41,4 @@ public sealed partial class STTelescopicBatonModeComponent : Component
 
     [DataField]
     public TimeSpan XenoStunCooldown = TimeSpan.FromSeconds(4.5);
-
-    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
-    public TimeSpan NextXenoStun;
 }

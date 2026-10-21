@@ -32,8 +32,10 @@ public sealed class RMCDamageableSystem : SharedRMCDamageableSystem
 
     protected override void DoEmote(EntityUid ent, ProtoId<EmotePrototype> emote)
     {
-        if (HasComp<SynthComponent>(ent)) // Stories-SynthNoPainEmote
+        // Stories-SynthNoPainEmote-Start
+        if (HasComp<SynthComponent>(ent))
             return;
+        // Stories-SynthNoPainEmote-End
 
         _chat.TryEmoteWithoutChat(ent, emote);
     }
