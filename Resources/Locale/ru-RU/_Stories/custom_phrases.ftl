@@ -1,0 +1,22 @@
+stories-custom-phrases-button-tooltip = Открыть сохранённые фразы
+stories-custom-phrases-title = Фразы
+stories-custom-phrases-search-placeholder = Поиск по тексту или #тегу
+stories-custom-phrases-tag-all = Все
+stories-custom-phrases-empty = Сохранённых фраз пока нет
+stories-custom-phrases-not-found = Ничего не найдено
+stories-custom-phrases-add = Добавить фразу
+stories-custom-phrases-edit = Изменить
+stories-custom-phrases-delete = Удалить
+stories-custom-phrases-delete-confirm = Точно?
+
+stories-custom-phrases-edit-title = Фраза
+stories-custom-phrases-text-label = Текст
+stories-custom-phrases-text-placeholder = Пример: *отдаёт честь
+stories-custom-phrases-hint = Префиксы работают как в чате: * эмоут, ; рация, , шёпот
+stories-custom-phrases-tags-label = Теги
+stories-custom-phrases-tags-placeholder = Пример: #рация #медик
+stories-custom-phrases-save = Сохранить
+stories-custom-phrases-cancel = Отмена
+stories-custom-phrases-error-empty = Текст не может быть пустым
+stories-custom-phrases-error-too-long = Слишком длинный текст, максимум { $max } символов
+stories-custom-phrases-error-limit = Достигнут лимит в { $max } фраз

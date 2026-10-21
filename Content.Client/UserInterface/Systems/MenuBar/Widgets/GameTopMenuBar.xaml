@@ -6,6 +6,7 @@
            xmlns:xe="clr-namespace:Content.Client.UserInterface.XamlExtensions"
            xmlns:ui="clr-namespace:Content.Client.UserInterface.Controls"
            xmlns:widgets="clr-namespace:Content.Client.UserInterface.Systems.MenuBar.Widgets"
+           xmlns:phrases="clr-namespace:Content.Client._Stories.CustomPhrases"
            Name = "MenuButtons"
            VerticalExpand="False"
            Orientation="Horizontal"
@@ -53,6 +54,18 @@
         HorizontalExpand="True"
         AppendStyleClass="{x:Static style:StyleBase.ButtonSquare}"
         />
+    <!-- Stories-CustomPhrases-Start -->
+    <ui:MenuButton
+        Name="CustomPhrasesButton"
+        Access="Internal"
+        Icon="{xe:Tex '/Textures/Interface/VerbIcons/bubbles.svg.192dpi.png'}"
+        ToolTip="{Loc 'stories-custom-phrases-button-tooltip'}"
+        BoundKey = "{x:Static phrases:CustomPhrasesUIController.OpenMenuFunction}"
+        MinSize="42 64"
+        HorizontalExpand="True"
+        AppendStyleClass="{x:Static style:StyleBase.ButtonSquare}"
+        />
+    <!-- Stories-CustomPhrases-End -->
     <ui:MenuButton
         Name="CraftingButton"
         Access="Internal"

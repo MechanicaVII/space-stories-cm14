@@ -858,6 +858,12 @@ public sealed partial class ChatUIController : UIController
         if (string.IsNullOrWhiteSpace(text))
             return;
 
+        SendText(text, channel, box); // Stories-CustomPhrases
+    }
+
+    // Stories-CustomPhrases
+    public void SendText(string text, ChatSelectChannel channel, ChatBox? box = null)
+    {
         (var prefixChannel, text, var _) = SplitInputContents(text);
 
         // Check if message is longer than the character limit
@@ -865,7 +871,7 @@ public sealed partial class ChatUIController : UIController
         {
             var locWarning = Loc.GetString("chat-manager-max-message-length",
                 ("maxMessageLength", MaxMessageLength));
-            box.AddLine(locWarning, Color.Orange, default, locWarning, ChatChannel.Server, true);
+            box?.AddLine(locWarning, Color.Orange, default, locWarning, ChatChannel.Server, true); // Stories-CustomPhrases
             return;
         }
 
