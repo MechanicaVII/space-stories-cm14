@@ -1,5 +1,7 @@
 using Content.Shared._RMC14.Synth;
 using Content.Shared.ActionBlocker;
+using Content.Shared.Actions.Components;
+using Content.Shared.Actions.Events;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Hands;
 using Content.Shared.Interaction.Events;
@@ -39,6 +41,8 @@ public sealed class StoriesSynthGripSystem : EntitySystem
         SubscribeLocalEvent<STSynthGrippedComponent, PickupAttemptEvent>(OnGrippedAttempt);
         SubscribeLocalEvent<STSynthGrippedComponent, IsEquippingAttemptEvent>(OnGrippedEquipAttempt);
         SubscribeLocalEvent<STSynthGrippedComponent, IsUnequippingAttemptEvent>(OnGrippedUnequipAttempt);
+
+        SubscribeLocalEvent<ActionComponent, ActionAttemptEvent>(OnActionAttempt);
     }
 
     private void OnSynthPullStarted(Entity<SynthComponent> ent, ref PullStartedMessage args)
@@ -124,5 +128,14 @@ public sealed class StoriesSynthGripSystem : EntitySystem
     {
         if (args.Unequipee == ent.Owner && IsGripped(ent))
             args.Cancel();
+    }
+
+    private void OnActionAttempt(Entity<ActionComponent> ent, ref ActionAttemptEvent args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (TryComp(args.User, out STSynthGrippedComponent? gripped) && IsGripped((args.User, gripped)))
+            args.Cancelled = true;
     }
 }
