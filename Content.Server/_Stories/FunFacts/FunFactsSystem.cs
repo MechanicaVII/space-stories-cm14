@@ -1,10 +1,12 @@
 using Content.Server._RMC14.Medical.Surgery;
 using Content.Server._RMC14.Xenonids.Acid;
 using Content.Server._RMC14.Xenonids.Heal;
+using Content.Server.Destructible;
 using Content.Server.Explosion.EntitySystems;
 using Content.Server.GameTicking;
 using Content.Shared._RMC14.Atmos;
 using Content.Shared._RMC14.Construction;
+using Content.Shared._RMC14.Entrenching;
 using Content.Shared._RMC14.Marines.Dogtags;
 using Content.Shared._RMC14.Medical.Surgery;
 using Content.Shared._RMC14.Tackle;
@@ -17,7 +19,6 @@ using Content.Shared._RMC14.Xenonids.Construction.Nest;
 using Content.Shared._RMC14.Xenonids.Evolution;
 using Content.Shared._RMC14.Xenonids.Heal;
 using Content.Shared._RMC14.Xenonids.Hive;
-using Content.Shared._RMC14.Xenonids.JoinXeno;
 using Content.Shared._RMC14.Xenonids.Parasite;
 using Content.Shared.Actions;
 using Content.Shared.Atmos;
@@ -47,7 +48,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Server._Stories.FunFacts;
 
-public sealed partial class STFunFactsSystem : EntitySystem
+public sealed partial class FunFactsSystem : EntitySystem
 {
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
@@ -63,7 +64,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
 
     private static readonly ProtoId<JobPrototype> QueenRole = "CMXenoQueen";
 
-    private static readonly HashSet<string> ExcludedCastes =
+    private static readonly HashSet<EntProtoId> ExcludedCastes =
     [
         "CMXenoLarva",
         "STXenoPredalienLarva",
@@ -75,6 +76,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
     private readonly Dictionary<NetUserId, FunFactsPlayer> _players = new();
     private readonly HashSet<EntityUid> _countedTags = new();
     private readonly Dictionary<EntityUid, EntityUid> _nestAttackers = new();
+    private (EntityUid Builder, GameTick Tick)? _pendingBuild;
 
     public override void Initialize()
     {
@@ -82,30 +84,31 @@ public sealed partial class STFunFactsSystem : EntitySystem
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<NewXenoEvolvedEvent>(OnXenoEvolved);
         SubscribeLocalEvent<XenoDevolvedEvent>(OnXenoDevolved);
-        SubscribeLocalEvent<XenoBurstPriorityEvent>(OnXenoBurst);
         SubscribeLocalEvent<ActiveTimerTriggerEvent>(OnActiveTimerTrigger);
 
-        SubscribeLocalEvent<STFunFactsTrackerComponent, ComponentShutdown>(OnTrackerShutdown);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, DamageChangedEvent>(OnDamageChanged, before: [typeof(MobThresholdSystem)]);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, MobStateChangedEvent>(OnMobStateChanged);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, DownedEvent>(OnDowned);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, IgnitedEvent>(OnIgnited);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, ExtinguishedEvent>(OnExtinguished);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, RMCExtinguishedEvent>(OnExtinguished);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, CMSurgeryDoAfterEvent>(OnSurgeryDoAfter, after: [typeof(CMSurgerySystem)]);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, XenoSecreteStructureDoAfterEvent>(OnSecreteStructure, after: [typeof(SharedXenoConstructionSystem)]);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, XenoPlantWeedsActionEvent>(OnPlantWeeds, after: [typeof(SharedXenoConstructionSystem)]);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, XenoCorrosiveAcidDoAfterEvent>(OnCorrosiveAcid, after: [typeof(XenoAcidSystem)]);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, XenoHealActionEvent>(OnXenoHeal, after: [typeof(XenoHealSystem)]);
-        SubscribeLocalEvent<STFunFactsTrackerComponent, XenoApplySalveActionEvent>(OnXenoHeal, after: [typeof(XenoHealSystem)]);
+        SubscribeLocalEvent<FunFactsTrackerComponent, ComponentShutdown>(OnTrackerShutdown);
+        SubscribeLocalEvent<FunFactsTrackerComponent, DamageChangedEvent>(OnDamageChanged, before: [typeof(MobThresholdSystem), typeof(DestructibleSystem)]);
+        SubscribeLocalEvent<FunFactsTrackerComponent, MobStateChangedEvent>(OnMobStateChanged);
+        SubscribeLocalEvent<FunFactsTrackerComponent, DownedEvent>(OnDowned);
+        SubscribeLocalEvent<FunFactsTrackerComponent, IgnitedEvent>(OnIgnited);
+        SubscribeLocalEvent<FunFactsTrackerComponent, ExtinguishedEvent>(OnExtinguished);
+        SubscribeLocalEvent<FunFactsTrackerComponent, RMCExtinguishedEvent>(OnExtinguished);
+        SubscribeLocalEvent<FunFactsTrackerComponent, CMSurgeryDoAfterEvent>(OnSurgeryDoAfter, after: [typeof(CMSurgerySystem)]);
+        SubscribeLocalEvent<FunFactsTrackerComponent, XenoSecreteStructureDoAfterEvent>(OnSecreteStructure, after: [typeof(SharedXenoConstructionSystem)]);
+        SubscribeLocalEvent<FunFactsTrackerComponent, XenoPlantWeedsActionEvent>(OnPlantWeeds, after: [typeof(SharedXenoConstructionSystem)]);
+        SubscribeLocalEvent<FunFactsTrackerComponent, XenoCorrosiveAcidDoAfterEvent>(OnCorrosiveAcid, after: [typeof(XenoAcidSystem)]);
+        SubscribeLocalEvent<FunFactsTrackerComponent, XenoHealActionEvent>(OnXenoHeal, after: [typeof(XenoHealSystem)]);
+        SubscribeLocalEvent<FunFactsTrackerComponent, XenoApplySalveActionEvent>(OnXenoHeal, after: [typeof(XenoHealSystem)]);
 
         SubscribeLocalEvent<ItemComponent, GunShotEvent>(OnGunShot);
-        SubscribeLocalEvent<ItemComponent, RMCConstructionBuildDoAfterEvent>(OnConstructionBuild, after: [typeof(RMCConstructionSystem)]);
+        SubscribeLocalEvent<ItemComponent, RMCConstructionBuildDoAfterEvent>(OnConstructionBuild, before: [typeof(RMCConstructionSystem)]);
+        SubscribeLocalEvent<BarricadeComponent, ComponentStartup>(OnBarricadeStartup);
+        SubscribeLocalEvent<MobStateComponent, LarvaBurstDoAfterEvent>(OnLarvaBurst);
         SubscribeLocalEvent<FoodComponent, AfterFullyEatenEvent>(OnFullyEaten);
         SubscribeLocalEvent<InformationTagsComponent, GotEquippedHandEvent>(OnInfoTagsPickedUp);
         SubscribeLocalEvent<DamageableComponent, XenoNestDoAfterEvent>(OnNestDoAfter, after: [typeof(XenoNestSystem)]);
         SubscribeLocalEvent<ParasiteSpentComponent, ComponentStartup>(OnParasiteSpent);
-        SubscribeLocalEvent<XenoNestComponent, DamageChangedEvent>(OnNestDamaged, before: [typeof(MobThresholdSystem)]);
+        SubscribeLocalEvent<XenoNestComponent, DamageChangedEvent>(OnNestDamaged, before: [typeof(MobThresholdSystem), typeof(DestructibleSystem)]);
         SubscribeLocalEvent<XenoNestComponent, DestructionEventArgs>(OnNestDestroyed);
 
         InitializeReport();
@@ -124,7 +127,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
         if (!HasComp<MobStateComponent>(ev.Entity) || HasComp<GhostComponent>(ev.Entity))
             return;
 
-        var tracker = EnsureComp<STFunFactsTrackerComponent>(ev.Entity);
+        var tracker = EnsureComp<FunFactsTrackerComponent>(ev.Entity);
         tracker.Player = ev.Player.UserId;
         RefreshIdentity((ev.Entity, tracker));
 
@@ -138,7 +141,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
     {
         TransferStats(args.OldXeno, args.NewXeno);
 
-        if (args.SubtractPoints && TryComp(args.NewXeno, out STFunFactsTrackerComponent? tracker))
+        if (args.SubtractPoints && TryComp(args.NewXeno, out FunFactsTrackerComponent? tracker))
             tracker.Stats.Evolutions++;
     }
 
@@ -147,19 +150,22 @@ public sealed partial class STFunFactsSystem : EntitySystem
         TransferStats(args.OldXeno, args.NewXeno);
     }
 
-    private void OnXenoBurst(ref XenoBurstPriorityEvent args)
+    private void OnLarvaBurst(Entity<MobStateComponent> ent, ref LarvaBurstDoAfterEvent args)
     {
-        if (args.InfectorUserId is { } infector)
+        if (args.Cancelled || args.Handled)
+            return;
+
+        if (TryComp(ent, out VictimInfectedComponent? infected) && infected.InfectorUserId is { } infector)
             GetPlayer(infector).LarvaeBurst++;
     }
 
     private void OnActiveTimerTrigger(ref ActiveTimerTriggerEvent args)
     {
-        if (HasComp<ItemComponent>(args.Triggered) && TryComp(args.User, out STFunFactsTrackerComponent? tracker))
+        if (HasComp<ItemComponent>(args.Triggered) && TryComp(args.User, out FunFactsTrackerComponent? tracker))
             tracker.Stats.Grenades++;
     }
 
-    private void OnTrackerShutdown(Entity<STFunFactsTrackerComponent> ent, ref ComponentShutdown args)
+    private void OnTrackerShutdown(Entity<FunFactsTrackerComponent> ent, ref ComponentShutdown args)
     {
         if (ent.Comp.Transferred || ent.Comp.Player is not { } player || _gameTicker.RunLevel == GameRunLevel.PreRoundLobby)
             return;
@@ -167,7 +173,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
         _departed.Add(new FunFactsEntry(player, ent.Comp.Name, ent.Comp.Gender, ent.Comp.Xeno, ent.Comp.ExcludedCaste, ent.Comp.Dead, ent.Comp.DeathCause, ent.Comp.Stats));
     }
 
-    private void OnDamageChanged(Entity<STFunFactsTrackerComponent> ent, ref DamageChangedEvent args)
+    private void OnDamageChanged(Entity<FunFactsTrackerComponent> ent, ref DamageChangedEvent args)
     {
         if (args.DamageDelta is not { } delta)
             return;
@@ -179,7 +185,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
 
         if (total < 0)
         {
-            if (TryComp(actor, out STFunFactsTrackerComponent? healer))
+            if (TryComp(actor, out FunFactsTrackerComponent? healer))
                 healer.Stats.Healed -= total;
 
             return;
@@ -190,7 +196,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
 
         ent.Comp.Stats.DamageTaken += total;
 
-        if (actor is not { } attacker || !TryComp(attacker, out STFunFactsTrackerComponent? attackerTracker))
+        if (actor is not { } attacker || !TryComp(attacker, out FunFactsTrackerComponent? attackerTracker))
             return;
 
         ent.Comp.LastAttacker = attacker;
@@ -213,7 +219,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
         attackerTracker.Stats.ShotsHit++;
     }
 
-    private void OnMobStateChanged(Entity<STFunFactsTrackerComponent> ent, ref MobStateChangedEvent args)
+    private void OnMobStateChanged(Entity<FunFactsTrackerComponent> ent, ref MobStateChangedEvent args)
     {
         var now = _timing.CurTime;
         if (args.OldMobState == MobState.Critical && ent.Comp.CritStartedAt is { } critStarted)
@@ -239,11 +245,11 @@ public sealed partial class STFunFactsSystem : EntitySystem
         ent.Comp.Stats.TimesRevived++;
 
         var reviver = ResolveActor(args.Origin);
-        if (reviver != ent.Owner && TryComp(reviver, out STFunFactsTrackerComponent? reviverTracker))
+        if (reviver != ent.Owner && TryComp(reviver, out FunFactsTrackerComponent? reviverTracker))
             reviverTracker.Stats.Revives++;
     }
 
-    private void OnDeath(Entity<STFunFactsTrackerComponent> ent, EntityUid? origin)
+    private void OnDeath(Entity<FunFactsTrackerComponent> ent, EntityUid? origin)
     {
         ent.Comp.Dead = true;
         ent.Comp.Name = Name(ent);
@@ -262,14 +268,14 @@ public sealed partial class STFunFactsSystem : EntitySystem
 
         ent.Comp.DeathCause = killer is { } cause ? Name(cause) : null;
 
-        if (killer is { } k && !IsFriendly(k, ent) && TryComp(k, out STFunFactsTrackerComponent? killerTracker))
+        if (killer is { } k && !IsFriendly(k, ent) && TryComp(k, out FunFactsTrackerComponent? killerTracker))
             killerTracker.Stats.Kills++;
 
         if (ent.Comp.Player is { } player)
             GetPlayer(player).Deaths++;
     }
 
-    private void OnDowned(Entity<STFunFactsTrackerComponent> ent, ref DownedEvent args)
+    private void OnDowned(Entity<FunFactsTrackerComponent> ent, ref DownedEvent args)
     {
         if (!_mobState.IsAlive(ent))
             return;
@@ -294,7 +300,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
             knocker == ent.Owner ||
             TerminatingOrDeleted(knocker) ||
             IsFriendly(knocker, ent) ||
-            !TryComp(knocker, out STFunFactsTrackerComponent? knockerTracker))
+            !TryComp(knocker, out FunFactsTrackerComponent? knockerTracker))
         {
             return;
         }
@@ -302,7 +308,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
         knockerTracker.Stats.Knockdowns++;
     }
 
-    private void OnIgnited(Entity<STFunFactsTrackerComponent> ent, ref IgnitedEvent args)
+    private void OnIgnited(Entity<FunFactsTrackerComponent> ent, ref IgnitedEvent args)
     {
         if (ent.Comp.Burning)
             return;
@@ -311,17 +317,18 @@ public sealed partial class STFunFactsSystem : EntitySystem
         ent.Comp.Stats.Ignited++;
     }
 
-    private void OnExtinguished<T>(Entity<STFunFactsTrackerComponent> ent, ref T args)
+    private void OnExtinguished<T>(Entity<FunFactsTrackerComponent> ent, ref T args)
     {
         ent.Comp.Burning = false;
     }
 
-    private void OnSurgeryDoAfter(Entity<STFunFactsTrackerComponent> ent, ref CMSurgeryDoAfterEvent args)
+    private void OnSurgeryDoAfter(Entity<FunFactsTrackerComponent> ent, ref CMSurgeryDoAfterEvent args)
     {
-        if (args.Cancelled || args.User == ent.Owner)
+        if (args.Cancelled || args.User == ent.Owner || args.Target is not { } part)
             return;
 
-        if (_surgery.GetSingleton(args.Surgery) is not { } surgery ||
+        if (!_surgery.IsStepComplete(ent, part, args.Step) ||
+            _surgery.GetSingleton(args.Surgery) is not { } surgery ||
             !TryComp(surgery, out CMSurgeryComponent? surgeryComp) ||
             surgeryComp.Steps.Count == 0 ||
             surgeryComp.Steps[^1] != args.Step)
@@ -329,29 +336,29 @@ public sealed partial class STFunFactsSystem : EntitySystem
             return;
         }
 
-        if (TryComp(args.User, out STFunFactsTrackerComponent? surgeon))
+        if (TryComp(args.User, out FunFactsTrackerComponent? surgeon))
             surgeon.Stats.Surgeries++;
     }
 
-    private void OnSecreteStructure(Entity<STFunFactsTrackerComponent> ent, ref XenoSecreteStructureDoAfterEvent args)
+    private void OnSecreteStructure(Entity<FunFactsTrackerComponent> ent, ref XenoSecreteStructureDoAfterEvent args)
     {
         if (!args.Cancelled && args.Handled)
             ent.Comp.Stats.ResinBuilt++;
     }
 
-    private void OnPlantWeeds(Entity<STFunFactsTrackerComponent> ent, ref XenoPlantWeedsActionEvent args)
+    private void OnPlantWeeds(Entity<FunFactsTrackerComponent> ent, ref XenoPlantWeedsActionEvent args)
     {
         if (args.Handled)
             ent.Comp.Stats.WeedsPlanted++;
     }
 
-    private void OnCorrosiveAcid(Entity<STFunFactsTrackerComponent> ent, ref XenoCorrosiveAcidDoAfterEvent args)
+    private void OnCorrosiveAcid(Entity<FunFactsTrackerComponent> ent, ref XenoCorrosiveAcidDoAfterEvent args)
     {
         if (!args.Cancelled && args.Handled)
             ent.Comp.Stats.AcidApplied++;
     }
 
-    private void OnXenoHeal<T>(Entity<STFunFactsTrackerComponent> ent, ref T args) where T : BaseActionEvent
+    private void OnXenoHeal<T>(Entity<FunFactsTrackerComponent> ent, ref T args) where T : BaseActionEvent
     {
         if (args.Handled)
             ent.Comp.Stats.XenoHeals++;
@@ -359,25 +366,37 @@ public sealed partial class STFunFactsSystem : EntitySystem
 
     private void OnGunShot(Entity<ItemComponent> ent, ref GunShotEvent args)
     {
-        if (TryComp(args.User, out STFunFactsTrackerComponent? tracker))
+        if (TryComp(args.User, out FunFactsTrackerComponent? tracker))
             tracker.Stats.ShotsFired += args.Ammo.Count;
     }
 
     private void OnConstructionBuild(Entity<ItemComponent> ent, ref RMCConstructionBuildDoAfterEvent args)
     {
-        if (!args.Cancelled && args.Handled && TryComp(args.User, out STFunFactsTrackerComponent? tracker))
+        if (args.Cancelled || args.Handled)
+            return;
+
+        _pendingBuild = (args.User, _timing.CurTick);
+    }
+
+    private void OnBarricadeStartup(Entity<BarricadeComponent> ent, ref ComponentStartup args)
+    {
+        if (_pendingBuild is not { } pending || pending.Tick != _timing.CurTick)
+            return;
+
+        _pendingBuild = null;
+        if (TryComp(pending.Builder, out FunFactsTrackerComponent? tracker))
             tracker.Stats.Built++;
     }
 
     private void OnFullyEaten(Entity<FoodComponent> ent, ref AfterFullyEatenEvent args)
     {
-        if (TryComp(args.User, out STFunFactsTrackerComponent? tracker))
+        if (TryComp(args.User, out FunFactsTrackerComponent? tracker))
             tracker.Stats.Eaten++;
     }
 
     private void OnInfoTagsPickedUp(Entity<InformationTagsComponent> ent, ref GotEquippedHandEvent args)
     {
-        if (_countedTags.Add(ent.Owner) && TryComp(args.User, out STFunFactsTrackerComponent? tracker))
+        if (_countedTags.Add(ent.Owner) && TryComp(args.User, out FunFactsTrackerComponent? tracker))
             tracker.Stats.Dogtags++;
     }
 
@@ -386,7 +405,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
         if (args.Cancelled || !args.Handled || args.Target is not { } victim || !HasComp<XenoNestedComponent>(victim))
             return;
 
-        if (TryComp(args.User, out STFunFactsTrackerComponent? tracker))
+        if (TryComp(args.User, out FunFactsTrackerComponent? tracker))
             tracker.Stats.Nested++;
     }
 
@@ -395,7 +414,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
         if (!TryComp(ent, out XenoParasiteComponent? parasite) ||
             parasite.PendingInfectorUserId is not { } infector ||
             !_player.TryGetSessionById(infector, out var session) ||
-            !TryComp(session.AttachedEntity, out STFunFactsTrackerComponent? tracker))
+            !TryComp(session.AttachedEntity, out FunFactsTrackerComponent? tracker))
         {
             return;
         }
@@ -417,7 +436,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
             TerminatingOrDeleted(rescuer) ||
             HasComp<XenoComponent>(rescuer) ||
             _mobState.IsDead(victim) ||
-            !TryComp(rescuer, out STFunFactsTrackerComponent? tracker))
+            !TryComp(rescuer, out FunFactsTrackerComponent? tracker))
         {
             return;
         }
@@ -427,17 +446,17 @@ public sealed partial class STFunFactsSystem : EntitySystem
 
     private void TransferStats(EntityUid oldUid, EntityUid newUid)
     {
-        if (!TryComp(oldUid, out STFunFactsTrackerComponent? oldTracker) || oldTracker.Transferred)
+        if (!TryComp(oldUid, out FunFactsTrackerComponent? oldTracker) || oldTracker.Transferred)
             return;
 
-        var newTracker = EnsureComp<STFunFactsTrackerComponent>(newUid);
+        var newTracker = EnsureComp<FunFactsTrackerComponent>(newUid);
         newTracker.Player = oldTracker.Player;
         newTracker.Stats = oldTracker.Stats;
         RefreshIdentity((newUid, newTracker));
         oldTracker.Transferred = true;
     }
 
-    private void RefreshIdentity(Entity<STFunFactsTrackerComponent> ent)
+    private void RefreshIdentity(Entity<FunFactsTrackerComponent> ent)
     {
         ent.Comp.Name = Name(ent);
         ent.Comp.Xeno = TryComp(ent, out XenoComponent? xeno);
@@ -450,7 +469,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
             ent.Comp.Gender = "male";
 
         ent.Comp.ExcludedCaste = HasComp<XenoParasiteComponent>(ent) ||
-                                 MetaData(ent).EntityPrototype?.ID is { } protoId && ExcludedCastes.Contains(protoId);
+                                 MetaData(ent).EntityPrototype is { } proto && ExcludedCastes.Contains(proto.ID);
     }
 
     private EntityUid? ResolveActor(EntityUid? uid)
@@ -458,11 +477,11 @@ public sealed partial class STFunFactsSystem : EntitySystem
         if (uid is not { } actor || TerminatingOrDeleted(actor))
             return null;
 
-        if (HasComp<STFunFactsTrackerComponent>(actor))
+        if (HasComp<FunFactsTrackerComponent>(actor))
             return actor;
 
         var parent = Transform(actor).ParentUid;
-        return HasComp<STFunFactsTrackerComponent>(parent) ? parent : null;
+        return HasComp<FunFactsTrackerComponent>(parent) ? parent : null;
     }
 
     private bool IsFriendly(EntityUid attacker, EntityUid victim)
@@ -502,7 +521,7 @@ public sealed partial class STFunFactsSystem : EntitySystem
         bool ExcludedCaste,
         bool Dead,
         string? DeathCause,
-        STFunFactsStats Stats);
+        FunFactsStats Stats);
 
     private sealed class FunFactsPlayer
     {

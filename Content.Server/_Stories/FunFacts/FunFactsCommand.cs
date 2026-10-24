@@ -5,9 +5,9 @@ using Robust.Shared.Console;
 namespace Content.Server._Stories.FunFacts;
 
 [AdminCommand(AdminFlags.Debug)]
-public sealed class STFunFactsCommand : LocalizedEntityCommands
+public sealed class FunFactsCommand : LocalizedEntityCommands
 {
-    [Dependency] private readonly STFunFactsSystem _funFacts = default!;
+    [Dependency] private readonly FunFactsSystem _funFacts = default!;
 
     public override string Command => "funfacts";
 

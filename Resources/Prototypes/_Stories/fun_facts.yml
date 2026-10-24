@@ -1,0 +1,174 @@
+- type: funFact
+  id: FunFactKills
+  message: stories-fun-fact-kills
+  stat: Kills
+  min: 5
+
+- type: funFact
+  id: FunFactDamageTaken
+  message: stories-fun-fact-damage-taken
+  stat: DamageTaken
+  min: 400
+
+- type: funFact
+  id: FunFactDamageDealt
+  message: stories-fun-fact-damage-dealt
+  stat: DamageDealt
+  min: 1000
+
+- type: funFact
+  id: FunFactFriendlyDamage
+  message: stories-fun-fact-friendly-damage
+  stat: FriendlyDamage
+  min: 200
+
+- type: funFact
+  id: FunFactCritTime
+  message: stories-fun-fact-crit-time
+  stat: CritMinutes
+  min: 5
+
+- type: funFact
+  id: FunFactRevives
+  message: stories-fun-fact-revives
+  stat: Revives
+  min: 5
+  xenos: false
+
+- type: funFact
+  id: FunFactTimesRevived
+  message: stories-fun-fact-times-revived
+  stat: TimesRevived
+  min: 2
+  xenos: false
+
+- type: funFact
+  id: FunFactEvolutions
+  message: stories-fun-fact-evolutions
+  stat: Evolutions
+  min: 3
+  humans: false
+
+- type: funFact
+  id: FunFactShots
+  message: stories-fun-fact-shots
+  stat: ShotsFired
+  min: 300
+  xenos: false
+
+- type: funFact
+  id: FunFactHealed
+  message: stories-fun-fact-healed
+  stat: Healed
+  min: 300
+  xenos: false
+
+- type: funFact
+  id: FunFactSurgeries
+  message: stories-fun-fact-surgeries
+  stat: Surgeries
+  min: 3
+  xenos: false
+
+- type: funFact
+  id: FunFactBuilt
+  message: stories-fun-fact-built
+  stat: Built
+  min: 10
+  xenos: false
+
+- type: funFact
+  id: FunFactDogtags
+  message: stories-fun-fact-dogtags
+  stat: Dogtags
+  min: 3
+  xenos: false
+
+- type: funFact
+  id: FunFactGrenades
+  message: stories-fun-fact-grenades
+  stat: Grenades
+  min: 5
+  xenos: false
+
+- type: funFact
+  id: FunFactIgnited
+  message: stories-fun-fact-ignited
+  stat: Ignited
+  min: 3
+
+- type: funFact
+  id: FunFactEaten
+  message: stories-fun-fact-eaten
+  stat: Eaten
+  min: 5
+  xenos: false
+
+- type: funFact
+  id: FunFactNested
+  message: stories-fun-fact-nested
+  stat: Nested
+  min: 3
+  humans: false
+
+- type: funFact
+  id: FunFactInfected
+  message: stories-fun-fact-infected
+  stat: Infected
+  min: 2
+  humans: false
+  allowExcludedCaste: true
+
+- type: funFact
+  id: FunFactResin
+  message: stories-fun-fact-resin
+  stat: ResinBuilt
+  min: 30
+  humans: false
+
+- type: funFact
+  id: FunFactWeeds
+  message: stories-fun-fact-weeds
+  stat: WeedsPlanted
+  min: 20
+  humans: false
+
+- type: funFact
+  id: FunFactAcid
+  message: stories-fun-fact-acid
+  stat: AcidApplied
+  min: 5
+  humans: false
+
+- type: funFact
+  id: FunFactXenoHeals
+  message: stories-fun-fact-xeno-heals
+  stat: XenoHeals
+  min: 10
+  humans: false
+
+- type: funFact
+  id: FunFactKnockdowns
+  message: stories-fun-fact-knockdowns
+  stat: Knockdowns
+  min: 10
+
+- type: funFact
+  id: FunFactRescues
+  message: stories-fun-fact-rescues
+  stat: Rescues
+  min: 2
+  xenos: false
+
+- type: funFact
+  id: FunFactDeaths
+  message: stories-fun-fact-deaths
+  stat: Deaths
+  min: 3
+
+- type: funFact
+  id: FunFactLarvae
+  message: stories-fun-fact-larvae
+  stat: LarvaeBurst
+  min: 3
+  humans: false

@@ -4,8 +4,8 @@ using Robust.Shared.Timing;
 namespace Content.Server._Stories.FunFacts;
 
 [RegisterComponent]
-[Access(typeof(STFunFactsSystem))]
-public sealed partial class STFunFactsTrackerComponent : Component
+[Access(typeof(FunFactsSystem))]
+public sealed partial class FunFactsTrackerComponent : Component
 {
     [ViewVariables]
     public NetUserId? Player;
@@ -50,10 +50,10 @@ public sealed partial class STFunFactsTrackerComponent : Component
     public EntityUid? LastHitTarget;
 
     [ViewVariables]
-    public STFunFactsStats Stats = new();
+    public FunFactsStats Stats = new();
 }
 
-public sealed class STFunFactsStats
+public sealed class FunFactsStats
 {
     public int Kills;
     public float DamageTaken;

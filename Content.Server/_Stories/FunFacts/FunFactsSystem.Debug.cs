@@ -2,12 +2,12 @@ using System.Linq;
 
 namespace Content.Server._Stories.FunFacts;
 
-public sealed partial class STFunFactsSystem
+public sealed partial class FunFactsSystem
 {
     public List<string> GetDebugReport()
     {
         var lines = new List<string>();
-        var query = EntityQueryEnumerator<STFunFactsTrackerComponent>();
+        var query = EntityQueryEnumerator<FunFactsTrackerComponent>();
         while (query.MoveNext(out var uid, out var tracker))
         {
             var connected = tracker.Player is { } player && IsConnected(player);
@@ -29,9 +29,9 @@ public sealed partial class STFunFactsSystem
         return lines;
     }
 
-    private static string FormatStats(STFunFactsStats stats)
+    private static string FormatStats(FunFactsStats stats)
     {
-        var values = typeof(STFunFactsStats)
+        var values = typeof(FunFactsStats)
             .GetFields()
             .Select(field => (field.Name, Value: field.GetValue(stats)))
             .Where(pair => pair.Value is not (0 or 0f) && !TimeSpan.Zero.Equals(pair.Value))
