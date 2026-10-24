@@ -42,7 +42,7 @@
   - type: QYJWhitelist
   - type: TackleResist # Stories-SynthTackleResist
   # Stories-AcidBloodDodge-Start
-  - type: STAcidBloodDodge
+  - type: AcidBloodDodge
     chance: 45
   # Stories-AcidBloodDodge-End
 

@@ -86,7 +86,7 @@ public sealed class AcidBloodSplashSystem : EntitySystem
                 hitProbability += 30;
 
             // Stories-AcidBloodDodge-Start
-            if (TryComp<STAcidBloodDodgeComponent>(target, out var dodge))
+            if (TryComp<AcidBloodDodgeComponent>(target, out var dodge))
                 hitProbability -= dodge.Chance;
             // Stories-AcidBloodDodge-End
 
