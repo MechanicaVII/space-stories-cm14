@@ -1,0 +1,14 @@
+uniform sampler2D stainMask;
+uniform highp vec4 stainMaskUV;
+
+varying highp vec2 stainMaskUVOut;
+
+void vertex() {
+    stainMaskUVOut = mix(stainMaskUV.xy, stainMaskUV.zw, tCoord2);
+}
+
+void fragment() {
+    highp float itemAlpha = zTexture(UV).a;
+    highp float maskAlpha = texture2D(stainMask, stainMaskUVOut).a;
+    COLOR = vec4(1.0, 1.0, 1.0, itemAlpha * maskAlpha);
+}

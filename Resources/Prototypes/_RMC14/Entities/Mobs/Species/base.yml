@@ -410,6 +410,7 @@
     whitelist:
       components:
       - Xeno
+  - type: STBloody # Stories-BloodStains
   - type: RMCHealthIcons
   - type: RMCMesonsNonviewable
     xenoVisible: true

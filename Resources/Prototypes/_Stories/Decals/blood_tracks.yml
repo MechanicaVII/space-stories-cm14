@@ -1,0 +1,15 @@
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodFootprint
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: footprint
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodDrag
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: drag
