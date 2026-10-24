@@ -17,6 +17,7 @@ public sealed partial class FunFactsSystem
 
     private const int SuffixVariants = 3;
 
+    private readonly List<FunFactComponent> _facts = new();
     private readonly List<FunFactsEntry> _candidates = new();
     private readonly List<FunFactsPlayer> _playerCandidates = new();
 
@@ -25,6 +26,25 @@ public sealed partial class FunFactsSystem
         SubscribeLocalEvent<RoundEndTextAppendEvent>(OnRoundEndTextAppend,
             after: [typeof(CMDistressSignalRuleSystem)],
             before: [typeof(LinkAccountSystem)]);
+        SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
+
+        ReloadFacts();
+    }
+
+    private void OnPrototypesReloaded(PrototypesReloadedEventArgs args)
+    {
+        if (args.WasModified<EntityPrototype>())
+            ReloadFacts();
+    }
+
+    private void ReloadFacts()
+    {
+        _facts.Clear();
+        foreach (var entity in _prototype.EnumeratePrototypes<EntityPrototype>())
+        {
+            if (entity.TryGetComponent(out FunFactComponent? fact, _compFactory))
+                _facts.Add(fact);
+        }
     }
 
     private void OnRoundEndTextAppend(RoundEndTextAppendEvent ev)
@@ -70,8 +90,8 @@ public sealed partial class FunFactsSystem
 
     private void AddSideFacts(List<FunFactsEntry> entries, bool xeno, List<string> lines)
     {
-        var facts = new List<FunFactPrototype>();
-        foreach (var fact in _prototype.EnumeratePrototypes<FunFactPrototype>())
+        var facts = new List<FunFactComponent>();
+        foreach (var fact in _facts)
         {
             if (xeno ? fact.Xenos : fact.Humans)
                 facts.Add(fact);
@@ -98,7 +118,7 @@ public sealed partial class FunFactsSystem
         }
     }
 
-    private string? TryEntityFact(FunFactPrototype fact, List<FunFactsEntry> entries, bool xeno)
+    private string? TryEntityFact(FunFactComponent fact, List<FunFactsEntry> entries, bool xeno)
     {
         _candidates.Clear();
         foreach (var entry in entries)
@@ -138,7 +158,7 @@ public sealed partial class FunFactsSystem
         return $"{message} {suffix}";
     }
 
-    private string? TryPlayerFact(FunFactPrototype fact, bool xeno)
+    private string? TryPlayerFact(FunFactComponent fact, bool xeno)
     {
         _playerCandidates.Clear();
         foreach (var (userId, player) in _players)

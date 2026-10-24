@@ -40,6 +40,7 @@ using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Server.Player;
 using Robust.Shared.Enums;
 using Robust.Shared.GameObjects.Components.Localization;
+using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -50,6 +51,7 @@ namespace Content.Server._Stories.FunFacts;
 
 public sealed partial class FunFactsSystem : EntitySystem
 {
+    [Dependency] private readonly IComponentFactory _compFactory = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
     [Dependency] private readonly GunIFFSystem _iff = default!;
@@ -58,6 +60,7 @@ public sealed partial class FunFactsSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedCMSurgerySystem _surgery = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private static readonly TimeSpan KillCreditWindow = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan KnockdownCreditWindow = TimeSpan.FromSeconds(2);
@@ -76,7 +79,8 @@ public sealed partial class FunFactsSystem : EntitySystem
     private readonly Dictionary<NetUserId, FunFactsPlayer> _players = new();
     private readonly HashSet<EntityUid> _countedTags = new();
     private readonly Dictionary<EntityUid, EntityUid> _nestAttackers = new();
-    private (EntityUid Builder, GameTick Tick)? _pendingBuild;
+    private readonly HashSet<CMSurgeryDoAfterEvent> _pendingSurgerySteps = new(ReferenceEqualityComparer.Instance);
+    private (EntityUid Builder, EntProtoId Prototype, EntityCoordinates Coordinates, GameTick Tick)? _pendingBuild;
 
     public override void Initialize()
     {
@@ -120,6 +124,8 @@ public sealed partial class FunFactsSystem : EntitySystem
         _players.Clear();
         _countedTags.Clear();
         _nestAttackers.Clear();
+        _pendingSurgerySteps.Clear();
+        _pendingBuild = null;
     }
 
     private void OnPlayerAttached(PlayerAttachedEvent ev)
@@ -324,8 +330,13 @@ public sealed partial class FunFactsSystem : EntitySystem
 
     private void OnSurgeryDoAfter(Entity<FunFactsTrackerComponent> ent, ref CMSurgeryDoAfterEvent args)
     {
-        if (args.Cancelled || args.User == ent.Owner || args.Target is not { } part)
+        if (!_pendingSurgerySteps.Remove(args) ||
+            args.Cancelled ||
+            args.User == ent.Owner ||
+            args.Target is not { } part)
+        {
             return;
+        }
 
         if (!_surgery.IsStepComplete(ent, part, args.Step) ||
             _surgery.GetSingleton(args.Surgery) is not { } surgery ||
@@ -338,6 +349,19 @@ public sealed partial class FunFactsSystem : EntitySystem
 
         if (TryComp(args.User, out FunFactsTrackerComponent? surgeon))
             surgeon.Stats.Surgeries++;
+    }
+
+    public void MarkSurgeryStepPending(Entity<FunFactsTrackerComponent?> patient, CMSurgeryDoAfterEvent args)
+    {
+        if (!Resolve(patient, ref patient.Comp, false) ||
+            args.Cancelled ||
+            args.Target is not { } part ||
+            _surgery.IsStepComplete(patient, part, args.Step))
+        {
+            return;
+        }
+
+        _pendingSurgerySteps.Add(args);
     }
 
     private void OnSecreteStructure(Entity<FunFactsTrackerComponent> ent, ref XenoSecreteStructureDoAfterEvent args)
@@ -372,16 +396,26 @@ public sealed partial class FunFactsSystem : EntitySystem
 
     private void OnConstructionBuild(Entity<ItemComponent> ent, ref RMCConstructionBuildDoAfterEvent args)
     {
+        _pendingBuild = null;
         if (args.Cancelled || args.Handled)
             return;
 
-        _pendingBuild = (args.User, _timing.CurTick);
+        var prototype = args.Prototype.Prototype;
+        if (!_prototype.TryIndex(prototype, out var entity) || !entity.TryGetComponent<BarricadeComponent>(out _, _compFactory))
+            return;
+
+        _pendingBuild = (args.User, prototype, GetCoordinates(args.Coordinates), _timing.CurTick);
     }
 
     private void OnBarricadeStartup(Entity<BarricadeComponent> ent, ref ComponentStartup args)
     {
-        if (_pendingBuild is not { } pending || pending.Tick != _timing.CurTick)
+        if (_pendingBuild is not { } pending ||
+            pending.Tick != _timing.CurTick ||
+            MetaData(ent).EntityPrototype?.ID != pending.Prototype.Id ||
+            !_transform.InRange(Transform(ent).Coordinates, pending.Coordinates, 0.5f))
+        {
             return;
+        }
 
         _pendingBuild = null;
         if (TryComp(pending.Builder, out FunFactsTrackerComponent? tracker))

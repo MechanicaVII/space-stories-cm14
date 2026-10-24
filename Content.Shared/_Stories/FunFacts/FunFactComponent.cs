@@ -1,13 +1,8 @@
-using Robust.Shared.Prototypes;
-
 namespace Content.Shared._Stories.FunFacts;
 
-[Prototype("funFact")]
-public sealed partial class FunFactPrototype : IPrototype
+[RegisterComponent]
+public sealed partial class FunFactComponent : Component
 {
-    [IdDataField]
-    public string ID { get; private set; } = default!;
-
     [DataField(required: true)]
     public LocId Message;
 
