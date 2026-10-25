@@ -114,8 +114,8 @@ public sealed partial class CustomPhraseEditWindow : FancyWindow
         }
 
         var count = _controller.CountTagsWith(Phrase, tags);
-        TagsCounterLabel.Text = $"{count} / {CustomPhrasesUIController.MaxTags}";
-        TagsCounterLabel.FontColorOverride = count > CustomPhrasesUIController.MaxTags ? CounterOverColor : null;
+        TagsCounterLabel.Text = $"{count} / {_controller.MaxTags}";
+        TagsCounterLabel.FontColorOverride = count > _controller.MaxTags ? CounterOverColor : null;
     }
 
     private void Submit()
@@ -135,9 +135,9 @@ public sealed partial class CustomPhraseEditWindow : FancyWindow
 
         var tags = CustomPhrasesUIController.ParseTags(TagsEdit.Text);
 
-        if (_controller.CountTagsWith(Phrase, tags) > CustomPhrasesUIController.MaxTags)
+        if (_controller.CountTagsWith(Phrase, tags) > _controller.MaxTags)
         {
-            ShowError(Loc.GetString("stories-custom-phrases-error-tags-limit", ("max", CustomPhrasesUIController.MaxTags)));
+            ShowError(Loc.GetString("stories-custom-phrases-error-tags-limit", ("max", _controller.MaxTags)));
             return;
         }
 
@@ -147,7 +147,7 @@ public sealed partial class CustomPhraseEditWindow : FancyWindow
         }
         else if (!_controller.TryAdd(text, tags))
         {
-            ShowError(Loc.GetString("stories-custom-phrases-error-limit", ("max", CustomPhrasesUIController.MaxPhrases)));
+            ShowError(Loc.GetString("stories-custom-phrases-error-limit", ("max", _controller.MaxPhrases)));
             return;
         }
 

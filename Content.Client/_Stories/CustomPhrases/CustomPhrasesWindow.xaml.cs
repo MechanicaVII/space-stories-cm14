@@ -6,18 +6,14 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Timing;
-using Robust.Shared.Utility;
 
 namespace Content.Client._Stories.CustomPhrases;
 
 [GenerateTypedNameReferences]
 public sealed partial class CustomPhrasesWindow : FancyWindow
 {
-    private const int PreviewLength = 160;
-    private const string EditIcon = "/Textures/Interface/pencil.png";
-
     private readonly CustomPhrasesUIController _controller;
-    private readonly List<ContainerButton> _sendButtons = new();
+    private readonly List<CustomPhraseRow> _rows = new();
     private CustomPhraseEditWindow? _editWindow;
     private string? _selectedTag;
     private bool _coolingDown;
@@ -60,9 +56,9 @@ public sealed partial class CustomPhrasesWindow : FancyWindow
         _coolingDown = coolingDown;
         PhrasesContainer.Modulate = coolingDown ? Color.White.WithAlpha(0.5f) : Color.White;
 
-        foreach (var button in _sendButtons)
+        foreach (var row in _rows)
         {
-            button.Disabled = coolingDown;
+            row.SendDisabled = coolingDown;
         }
     }
 
@@ -115,7 +111,7 @@ public sealed partial class CustomPhrasesWindow : FancyWindow
     private void RefreshPhrases()
     {
         PhrasesContainer.RemoveAllChildren();
-        _sendButtons.Clear();
+        _rows.Clear();
 
         var search = SearchBar.Text.Trim();
         var searchTag = search.TrimStart('#');
@@ -145,60 +141,11 @@ public sealed partial class CustomPhrasesWindow : FancyWindow
 
     private Control CreateRow(CustomPhrase phrase)
     {
-        var row = new BoxContainer
-        {
-            Orientation = BoxContainer.LayoutOrientation.Horizontal,
-            HorizontalExpand = true,
-            SeparationOverride = 4,
-        };
-
-        var content = new BoxContainer
-        {
-            Orientation = BoxContainer.LayoutOrientation.Vertical,
-            HorizontalExpand = true,
-            Margin = new Thickness(6, 3),
-        };
-
-        var preview = phrase.Text.Length > PreviewLength
-            ? phrase.Text[..PreviewLength].TrimEnd() + "..."
-            : phrase.Text;
-
-        var text = new RichTextLabel { HorizontalExpand = true };
-        text.SetMessage(FormattedMessage.FromUnformatted(preview));
-        content.AddChild(text);
-
-        if (phrase.Tags.Count > 0)
-        {
-            content.AddChild(new Label
-            {
-                Text = CustomPhrasesUIController.FormatTags(phrase.Tags),
-                ClipText = true,
-                HorizontalExpand = true,
-                StyleClasses = { StyleBase.StyleClassLabelSubText },
-            });
-        }
-
-        var sendButton = new ContainerButton
-        {
-            HorizontalExpand = true,
-            StyleClasses = { ContainerButton.StyleClassButton },
-            Disabled = _coolingDown,
-        };
-        sendButton.AddChild(content);
-        sendButton.OnPressed += _ => _controller.Send(phrase);
-        _sendButtons.Add(sendButton);
-
-        var editButton = new TextureButton
-        {
-            TexturePath = EditIcon,
-            VerticalAlignment = VAlignment.Center,
-            Margin = new Thickness(2, 0),
-            ToolTip = Loc.GetString("stories-custom-phrases-edit"),
-        };
-        editButton.OnPressed += _ => OpenEditor(phrase);
-
-        row.AddChild(sendButton);
-        row.AddChild(editButton);
+        var row = new CustomPhraseRow { SendDisabled = _coolingDown };
+        row.SetPhrase(phrase);
+        row.OnSend += () => _controller.Send(phrase);
+        row.OnEdit += () => OpenEditor(phrase);
+        _rows.Add(row);
         return row;
     }
 

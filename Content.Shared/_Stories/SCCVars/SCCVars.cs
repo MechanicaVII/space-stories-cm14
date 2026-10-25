@@ -287,4 +287,13 @@ public sealed class SCCVars
     /// </summary>
     public static readonly CVarDef<string> BanwordsFile =
         CVarDef.Create("stories.banwords_file", "", CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> CustomPhrasesMaxPhrases =
+        CVarDef.Create("stories.custom_phrases.max_phrases", 200, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<int> CustomPhrasesMaxTags =
+        CVarDef.Create("stories.custom_phrases.max_tags", 6, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<float> CustomPhrasesSendCooldown =
+        CVarDef.Create("stories.custom_phrases.send_cooldown", 2.2f, CVar.CLIENTONLY | CVar.ARCHIVE);
 }

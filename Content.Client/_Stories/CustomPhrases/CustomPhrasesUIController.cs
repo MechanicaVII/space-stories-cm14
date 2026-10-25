@@ -4,9 +4,11 @@ using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Chat;
 using Content.Client.UserInterface.Systems.MenuBar.Widgets;
 using Content.Shared._Stories.Input;
+using Content.Shared._Stories.SCCVars;
 using Content.Shared.Chat;
 using Robust.Client.UserInterface.Controllers;
 using Robust.Client.UserInterface.Controls;
+using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Serialization.Manager;
@@ -24,13 +26,11 @@ public sealed class CustomPhrasesUIController : UIController, IOnStateEntered<Ga
     [Dependency] private readonly IResourceManager _res = default!;
     [Dependency] private readonly ISerializationManager _serialization = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
 
-    public const int MaxPhrases = 200;
     public const int MaxTagLength = 32;
-    public const int MaxTags = 6;
 
     private static readonly ResPath ConfigPath = new("/custom_phrases.yml");
-    private static readonly TimeSpan SendCooldown = TimeSpan.FromSeconds(2.2);
 
     private readonly List<CustomPhrase> _phrases = new();
     private bool _loaded;
@@ -48,6 +48,10 @@ public sealed class CustomPhrasesUIController : UIController, IOnStateEntered<Ga
         _sawmill = Logger.GetSawmill("custom_phrases");
     }
 
+    public int MaxPhrases => _cfg.GetCVar(SCCVars.CustomPhrasesMaxPhrases);
+    public int MaxTags => _cfg.GetCVar(SCCVars.CustomPhrasesMaxTags);
+    private TimeSpan SendCooldown => TimeSpan.FromSeconds(_cfg.GetCVar(SCCVars.CustomPhrasesSendCooldown));
+
     public IReadOnlyList<CustomPhrase> Phrases
     {
         get
@@ -57,9 +61,9 @@ public sealed class CustomPhrasesUIController : UIController, IOnStateEntered<Ga
         }
     }
 
-    public float CooldownProgress => _timing.RealTime >= _nextSend
+    public float CooldownProgress => _timing.RealTime >= _nextSend || SendCooldown <= TimeSpan.Zero
         ? 0f
-        : (float) ((_nextSend - _timing.RealTime) / SendCooldown);
+        : Math.Min(1f, (float) ((_nextSend - _timing.RealTime) / SendCooldown));
 
     public List<string> AllTags()
     {
