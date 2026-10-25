@@ -294,6 +294,9 @@ public sealed class SCCVars
     public static readonly CVarDef<int> CustomPhrasesMaxTags =
         CVarDef.Create("stories.custom_phrases.max_tags", 6, CVar.CLIENTONLY | CVar.ARCHIVE);
 
+    public static readonly CVarDef<int> CustomPhrasesMaxTagLength =
+        CVarDef.Create("stories.custom_phrases.max_tag_length", 32, CVar.CLIENTONLY | CVar.ARCHIVE);
+
     public static readonly CVarDef<float> CustomPhrasesSendCooldown =
         CVarDef.Create("stories.custom_phrases.send_cooldown", 2.2f, CVar.CLIENTONLY | CVar.ARCHIVE);
 

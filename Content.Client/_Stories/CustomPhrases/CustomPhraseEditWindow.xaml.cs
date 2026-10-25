@@ -93,7 +93,7 @@ public sealed partial class CustomPhraseEditWindow : FancyWindow
 
     private void ToggleTag(string tag, bool enabled)
     {
-        var tags = CustomPhrasesUIController.ParseTags(TagsEdit.Text);
+        var tags = _controller.ParseTags(TagsEdit.Text);
 
         if (enabled && !tags.Contains(tag))
             tags.Add(tag);
@@ -106,7 +106,7 @@ public sealed partial class CustomPhraseEditWindow : FancyWindow
 
     private void UpdateTagButtons()
     {
-        var tags = CustomPhrasesUIController.ParseTags(TagsEdit.Text);
+        var tags = _controller.ParseTags(TagsEdit.Text);
 
         foreach (var (tag, button) in _tagButtons)
         {
@@ -133,7 +133,7 @@ public sealed partial class CustomPhraseEditWindow : FancyWindow
             return;
         }
 
-        var tags = CustomPhrasesUIController.ParseTags(TagsEdit.Text);
+        var tags = _controller.ParseTags(TagsEdit.Text);
 
         if (_controller.CountTagsWith(Phrase, tags) > _controller.MaxTags)
         {

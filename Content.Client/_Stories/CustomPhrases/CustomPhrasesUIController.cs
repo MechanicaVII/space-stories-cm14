@@ -23,12 +23,10 @@ namespace Content.Client._Stories.CustomPhrases;
 
 public sealed class CustomPhrasesUIController : UIController, IOnStateEntered<GameplayState>, IOnStateExited<GameplayState>
 {
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IResourceManager _res = default!;
     [Dependency] private readonly ISerializationManager _serialization = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-
-    public const int MaxTagLength = 32;
 
     private static readonly ResPath ConfigPath = new("/custom_phrases.yml");
 
@@ -50,6 +48,7 @@ public sealed class CustomPhrasesUIController : UIController, IOnStateEntered<Ga
 
     public int MaxPhrases => _cfg.GetCVar(SCCVars.CustomPhrasesMaxPhrases);
     public int MaxTags => _cfg.GetCVar(SCCVars.CustomPhrasesMaxTags);
+    public int MaxTagLength => _cfg.GetCVar(SCCVars.CustomPhrasesMaxTagLength);
     private TimeSpan SendCooldown => TimeSpan.FromSeconds(_cfg.GetCVar(SCCVars.CustomPhrasesSendCooldown));
 
     public IReadOnlyList<CustomPhrase> Phrases
@@ -176,7 +175,7 @@ public sealed class CustomPhrasesUIController : UIController, IOnStateEntered<Ga
             OnChanged();
     }
 
-    public static List<string> ParseTags(string input)
+    public List<string> ParseTags(string input)
     {
         var tags = input.Split(new[] { ' ', ',', ';', '\t' }, StringSplitOptions.RemoveEmptyEntries);
         return NormalizeTags(tags);
@@ -187,7 +186,7 @@ public sealed class CustomPhrasesUIController : UIController, IOnStateEntered<Ga
         return string.Join(" ", tags.Select(t => $"#{t}"));
     }
 
-    private static List<string> NormalizeTags(IEnumerable<string> tags)
+    private List<string> NormalizeTags(IEnumerable<string> tags)
     {
         return tags
             .Select(t => t.Trim().TrimStart('#').ToLowerInvariant())
