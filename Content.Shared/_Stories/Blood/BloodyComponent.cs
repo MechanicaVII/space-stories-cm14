@@ -6,7 +6,7 @@ using Robust.Shared.Prototypes;
 namespace Content.Shared._Stories.Blood;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
-public sealed partial class STBloodyComponent : Component
+public sealed partial class BloodyComponent : Component
 {
     [DataField]
     public Color? BloodColor;
@@ -79,6 +79,45 @@ public sealed partial class STBloodyComponent : Component
 
     [DataField]
     public float MaxTrackAlpha = 0.9f;
+
+    [DataField]
+    public float BleedingDragAlpha = 0.8f;
+
+    [DataField]
+    public float MaxTrackJump = 2f;
+
+    [DataField]
+    public float PuddlePickupVolume = 2f;
+
+    [DataField]
+    public float WetSplatterVolume = 10f;
+
+    [DataField]
+    public float BaseStainChance = 0.25f;
+
+    [DataField]
+    public float StainChancePerDamage = 0.02f;
+
+    [DataField]
+    public float SplashChance = 0.33f;
+
+    [DataField]
+    public float HeadSplashChance = 0.25f;
+
+    [DataField]
+    public float MeleeContactRange = 1.5f;
+
+    [DataField]
+    public float MeleeFloorChance = 0.33f;
+
+    [DataField]
+    public float RangedFloorChance = 0.15f;
+
+    [DataField]
+    public float FloorSplatterShift = 0.3f;
+
+    [DataField]
+    public TimeSpan CleanDelay = TimeSpan.FromSeconds(6);
 
     [ViewVariables]
     public int Steps;

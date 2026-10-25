@@ -8,7 +8,7 @@
     sprite: _Stories/Effects/blood_splatter.rsi
     state: spray1
     drawdepth: Effects
-  - type: STBloodSplatterEffect
+  - type: BloodSplatterEffect
   - type: TimedDespawn
     lifetime: 0.5
   - type: Tag

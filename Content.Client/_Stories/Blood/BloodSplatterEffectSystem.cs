@@ -6,9 +6,9 @@ using Robust.Shared.Animations;
 
 namespace Content.Client._Stories.Blood;
 
-public sealed class STBloodSplatterEffectSystem : EntitySystem
+public sealed class BloodSplatterEffectSystem : EntitySystem
 {
-    private const string AnimationKey = "st-blood-splatter";
+    private const string AnimationKey = "stories-blood-splatter";
 
     [Dependency] private readonly AnimationPlayerSystem _animation = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
@@ -17,10 +17,10 @@ public sealed class STBloodSplatterEffectSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<STBloodSplatterEffectComponent, ComponentStartup>(OnStartup);
+        SubscribeLocalEvent<BloodSplatterEffectComponent, ComponentStartup>(OnStartup);
     }
 
-    private void OnStartup(Entity<STBloodSplatterEffectComponent> ent, ref ComponentStartup args)
+    private void OnStartup(Entity<BloodSplatterEffectComponent> ent, ref ComponentStartup args)
     {
         if (!TryComp<SpriteComponent>(ent, out var spriteComp))
             return;

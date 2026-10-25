@@ -3,7 +3,7 @@ using Robust.Shared.GameStates;
 namespace Content.Shared._Stories.Blood;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-public sealed partial class STBloodSplatterEffectComponent : Component
+public sealed partial class BloodSplatterEffectComponent : Component
 {
     [DataField, AutoNetworkedField]
     public Color Color = Color.White;

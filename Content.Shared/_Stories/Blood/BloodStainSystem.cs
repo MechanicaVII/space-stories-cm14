@@ -1,5 +1,6 @@
 using Content.Shared._RMC14.Chemistry.Reagent;
 using Content.Shared.Body.Components;
+using Content.Shared.Chemistry.Reaction;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.Hands;
@@ -12,7 +13,7 @@ using Robust.Shared.Serialization;
 namespace Content.Shared._Stories.Blood;
 
 [Flags]
-public enum STBloodStainParts : byte
+public enum BloodStainParts : byte
 {
     None = 0,
     Body = 1 << 0,
@@ -22,9 +23,9 @@ public enum STBloodStainParts : byte
 }
 
 [Serializable, NetSerializable]
-public sealed partial class STBloodCleanDoAfterEvent : SimpleDoAfterEvent;
+public sealed partial class BloodCleanDoAfterEvent : SimpleDoAfterEvent;
 
-public sealed class STBloodStainSystem : EntitySystem
+public sealed class BloodStainSystem : EntitySystem
 {
     public const string HeadSlot = "head";
     public const string MaskSlot = "mask";
@@ -52,36 +53,36 @@ public sealed class STBloodStainSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<STBloodStainComponent, ExaminedEvent>(OnStainExamined);
-        SubscribeLocalEvent<STBloodyComponent, ExaminedEvent>(OnBloodyExamined);
-        SubscribeLocalEvent<STBloodyComponent, DidEquipHandEvent>(OnDidEquipHand);
+        SubscribeLocalEvent<BloodStainComponent, ExaminedEvent>(OnStainExamined);
+        SubscribeLocalEvent<BloodyComponent, ExaminedEvent>(OnBloodyExamined);
+        SubscribeLocalEvent<BloodyComponent, DidEquipHandEvent>(OnDidEquipHand);
     }
 
-    private void OnStainExamined(Entity<STBloodStainComponent> ent, ref ExaminedEvent args)
+    private void OnStainExamined(Entity<BloodStainComponent> ent, ref ExaminedEvent args)
     {
         if (ent.Comp.Color is not { } color)
             return;
 
-        args.PushMarkup(Loc.GetString("st-blood-stain-examine-item", ("color", color.ToHex())));
+        args.PushMarkup(Loc.GetString("stories-blood-stain-examine-item", ("color", color.ToHex())));
     }
 
-    private void OnBloodyExamined(Entity<STBloodyComponent> ent, ref ExaminedEvent args)
+    private void OnBloodyExamined(Entity<BloodyComponent> ent, ref ExaminedEvent args)
     {
         if (ent.Comp.HandsColor is { } hands && !_inventory.TryGetSlotEntity(ent, GlovesSlot, out _))
-            args.PushMarkup(Loc.GetString("st-blood-stain-examine-hands", ("color", hands.ToHex()), ("target", ent.Owner)));
+            args.PushMarkup(Loc.GetString("stories-blood-stain-examine-hands", ("color", hands.ToHex()), ("target", ent.Owner)));
 
         if (ent.Comp.FeetColor is { } feet && !_inventory.TryGetSlotEntity(ent, ShoesSlot, out _))
-            args.PushMarkup(Loc.GetString("st-blood-stain-examine-feet", ("color", feet.ToHex()), ("target", ent.Owner)));
+            args.PushMarkup(Loc.GetString("stories-blood-stain-examine-feet", ("color", feet.ToHex()), ("target", ent.Owner)));
     }
 
-    private void OnDidEquipHand(Entity<STBloodyComponent> ent, ref DidEquipHandEvent args)
+    private void OnDidEquipHand(Entity<BloodyComponent> ent, ref DidEquipHandEvent args)
     {
         if (_net.IsClient || ent.Comp.HandTransfers <= 0)
             return;
 
         Color? color;
         if (_inventory.TryGetSlotEntity(ent, GlovesSlot, out var gloves))
-            color = CompOrNull<STBloodStainComponent>(gloves)?.Color;
+            color = CompOrNull<BloodStainComponent>(gloves)?.Color;
         else
             color = ent.Comp.HandsColor;
 
@@ -89,7 +90,7 @@ public sealed class STBloodStainSystem : EntitySystem
             ent.Comp.HandTransfers--;
     }
 
-    public string? GetWornState(Entity<STBloodStainComponent> ent, string slot)
+    public string? GetWornState(Entity<BloodStainComponent> ent, string slot)
     {
         if (ent.Comp.WornState != null)
             return ent.Comp.WornState;
@@ -99,7 +100,7 @@ public sealed class STBloodStainSystem : EntitySystem
 
     public bool TryGetBloodColor(EntityUid mob, out Color color)
     {
-        if (CompOrNull<STBloodyComponent>(mob)?.BloodColor is { } overrideColor)
+        if (CompOrNull<BloodyComponent>(mob)?.BloodColor is { } overrideColor)
         {
             color = overrideColor;
             return true;
@@ -121,26 +122,45 @@ public sealed class STBloodStainSystem : EntitySystem
         if (_net.IsClient || !HasComp<ItemComponent>(item))
             return false;
 
-        var stain = EnsureComp<STBloodStainComponent>(item);
+        var stain = EnsureComp<BloodStainComponent>(item);
         if (!stain.CanStain || stain.Color == color)
             return false;
 
         stain.Color = color;
         Dirty(item, stain);
+
+        if (!HasComp<ReactiveComponent>(item))
+        {
+            AddComp<ReactiveComponent>(item);
+            stain.AddedReactive = true;
+        }
+
         return true;
     }
 
     public bool TryClean(EntityUid item)
     {
-        if (_net.IsClient || !TryComp<STBloodStainComponent>(item, out var stain) || stain.Color == null)
+        if (_net.IsClient || !TryComp<BloodStainComponent>(item, out var stain) || stain.Color == null)
             return false;
 
         stain.Color = null;
         Dirty(item, stain);
+
+        if (stain.AddedReactive)
+        {
+            RemComp<ReactiveComponent>(item);
+            stain.AddedReactive = false;
+        }
+
         return true;
     }
 
-    public void StainWearer(Entity<STBloodyComponent?> wearer, STBloodStainParts parts, Color color)
+    public bool IsCleaningReagent(Entity<BloodStainComponent> ent, string reagent)
+    {
+        return ent.Comp.CleaningReagents.Contains(reagent);
+    }
+
+    public void StainWearer(Entity<BloodyComponent?> wearer, BloodStainParts parts, Color color)
     {
         if (_net.IsClient || !Resolve(wearer, ref wearer.Comp, false) || !wearer.Comp.CanBeStained)
             return;
@@ -148,7 +168,7 @@ public sealed class STBloodStainSystem : EntitySystem
         var bloody = wearer.Comp;
         var dirty = false;
 
-        if ((parts & STBloodStainParts.Body) != 0)
+        if ((parts & BloodStainParts.Body) != 0)
         {
             if (_inventory.TryGetSlotEntity(wearer, OuterSlot, out var outer))
                 TryStain(outer.Value, color);
@@ -156,7 +176,7 @@ public sealed class STBloodStainSystem : EntitySystem
                 TryStain(jumpsuit.Value, color);
         }
 
-        if ((parts & STBloodStainParts.Head) != 0)
+        if ((parts & BloodStainParts.Head) != 0)
         {
             if (_inventory.TryGetSlotEntity(wearer, HeadSlot, out var head))
                 TryStain(head.Value, color);
@@ -165,7 +185,7 @@ public sealed class STBloodStainSystem : EntitySystem
                 TryStain(mask.Value, color);
         }
 
-        if ((parts & STBloodStainParts.Hands) != 0)
+        if ((parts & BloodStainParts.Hands) != 0)
         {
             if (_inventory.TryGetSlotEntity(wearer, GlovesSlot, out var gloves))
             {
@@ -180,7 +200,7 @@ public sealed class STBloodStainSystem : EntitySystem
             bloody.HandTransfers = _random.Next(bloody.MinHandTransfers, bloody.MaxHandTransfers + 1);
         }
 
-        if ((parts & STBloodStainParts.Feet) != 0)
+        if ((parts & BloodStainParts.Feet) != 0)
         {
             if (_inventory.TryGetSlotEntity(wearer, ShoesSlot, out var shoes))
             {
@@ -197,7 +217,7 @@ public sealed class STBloodStainSystem : EntitySystem
             Dirty(wearer, bloody);
     }
 
-    public bool CleanWearer(Entity<STBloodyComponent?> wearer)
+    public bool CleanWearer(Entity<BloodyComponent?> wearer)
     {
         if (_net.IsClient || !Resolve(wearer, ref wearer.Comp, false))
             return false;
@@ -224,7 +244,7 @@ public sealed class STBloodStainSystem : EntitySystem
         return cleaned;
     }
 
-    public bool IsWearerBloody(Entity<STBloodyComponent?> wearer)
+    public bool IsWearerBloody(Entity<BloodyComponent?> wearer)
     {
         if (!Resolve(wearer, ref wearer.Comp, false))
             return false;
@@ -235,7 +255,7 @@ public sealed class STBloodStainSystem : EntitySystem
         foreach (var slot in SlotWornStates.Keys)
         {
             if (_inventory.TryGetSlotEntity(wearer, slot, out var item) &&
-                CompOrNull<STBloodStainComponent>(item)?.Color != null)
+                CompOrNull<BloodStainComponent>(item)?.Color != null)
             {
                 return true;
             }

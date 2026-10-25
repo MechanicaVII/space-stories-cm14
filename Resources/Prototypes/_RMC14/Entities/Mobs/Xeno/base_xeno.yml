@@ -87,7 +87,7 @@
   - type: RMCHealthExaminable
     speciesType: Xeno
   # Stories-BloodStains-Start
-  - type: STBloody
+  - type: Bloody
     bloodColor: "#BED700"
     canBeStained: false
     leavesTracks: false
