@@ -296,4 +296,7 @@ public sealed class SCCVars
 
     public static readonly CVarDef<float> CustomPhrasesSendCooldown =
         CVarDef.Create("stories.custom_phrases.send_cooldown", 2.2f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<int> FunFactsMaxPerSide =
+        CVarDef.Create("stories.fun_facts_max_per_side", 5, CVar.SERVERONLY);
 }
