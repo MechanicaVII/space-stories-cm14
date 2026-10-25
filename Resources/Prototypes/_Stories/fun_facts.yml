@@ -1,5 +1,5 @@
 - type: entity
-  id: FunFactKills
+  id: STFunFactKills
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -8,7 +8,7 @@
     min: 5
 
 - type: entity
-  id: FunFactDamageTaken
+  id: STFunFactDamageTaken
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -17,7 +17,7 @@
     min: 400
 
 - type: entity
-  id: FunFactDamageDealt
+  id: STFunFactDamageDealt
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -26,7 +26,7 @@
     min: 1000
 
 - type: entity
-  id: FunFactFriendlyDamage
+  id: STFunFactFriendlyDamage
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -35,7 +35,7 @@
     min: 200
 
 - type: entity
-  id: FunFactCritTime
+  id: STFunFactCritTime
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -44,7 +44,7 @@
     min: 5
 
 - type: entity
-  id: FunFactRevives
+  id: STFunFactRevives
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -54,7 +54,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactTimesRevived
+  id: STFunFactTimesRevived
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -64,7 +64,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactEvolutions
+  id: STFunFactEvolutions
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -74,7 +74,7 @@
     humans: false
 
 - type: entity
-  id: FunFactShots
+  id: STFunFactShots
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -84,7 +84,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactHealed
+  id: STFunFactHealed
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -94,7 +94,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactSurgeries
+  id: STFunFactSurgeries
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -104,7 +104,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactBuilt
+  id: STFunFactBuilt
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -114,7 +114,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactDogtags
+  id: STFunFactDogtags
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -124,7 +124,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactGrenades
+  id: STFunFactGrenades
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -134,7 +134,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactIgnited
+  id: STFunFactIgnited
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -143,7 +143,7 @@
     min: 3
 
 - type: entity
-  id: FunFactEaten
+  id: STFunFactEaten
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -153,7 +153,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactNested
+  id: STFunFactNested
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -163,7 +163,7 @@
     humans: false
 
 - type: entity
-  id: FunFactInfected
+  id: STFunFactInfected
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -174,7 +174,7 @@
     allowExcludedCaste: true
 
 - type: entity
-  id: FunFactResin
+  id: STFunFactResin
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -184,7 +184,7 @@
     humans: false
 
 - type: entity
-  id: FunFactWeeds
+  id: STFunFactWeeds
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -194,7 +194,7 @@
     humans: false
 
 - type: entity
-  id: FunFactAcid
+  id: STFunFactAcid
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -204,7 +204,7 @@
     humans: false
 
 - type: entity
-  id: FunFactXenoHeals
+  id: STFunFactXenoHeals
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -214,7 +214,7 @@
     humans: false
 
 - type: entity
-  id: FunFactKnockdowns
+  id: STFunFactKnockdowns
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -223,7 +223,7 @@
     min: 10
 
 - type: entity
-  id: FunFactRescues
+  id: STFunFactRescues
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -233,7 +233,7 @@
     xenos: false
 
 - type: entity
-  id: FunFactDeaths
+  id: STFunFactDeaths
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
@@ -242,7 +242,7 @@
     min: 3
 
 - type: entity
-  id: FunFactLarvae
+  id: STFunFactLarvae
   categories: [ HideSpawnMenu ]
   components:
   - type: FunFact
