@@ -1,17 +1,35 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Taken and modified from cmss13 at https://github.com/cmss13-devs/cmss13/blob/master/icons/effects/fluidtracks.dmi",
+  "copyright": "IMPERIAL SPACE, taken from https://github.com/AU-14/ColonialMarinesUniverse/tree/master/Resources/Textures/Effects/footprints.rsi, edges darkened",
   "size": {
     "x": 32,
     "y": 32
   },
   "states": [
     {
-      "name": "footprint"
+      "name": "bare-left"
     },
     {
-      "name": "drag"
+      "name": "bare-right"
+    },
+    {
+      "name": "shoes"
+    },
+    {
+      "name": "drag-1"
+    },
+    {
+      "name": "drag-2"
+    },
+    {
+      "name": "drag-3"
+    },
+    {
+      "name": "drag-4"
+    },
+    {
+      "name": "drag-5"
     }
   ]
 }

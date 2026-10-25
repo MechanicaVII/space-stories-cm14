@@ -25,6 +25,8 @@ public sealed class STBloodStainVisualizerSystem : EntitySystem
     [Dependency] private readonly SharedItemSystem _item = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
+    private readonly List<(SpriteComponent.Layer Layer, int Index)> _sourceLayers = new();
+
     public override void Initialize()
     {
         base.Initialize();
@@ -73,56 +75,72 @@ public sealed class STBloodStainVisualizerSystem : EntitySystem
             return;
 
         Entity<SpriteComponent?> sprite = (ent.Owner, spriteComp);
-        _sprite.RemoveLayer(sprite, ItemStainKey, false);
-        _sprite.RemoveLayer(sprite, ItemMaskKey, false);
+        for (var i = 0; ; i++)
+        {
+            var removedStain = _sprite.RemoveLayer(sprite, $"{ItemStainKey}-{i}", false);
+            var removedMask = _sprite.RemoveLayer(sprite, $"{ItemMaskKey}-{i}", false);
+            if (!removedStain && !removedMask)
+                break;
+        }
 
-        if (ent.Comp.Color is not { } color || !TryGetBaseLayer(sprite, out var baseLayer))
+        if (ent.Comp.Color is not { } color)
             return;
 
+        _sourceLayers.Clear();
+        var index = -1;
+        foreach (var candidate in spriteComp.AllLayers)
+        {
+            index++;
+            if (candidate is not SpriteComponent.Layer layer ||
+                !layer.Visible ||
+                layer.Blank ||
+                layer.CopyToShaderParameters != null)
+            {
+                continue;
+            }
+
+            _sourceLayers.Add((layer, index));
+        }
+
+        for (var i = _sourceLayers.Count - 1; i >= 0; i--)
+        {
+            var (layer, layerIndex) = _sourceLayers[i];
+            AddStainLayers(sprite, layer, layerIndex, i, color);
+        }
+    }
+
+    private void AddStainLayers(Entity<SpriteComponent?> sprite, SpriteComponent.Layer source, int sourceIndex, int number, Color color)
+    {
+        var stainKey = $"{ItemStainKey}-{number}";
         var mask = _sprite.AddLayer(sprite, new PrototypeLayerData
         {
             RsiPath = StainsRsi,
             State = ItemMaskState,
             CopyToShaderParameters = new PrototypeCopyToShaderParameters
             {
-                LayerKey = ItemStainKey,
+                LayerKey = stainKey,
                 ParameterTexture = "stainMask",
                 ParameterUV = "stainMaskUV",
             },
-        }, null);
-        _sprite.LayerMapSet(sprite, ItemMaskKey, mask);
+        }, sourceIndex + 1);
+        _sprite.LayerMapSet(sprite, $"{ItemMaskKey}-{number}", mask);
 
         var stain = _sprite.AddLayer(sprite, new PrototypeLayerData
         {
             Shader = StainShader,
             Color = color,
-        }, null);
-        _sprite.LayerSetRsi(sprite, stain, baseLayer.ActualRsi, baseLayer.State);
-        _sprite.LayerMapSet(sprite, ItemStainKey, stain);
-    }
+        }, mask + 1);
 
-    private bool TryGetBaseLayer(Entity<SpriteComponent?> sprite, out SpriteComponent.Layer layer)
-    {
-        layer = default!;
-        if (sprite.Comp == null)
-            return false;
+        if (source.State.IsValid && source.ActualRsi != null)
+            _sprite.LayerSetRsi(sprite, stain, source.ActualRsi, source.State);
+        else
+            _sprite.LayerSetTexture(sprite, stain, source.Texture);
 
-        foreach (var candidate in sprite.Comp.AllLayers)
-        {
-            if (candidate is not SpriteComponent.Layer spriteLayer ||
-                !spriteLayer.Visible ||
-                spriteLayer.ActualRsi == null ||
-                !spriteLayer.State.IsValid ||
-                spriteLayer.CopyToShaderParameters != null)
-            {
-                continue;
-            }
-
-            layer = spriteLayer;
-            return true;
-        }
-
-        return false;
+        _sprite.LayerSetOffset(sprite, stain, source.Offset);
+        _sprite.LayerSetScale(sprite, stain, source.Scale);
+        _sprite.LayerSetRotation(sprite, stain, source.Rotation);
+        _sprite.LayerSetDirOffset(sprite, stain, source.DirOffset);
+        _sprite.LayerMapSet(sprite, stainKey, stain);
     }
 
     private void OnBloodyStartup(Entity<STBloodyComponent> ent, ref ComponentStartup args)

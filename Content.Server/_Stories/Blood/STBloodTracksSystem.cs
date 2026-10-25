@@ -5,25 +5,43 @@ using Content.Shared._RMC14.Chemistry.Reagent;
 using Content.Shared._Stories.Blood;
 using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Chemistry.Reagent;
+using Content.Shared.FixedPoint;
 using Content.Shared.Fluids.Components;
+using Content.Shared.Inventory;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Standing;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Stories.Blood;
 
 public sealed class STBloodTracksSystem : EntitySystem
 {
-    private const string FootprintDecal = "STDecalBloodFootprint";
-    private const string DragDecal = "STDecalBloodDrag";
+    private const string BareLeftDecal = "STDecalBloodFootprintBareLeft";
+    private const string BareRightDecal = "STDecalBloodFootprintBareRight";
+    private const string ShoesDecal = "STDecalBloodFootprintShoes";
+
+    private static readonly string[] DragDecals =
+    [
+        "STDecalBloodDrag1",
+        "STDecalBloodDrag2",
+        "STDecalBloodDrag3",
+        "STDecalBloodDrag4",
+        "STDecalBloodDrag5",
+    ];
+
+    private static readonly Angle TrackRotationOffset = Angle.FromDegrees(180);
     private const float BleedingDragAlpha = 0.8f;
     private const float MaxTrackJump = 2f;
 
     private const float WetSplatterVolume = 10f;
+    private const int WetSplatterCharges = 2;
+    private const float PuddlePickupVolume = 2f;
     private const float SplatterStainRange = 1f;
 
     private static readonly Vector2 DecalCenterOffset = new(0.5f, 0.5f);
@@ -38,9 +56,11 @@ public sealed class STBloodTracksSystem : EntitySystem
 
     [Dependency] private readonly STBloodStainSystem _bloodStain = default!;
     [Dependency] private readonly DecalSystem _decals = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly RMCReagentSystem _reagent = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
@@ -50,9 +70,12 @@ public sealed class STBloodTracksSystem : EntitySystem
     private EntityQuery<MapGridComponent> _gridQuery;
     private EntityQuery<PuddleComponent> _puddleQuery;
 
-    private readonly Dictionary<EntityUid, Dictionary<Vector2i, (Color Color, TimeSpan DriesAt)>> _wetSplatters = new();
+    private readonly Dictionary<EntityUid, Dictionary<Vector2i, WetSplatter>> _wetSplatters = new();
     private readonly List<Vector2i> _driedTiles = new();
     private readonly List<EntityUid> _deletedGrids = new();
+    private readonly List<(ReagentId Reagent, FixedPoint2 Quantity)> _puddleBlood = new();
+
+    private record struct WetSplatter(Color Color, TimeSpan DriesAt, int Charges);
 
     public override void Initialize()
     {
@@ -83,14 +106,7 @@ public sealed class STBloodTracksSystem : EntitySystem
 
         PruneDeletedGrids();
 
-        if (!_wetSplatters.TryGetValue(gridUid, out var tiles))
-        {
-            tiles = new Dictionary<Vector2i, (Color, TimeSpan)>();
-            _wetSplatters[gridUid] = tiles;
-        }
-
-        PruneDried(tiles);
-
+        var tiles = GetWetTiles(gridUid);
         var center = _map.TileIndicesFor(gridUid, grid, xform.Coordinates);
         var radius = (int) MathF.Ceiling(ent.Comp.Radius);
         var driesAt = _timing.CurTime + SplatterDryTime;
@@ -98,7 +114,7 @@ public sealed class STBloodTracksSystem : EntitySystem
         {
             for (var y = -radius; y <= radius; y++)
             {
-                tiles[center + new Vector2i(x, y)] = (color, driesAt);
+                tiles[center + new Vector2i(x, y)] = new WetSplatter(color, driesAt, WetSplatterCharges);
             }
         }
 
@@ -106,6 +122,24 @@ public sealed class STBloodTracksSystem : EntitySystem
         {
             _bloodStain.StainWearer(bloody.AsNullable(), STBloodStainParts.Body, color);
         }
+    }
+
+    public void MarkWet(EntityUid gridUid, Vector2i tile, Color color)
+    {
+        PruneDeletedGrids();
+        GetWetTiles(gridUid)[tile] = new WetSplatter(color, _timing.CurTime + SplatterDryTime, WetSplatterCharges);
+    }
+
+    private Dictionary<Vector2i, WetSplatter> GetWetTiles(EntityUid gridUid)
+    {
+        if (!_wetSplatters.TryGetValue(gridUid, out var tiles))
+        {
+            tiles = new Dictionary<Vector2i, WetSplatter>();
+            _wetSplatters[gridUid] = tiles;
+        }
+
+        PruneDried(tiles);
+        return tiles;
     }
 
     private void PruneDeletedGrids()
@@ -123,7 +157,7 @@ public sealed class STBloodTracksSystem : EntitySystem
         }
     }
 
-    private void PruneDried(Dictionary<Vector2i, (Color Color, TimeSpan DriesAt)> tiles)
+    private void PruneDried(Dictionary<Vector2i, WetSplatter> tiles)
     {
         var now = _timing.CurTime;
         _driedTiles.Clear();
@@ -148,11 +182,16 @@ public sealed class STBloodTracksSystem : EntitySystem
             return false;
         }
 
-        if (splatter.DriesAt <= _timing.CurTime)
+        if (splatter.DriesAt <= _timing.CurTime || splatter.Charges <= 0)
         {
             tiles.Remove(tile);
             return false;
         }
+
+        if (splatter.Charges <= 1)
+            tiles.Remove(tile);
+        else
+            tiles[tile] = splatter with { Charges = splatter.Charges - 1 };
 
         color = splatter.Color;
         return true;
@@ -245,14 +284,17 @@ public sealed class STBloodTracksSystem : EntitySystem
                 continue;
             }
 
+            _puddleBlood.Clear();
+            var puddleVolume = 0f;
             var largest = 0f;
             foreach (var reagent in solution.Contents)
             {
                 if (!ent.Comp.BloodReagents.Contains(reagent.Reagent.Prototype))
                     continue;
 
+                _puddleBlood.Add((reagent.Reagent, reagent.Quantity));
                 var quantity = reagent.Quantity.Float();
-                volume += quantity;
+                puddleVolume += quantity;
                 if (quantity <= largest ||
                     !_reagent.TryIndex(reagent.Reagent, out var proto))
                 {
@@ -262,9 +304,21 @@ public sealed class STBloodTracksSystem : EntitySystem
                 largest = quantity;
                 color = proto.SubstanceColor;
             }
+
+            if (puddleVolume < ent.Comp.MinPuddleVolume)
+                continue;
+
+            var drained = Math.Min(PuddlePickupVolume, puddleVolume) / puddleVolume;
+            foreach (var (reagent, quantity) in _puddleBlood)
+            {
+                _solution.RemoveReagent(puddle.Solution.Value, reagent, quantity * drained);
+            }
+
+            volume = puddleVolume;
+            return true;
         }
 
-        return volume >= ent.Comp.MinPuddleVolume;
+        return false;
     }
 
     private bool IsDragged(EntityUid uid)
@@ -303,7 +357,7 @@ public sealed class STBloodTracksSystem : EntitySystem
         }
 
         var center = ent.Comp.LastTrackPosition + delta / 2;
-        AddTrackDecal(DragDecal, gridUid, center, color, delta.ToWorldAngle());
+        AddTrackDecal(_random.Pick(DragDecals), gridUid, center, color, delta.ToWorldAngle());
         ent.Comp.LastTrackPosition = position;
     }
 
@@ -314,11 +368,17 @@ public sealed class STBloodTracksSystem : EntitySystem
 
         var direction = Vector2.Normalize(delta);
         var side = new Vector2(-direction.Y, direction.X) * ent.Comp.StepSideOffset;
-        if (!ent.Comp.RightFoot)
+        if (ent.Comp.RightFoot)
             side = -side;
 
         var color = ent.Comp.TrackColor.WithAlpha(GetTrackAlpha(ent.Comp, ent.Comp.Steps, ent.Comp.MaxSteps));
-        AddTrackDecal(FootprintDecal, gridUid, position + side, color, delta.ToWorldAngle());
+        string decal;
+        if (_inventory.TryGetSlotEntity(ent, STBloodStainSystem.ShoesSlot, out _))
+            decal = ShoesDecal;
+        else
+            decal = ent.Comp.RightFoot ? BareRightDecal : BareLeftDecal;
+
+        AddTrackDecal(decal, gridUid, position + side, color, delta.ToWorldAngle());
 
         ent.Comp.RightFoot = !ent.Comp.RightFoot;
         ent.Comp.Steps--;
@@ -328,7 +388,7 @@ public sealed class STBloodTracksSystem : EntitySystem
     private void AddTrackDecal(string decal, EntityUid gridUid, Vector2 center, Color color, Angle rotation)
     {
         var coordinates = new EntityCoordinates(gridUid, center - DecalCenterOffset);
-        _decals.TryAddDecal(decal, coordinates, out _, color, rotation, cleanable: true);
+        _decals.TryAddDecal(decal, coordinates, out _, color, rotation + TrackRotationOffset, cleanable: true);
     }
 
     private static float GetTrackAlpha(STBloodyComponent comp, int remaining, int max)

@@ -63,10 +63,10 @@ public sealed partial class STBloodyComponent : Component
     public int MaxSteps = 6;
 
     [DataField]
-    public float StepDistance = 0.55f;
+    public float StepDistance = 0.5f;
 
     [DataField]
-    public float StepSideOffset = 0.12f;
+    public float StepSideOffset = 0.1f;
 
     [DataField]
     public float DragDistance = 0.4f;
