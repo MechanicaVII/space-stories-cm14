@@ -1,12 +1,14 @@
 using Content.Shared._RMC14.Chemistry.Reagent;
 using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.Reaction;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.Hands;
 using Content.Shared.Inventory;
 using Content.Shared.Item;
 using Robust.Shared.Network;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Serialization;
 
@@ -155,7 +157,7 @@ public sealed class BloodStainSystem : EntitySystem
         return true;
     }
 
-    public bool IsCleaningReagent(Entity<BloodStainComponent> ent, string reagent)
+    public bool IsCleaningReagent(Entity<BloodStainComponent> ent, ProtoId<ReagentPrototype> reagent)
     {
         return ent.Comp.CleaningReagents.Contains(reagent);
     }

@@ -4,6 +4,8 @@ using Content.Shared.Clothing;
 using Content.Shared.Humanoid;
 using Content.Shared.Item;
 using Robust.Client.GameObjects;
+using Robust.Client.Graphics;
+using Robust.Shared.Prototypes;
 
 namespace Content.Client._Stories.Blood;
 
@@ -13,7 +15,7 @@ public sealed class BloodStainVisualizerSystem : EntitySystem
     private const string ItemMaskState = "itemblood";
     private const string HandsState = "hands_blood";
     private const string FeetState = "feet_blood";
-    private const string StainShader = "STBloodStain";
+    private static readonly ProtoId<ShaderPrototype> StainShader = "STBloodStain";
 
     private const string ItemStainKey = "stories-blood-stain";
     private const string ItemMaskKey = "stories-blood-stain-mask";

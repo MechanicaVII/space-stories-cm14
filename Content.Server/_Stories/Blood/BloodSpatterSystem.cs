@@ -1,15 +1,10 @@
 using System.Numerics;
-using Content.Server._RMC14.Decals;
-using Content.Server.Decals;
 using Content.Shared._Stories.Blood;
-using Content.Shared._Stories.SCCVars;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Decals;
 using Content.Shared.Item;
 using Content.Shared.Weapons.Melee;
-using Robust.Shared.Configuration;
-using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -32,27 +27,18 @@ public sealed class BloodSpatterSystem : EntitySystem
     ];
 
     private static readonly EntProtoId SplatterEffect = "STBloodSplatterEffect";
-    private static readonly Vector2 DecalCenterOffset = new(0.5f, 0.5f);
 
     [Dependency] private readonly BloodStainSystem _bloodStain = default!;
     [Dependency] private readonly BloodTracksSystem _bloodTracks = default!;
-    [Dependency] private readonly IConfigurationManager _config = default!;
-    [Dependency] private readonly DecalSystem _decals = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly RMCDecalSystem _rmcDecal = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-
-    private int _maxFloorSplattersPerTile;
 
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<BloodyComponent, DamageChangedEvent>(OnDamageChanged);
-
-        Subs.CVar(_config, SCCVars.BloodMaxFloorSplattersPerTile, v => _maxFloorSplattersPerTile = v, true);
     }
 
     private void OnDamageChanged(Entity<BloodyComponent> ent, ref DamageChangedEvent args)
@@ -122,18 +108,13 @@ public sealed class BloodSpatterSystem : EntitySystem
     {
         var xform = Transform(target);
         if (xform.GridUid is not { } gridUid ||
-            !TryComp<MapGridComponent>(gridUid, out var grid) ||
-            _rmcDecal.GetDecalsInTile(target, FloorSplatterDecals) >= _maxFloorSplattersPerTile)
+            !TryComp<MapGridComponent>(gridUid, out var grid))
         {
             return;
         }
 
         var worldPosition = _transform.GetWorldPosition(xform) + direction.RotateVec(new Vector2(0, -target.Comp.FloorSplatterShift));
         var local = Vector2.Transform(worldPosition, _transform.GetInvWorldMatrix(gridUid));
-        var coordinates = new EntityCoordinates(gridUid, local);
-        if (!_decals.TryAddDecal(_random.Pick(FloorSplatterDecals), coordinates.Offset(-DecalCenterOffset), out _, color, _random.NextAngle(), cleanable: true))
-            return;
-
-        _bloodTracks.MarkWet(gridUid, _map.TileIndicesFor(gridUid, grid, coordinates), color);
+        _bloodTracks.TryAddSplatter(_random.Pick(FloorSplatterDecals), gridUid, grid, local, color, _random.NextAngle());
     }
 }
