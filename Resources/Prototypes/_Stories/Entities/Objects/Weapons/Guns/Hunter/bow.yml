@@ -27,6 +27,7 @@
         whitelist:
           tags:
           - STHunterArrow
+          - STHunterArrowSnare
       explosive:
         whitelist:
           tags:
@@ -53,6 +54,7 @@
           tags:
           - STHunterArrow
           - STHunterArrowExplosive
+          - STHunterArrowSnare
   - type: Tag
     tags:
     - STPredatorGear
@@ -159,6 +161,71 @@
   - type: IgnorePredictionHide
 
 - type: entity
+  parent: BaseItem
+  id: STArrowHunterSnare
+  name: snare arrow
+  description: A bow launched snare.
+  components:
+  - type: Item
+    size: Small
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PhysShapeCircle
+          radius: 0.2
+        density: 5
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
+      projectile:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.1,-0.1,0.1,0.1"
+        hard: false
+        mask:
+        - Impassable
+        - BulletImpassable
+  - type: ThrowingAngle
+    angle: 0
+  - type: Ammo
+    muzzleFlash: null
+  - type: Sprite
+    sprite: _Stories/Objects/Specific/Hunter/snare_arrow.rsi
+    drawdepth: BelowMobs
+    layers:
+    - state: arrow_trap
+      map: [ "enum.HunterTrapVisuals.State" ]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.HunterTrapVisuals.State:
+        enum.HunterTrapVisuals.State:
+          Disarmed: { state: arrow_trap }
+          Armed: { state: arrow_trap }
+          Grass: { state: arrow_trap }
+          Dirt: { state: arrow_trap }
+          Caught: { state: arrow_trap_active }
+  - type: Tag
+    tags:
+    - STPredatorGear
+    - STHunterArrowSnare
+  - type: Projectile
+    deleteOnCollide: true
+    onlyCollideWhenShot: true
+    damage:
+      types:
+        Piercing: 30
+  - type: CMArmorPiercing
+    amount: 15
+  - type: HunterSnareProjectile
+    deployed: STArrowHunterSnare
+  - type: HunterTrap
+    armable: false
+    catchSound:
+      path: /Audio/_Stories/Effects/Hunter/hunting_trap_trigger.ogg
+
+- type: entity
   parent: [CMBeltBaseStorage, STHunterBaseItem]
   id: STQuiverHunter
   name: quiver strap
@@ -185,6 +252,7 @@
       tags:
       - STHunterArrow
       - STHunterArrowExplosive
+      - STHunterArrowSnare
       - STPredatorBow
   - type: FixedItemSizeStorage
   - type: CMHolster
@@ -203,6 +271,7 @@
         tags:
         - STHunterArrow
         - STHunterArrowExplosive
+        - STHunterArrowSnare
   - type: CMStorageVisualizer
     storageClosed: null
     storageOpen: null

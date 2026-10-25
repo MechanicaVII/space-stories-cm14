@@ -1,0 +1,10 @@
+st-hunter-trap-no-skill = Вы не знаете, как этим пользоваться!
+st-hunter-trap-armed = Капкан взведён.
+st-hunter-trap-disarmed = Ловушка разряжена.
+st-hunter-trap-foolish-touch = Вы опрометчиво тянетесь к ловушке...
+st-hunter-trap-caught-self = Вы попались в { $trap }!
+st-hunter-trap-caught-others = { CAPITALIZE($victim) } попадается в { $trap }!
+st-hunter-trap-verb-range = Длина цепи: { $range }
+st-hunter-trap-range-set = Длина цепи капкана: { $range }.
+st-hunter-trap-announce = Охотничий капкан кого-то поймал: { $area }!
+st-hunter-trap-announce-unknown-area = неизвестная зона
