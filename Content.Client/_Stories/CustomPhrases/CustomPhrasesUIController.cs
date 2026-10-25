@@ -3,11 +3,12 @@ using Content.Client.Gameplay;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Chat;
 using Content.Client.UserInterface.Systems.MenuBar.Widgets;
+using Content.Shared._Stories.Input;
 using Content.Shared.Chat;
 using Robust.Client.UserInterface.Controllers;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.ContentPack;
-using Robust.Shared.Input;
+using Robust.Shared.Input.Binding;
 using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Markdown;
 using Robust.Shared.Serialization.Markdown.Mapping;
@@ -18,19 +19,18 @@ using YamlDotNet.RepresentationModel;
 
 namespace Content.Client._Stories.CustomPhrases;
 
-public sealed class CustomPhrasesUIController : UIController, IOnStateExited<GameplayState>
+public sealed class CustomPhrasesUIController : UIController, IOnStateEntered<GameplayState>, IOnStateExited<GameplayState>
 {
     [Dependency] private readonly IResourceManager _res = default!;
     [Dependency] private readonly ISerializationManager _serialization = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
-    public static readonly BoundKeyFunction OpenMenuFunction = "StoriesOpenCustomPhrases";
-
     public const int MaxPhrases = 200;
     public const int MaxTagLength = 32;
+    public const int MaxTags = 6;
 
     private static readonly ResPath ConfigPath = new("/custom_phrases.yml");
-    private static readonly TimeSpan SendCooldown = TimeSpan.FromSeconds(0.5);
+    private static readonly TimeSpan SendCooldown = TimeSpan.FromSeconds(2.2);
 
     private readonly List<CustomPhrase> _phrases = new();
     private bool _loaded;
@@ -57,8 +57,39 @@ public sealed class CustomPhrasesUIController : UIController, IOnStateExited<Gam
         }
     }
 
+    public float CooldownProgress => _timing.RealTime >= _nextSend
+        ? 0f
+        : (float) ((_nextSend - _timing.RealTime) / SendCooldown);
+
+    public List<string> AllTags()
+    {
+        return Phrases
+            .SelectMany(p => p.Tags)
+            .Distinct()
+            .OrderBy(t => t)
+            .ToList();
+    }
+
+    public int CountTagsWith(CustomPhrase? replaced, IEnumerable<string> tags)
+    {
+        return Phrases
+            .Where(p => p != replaced)
+            .SelectMany(p => p.Tags)
+            .Concat(tags)
+            .Distinct()
+            .Count();
+    }
+
+    public void OnStateEntered(GameplayState state)
+    {
+        CommandBinds.Builder
+            .Bind(StoriesKeyFunctions.OpenCustomPhrases, InputCmdHandler.FromDelegate(_ => ToggleWindow()))
+            .Register<CustomPhrasesUIController>();
+    }
+
     public void OnStateExited(GameplayState state)
     {
+        CommandBinds.Unregister<CustomPhrasesUIController>();
         _window?.Close();
     }
 
