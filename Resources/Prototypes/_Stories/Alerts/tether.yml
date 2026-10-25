@@ -1,0 +1,8 @@
+- type: alert
+  id: STTethered
+  clickEvent: !type:STTetherResistAlertEvent
+  icons:
+  - sprite: /Textures/Interface/Alerts/ensnared.rsi
+    state: ensnared
+  name: st-alerts-tethered-name
+  description: st-alerts-tethered-desc

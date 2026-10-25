@@ -45,6 +45,7 @@ using Robust.Shared.Spawners;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using static Content.Shared.Physics.CollisionGroup;
+using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
 
 namespace Content.Shared._RMC14.Xenonids.Fruit;
 
@@ -72,6 +73,7 @@ public sealed class SharedXenoFruitSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedHiveInterferenceSystem _hiveInterference = default!; // Stories-HiveInterference
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedXenoPheromonesSystem _xenoPhero = default!;
@@ -789,6 +791,7 @@ public sealed class SharedXenoFruitSystem : EntitySystem
         //_popup.PopupPredicted(popupSelf, popupOthers, user, user);
 
         ApplyFruitEffects(fruit, target);
+        _hiveInterference.Cleanse(target); // Stories-HiveInterference
 
         // Send pop-up to target describing effect
         _popup.PopupClient(Loc.GetString(fruit.Comp.Popup), target, target, PopupType.Medium);

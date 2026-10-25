@@ -27,6 +27,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
 
 namespace Content.Shared._RMC14.Xenonids.Heal;
 
@@ -55,6 +56,7 @@ public abstract class SharedXenoHealSystem : EntitySystem
     [Dependency] private readonly SharedXenoAnnounceSystem _xenoAnnounce = default!;
     [Dependency] private readonly XenoStrainSystem _xenoStrain = default!;
     [Dependency] private readonly StatusEffectsSystem _status = default!;
+    [Dependency] private readonly SharedHiveInterferenceSystem _hiveInterference = default!; // Stories-HiveInterference
 
     private static readonly ProtoId<DamageGroupPrototype> BruteGroup = "Brute";
     private static readonly ProtoId<DamageGroupPrototype> BurnGroup = "Burn";
@@ -333,6 +335,7 @@ public abstract class SharedXenoHealSystem : EntitySystem
         }
 
         EntityManager.RemoveComponents(target, args.ComponentsRemove);
+        _hiveInterference.Cleanse(target); // Stories-HiveInterference
 
         _jitter.DoJitter(target, TimeSpan.FromSeconds(1), true, 80, 8, true);
 
