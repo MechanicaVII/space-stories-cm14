@@ -194,7 +194,7 @@
       entries:
       - id: STHunterTrap
         points: 10
-      - id: STArrowHunterExplosive
+      - id: STArrowHunter
         points: 10
       - id: STArrowHunterSnare
         points: 15
@@ -395,7 +395,7 @@
       entries:
       - id: STHunterTrap
         points: 10
-      - id: STArrowHunterExplosive
+      - id: STArrowHunter
         points: 10
       - id: STArrowHunterSnare
         points: 15

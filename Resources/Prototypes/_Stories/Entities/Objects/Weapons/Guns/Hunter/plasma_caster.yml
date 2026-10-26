@@ -137,9 +137,10 @@
   - type: Projectile
     damage:
       types:
-        Shock: 5
+        Shock: 0
   - type: HunterStunBolt
-    stunTime: 4
+    stunTime: 6
+    humanStunTime: 8
 
 - type: entity
   parent: STPlasmaBoltBaseProjectile
@@ -155,10 +156,12 @@
     damage:
       types:
         Shock: 0
+  - type: HunterProjectileMaxRange
+    range: 20
   - type: HunterAreaStunOnHit
     radius: 7
-    stunTime: 6
-    hunterReductionTime: 2
+    stunTime: 12
+    hunterReductionTime: 4
   - type: TriggerOnCollide
     fixtureID: projectile
 
@@ -173,17 +176,21 @@
     - state: bullet
       map: ["enum.AmmoVisualLayers.Base"]
   - type: Projectile
+    deleteOnCollide: false
+    queueDeletion: true
     damage:
       types:
         Heat: 75
   - type: ExplodeOnTrigger
   - type: TriggerOnCollide
     fixtureID: projectile
+  - type: DeleteOnTrigger
+  - type: IgnorePredictionHide
   - type: Explosive
     explosionType: RMC
-    totalIntensity: 60
-    intensitySlope: 20
-    maxIntensity: 40
+    totalIntensity: 20
+    intensitySlope: 12
+    maxIntensity: 10
   - type: CMExplosionEffect
   - type: RMCScorchEffect
 
@@ -198,6 +205,8 @@
     - state: bullet
       map: ["enum.AmmoVisualLayers.Base"]
   - type: Projectile
+    deleteOnCollide: false
+    queueDeletion: true
     damage:
       types:
         Heat: 55
@@ -205,6 +214,10 @@
   - type: ExplodeOnTrigger
   - type: TriggerOnCollide
     fixtureID: projectile
+  - type: HunterProjectileMaxRange
+    range: 8
+  - type: DeleteOnTrigger
+  - type: IgnorePredictionHide
   - type: Explosive
     explosionType: RMC
     totalIntensity: 800

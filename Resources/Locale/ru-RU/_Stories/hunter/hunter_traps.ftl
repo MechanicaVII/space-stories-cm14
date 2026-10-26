@@ -8,3 +8,6 @@ st-hunter-trap-verb-range = Длина цепи: { $range }
 st-hunter-trap-range-set = Длина цепи капкана: { $range }.
 st-hunter-trap-announce = Охотничий капкан кого-то поймал: { $area }!
 st-hunter-trap-announce-unknown-area = неизвестная зона
+st-hunter-arrow-no-skill = Вы пытаетесь что-то подкрутить в стреле, но ничего не происходит.
+st-hunter-arrow-activated = Вы активируете взрывную боеголовку.
+st-hunter-arrow-deactivated = Вы деактивируете взрывную боеголовку.

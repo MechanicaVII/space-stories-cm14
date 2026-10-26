@@ -11,11 +11,11 @@ public sealed partial class HunterSnareProjectileComponent : Component
     public EntProtoId Deployed;
 
     [DataField]
-    public TimeSpan StunTime = TimeSpan.FromSeconds(1);
+    public TimeSpan StunTime = TimeSpan.FromSeconds(2);
 
     [DataField]
-    public TimeSpan DazeTime = TimeSpan.FromSeconds(3);
+    public TimeSpan DazeTime = TimeSpan.FromSeconds(6);
 
     [DataField]
-    public float Knockback = 2f;
+    public float PushMaxRange = 2f;
 }

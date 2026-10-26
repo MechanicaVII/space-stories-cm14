@@ -15,6 +15,7 @@ using Content.Shared.Item;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
+using Content.Shared.Standing;
 using Content.Shared.StepTrigger.Components;
 using Content.Shared.StepTrigger.Systems;
 using Content.Shared.Stunnable;
@@ -41,6 +42,7 @@ public sealed class HunterTrapSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly RMCSizeStunSystem _sizeStun = default!;
     [Dependency] private readonly SkillsSystem _skills = default!;
+    [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly StepTriggerSystem _stepTrigger = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly STTetherSystem _tether = default!;
@@ -245,13 +247,15 @@ public sealed class HunterTrapSystem : EntitySystem
         if (!canCatch || !TryComp(snare, out HunterTrapComponent? trap))
             return;
 
-        _stun.TryParalyze(target, ent.Comp.StunTime, true);
+        _stun.TryStun(target, ent.Comp.StunTime, true);
         _dazed.TryDaze(target, ent.Comp.DazeTime);
 
-        if (args.Shooter is { } shooter)
+        if (args.Shooter is { } shooter && !_standing.IsDown(target))
         {
             var from = _transform.GetMapCoordinates(shooter);
-            _sizeStun.KnockBack(target, from, ent.Comp.Knockback, ent.Comp.Knockback);
+            var to = _transform.GetMapCoordinates(target);
+            if (from.MapId == to.MapId && (to.Position - from.Position).Length() <= ent.Comp.PushMaxRange)
+                _sizeStun.KnockBack(target, from, 1f, 1f);
         }
 
         Catch((snare, trap), target);

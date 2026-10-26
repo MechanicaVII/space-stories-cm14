@@ -115,6 +115,13 @@
     whitelist:
       components:
       - Xeno
+  - type: HunterArrow
+    toggleTo: STArrowHunterExplosive
+    togglePopup: st-hunter-arrow-activated
+    stunTime: 2
+    dazeTime: 6
+    pushMaxRange: 7
+    detachFromNonHumans: true
 
 - type: entity
   parent: STArrowHunter
@@ -148,13 +155,18 @@
     onlyCollideWhenShot: false
     damage:
       types:
-        Piercing: 30
+        Heat: 110
+  - type: HunterArrow
+    toggleTo: STArrowHunter
+    togglePopup: st-hunter-arrow-deactivated
+  - type: HunterProjectileMaxRange
+    range: 14
   - type: ExplodeOnTrigger
   - type: Explosive
     explosionType: RMC
     maxIntensity: 30
-    intensitySlope: 10
-    totalIntensity: 290
+    intensitySlope: 12
+    totalIntensity: 170
     maxTileBreak: 0
   - type: CMExplosionEffect
   - type: RMCScorchEffect
