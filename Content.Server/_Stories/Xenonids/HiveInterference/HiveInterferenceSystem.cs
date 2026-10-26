@@ -27,7 +27,7 @@ public sealed class HiveInterferenceSystem : SharedHiveInterferenceSystem
             return;
 
         args.Handled = true;
-        _popup.PopupEntity(Loc.GetString("st-hive-interference-watch-blocked"), ent, ent, PopupType.MediumCaution);
+        _popup.PopupEntity(Loc.GetString("stories-hive-interference-watch-blocked"), ent, ent, PopupType.MediumCaution);
     }
 
     protected override void OnInterferenceStarted(EntityUid xeno)
@@ -70,7 +70,7 @@ public sealed class HiveInterferenceSystem : SharedHiveInterferenceSystem
 
             _watch.Unwatch(watcher, session);
 
-            var msg = watcher == xeno ? "st-hive-interference-watch-blocked" : "st-hive-interference-watch-target-blocked";
+            var msg = watcher == xeno ? "stories-hive-interference-watch-blocked" : "stories-hive-interference-watch-target-blocked";
             _popup.PopupEntity(Loc.GetString(msg), watcher, watcher, PopupType.MediumCaution);
         }
     }

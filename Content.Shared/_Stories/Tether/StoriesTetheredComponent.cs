@@ -5,8 +5,8 @@ using Robust.Shared.Prototypes;
 namespace Content.Shared._Stories.Tether;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(STTetherSystem))]
-public sealed partial class STTetheredComponent : Component
+[Access(typeof(StoriesTetherSystem))]
+public sealed partial class StoriesTetheredComponent : Component
 {
     [DataField, AutoNetworkedField]
     public EntityUid? Origin;

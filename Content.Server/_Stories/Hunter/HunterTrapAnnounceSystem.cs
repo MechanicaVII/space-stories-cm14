@@ -30,9 +30,9 @@ public sealed class HunterTrapAnnounceSystem : EntitySystem
 
         var areaName = _area.TryGetArea(Transform(ent).Coordinates, out _, out var areaProto)
             ? areaProto.Name
-            : Loc.GetString("st-hunter-trap-announce-unknown-area");
+            : Loc.GetString("stories-hunter-trap-announce-unknown-area");
 
-        var message = Loc.GetString("st-hunter-trap-announce", ("area", areaName));
+        var message = Loc.GetString("stories-hunter-trap-announce", ("area", areaName));
         var wrappedMessage = $"[bold][color=#af0614]{FormattedMessage.EscapeText(message)}[/color][/bold]";
         var filter = Filter.Empty().AddWhereAttachedEntity(IsLivingHunter);
 

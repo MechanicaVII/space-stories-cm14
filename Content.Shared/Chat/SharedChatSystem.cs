@@ -11,7 +11,7 @@ using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Shared._Stories.Hunter.Marking.Components; // Stories-Hunter
-using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
+using Content.Shared._Stories.Xenonids.HiveInterference;
 
 namespace Content.Shared.Chat;
 
@@ -247,7 +247,7 @@ public abstract class SharedChatSystem : EntitySystem
             if (channel?.ID == HivemindChannel.Id && _hiveInterference.IsInterfered(source))
             {
                 if (!quiet)
-                    _popup.PopupEntity(Loc.GetString("st-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
+                    _popup.PopupEntity(Loc.GetString("stories-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
 
                 return false;
             }
@@ -337,7 +337,7 @@ public abstract class SharedChatSystem : EntitySystem
         if (channel?.ID == HivemindChannel.Id && _hiveInterference.IsInterfered(source))
         {
             if (!quiet)
-                _popup.PopupEntity(Loc.GetString("st-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
+                _popup.PopupEntity(Loc.GetString("stories-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
 
             return false;
         }

@@ -38,7 +38,7 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
             return;
 
         args.Handled = true;
-        _popup.PopupClient(Loc.GetString("st-hive-interference-blocked"), ent, ent, PopupType.MediumCaution);
+        _popup.PopupClient(Loc.GetString("stories-hive-interference-blocked"), ent, ent, PopupType.MediumCaution);
     }
 
     private void OnEvolutionDoAfter(Entity<HiveInterferenceComponent> ent, ref XenoEvolutionDoAfterEvent args)
@@ -47,7 +47,7 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
             return;
 
         args.Handled = true;
-        _popup.PopupEntity(Loc.GetString("st-hive-interference-blocked"), ent, ent, PopupType.MediumCaution);
+        _popup.PopupEntity(Loc.GetString("stories-hive-interference-blocked"), ent, ent, PopupType.MediumCaution);
     }
 
     public bool IsInterfered(Entity<HiveInterferenceComponent?> ent)
@@ -87,7 +87,7 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
         Dirty(xeno, comp);
         UpdateAlert((xeno, comp));
 
-        _popup.PopupEntity(Loc.GetString("st-hive-interference-applied"), xeno, xeno, PopupType.LargeCaution);
+        _popup.PopupEntity(Loc.GetString("stories-hive-interference-applied"), xeno, xeno, PopupType.LargeCaution);
         _ui.CloseUi(xeno, XenoEvolutionUIKey.Key);
         _ui.CloseUi(xeno, XenoDevolveUIKey.Key);
         OnInterferenceStarted(xeno);

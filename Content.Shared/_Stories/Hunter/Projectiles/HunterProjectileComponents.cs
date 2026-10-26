@@ -30,6 +30,7 @@ public sealed partial class HunterAreaStunOnHitComponent : Component
 }
 
 [RegisterComponent, NetworkedComponent]
+[Access(typeof(HunterPlasmaCasterProjectileSystem))]
 public sealed partial class HunterProjectileMaxRangeComponent : Component
 {
     [DataField(required: true)]
@@ -41,3 +42,6 @@ public sealed partial class HunterProjectileMaxRangeComponent : Component
 
 [ByRefEvent]
 public readonly record struct HunterProjectileMaxRangeEvent;
+
+[RegisterComponent, NetworkedComponent]
+public sealed partial class HunterTriggerOnHitComponent : Component;

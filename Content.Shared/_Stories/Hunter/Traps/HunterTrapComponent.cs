@@ -42,6 +42,9 @@ public sealed partial class HunterTrapComponent : Component
     public bool Configurable;
 
     [DataField]
+    public string TetherVisualState = "chain";
+
+    [DataField]
     public float Interference = 100f;
 
     [DataField]

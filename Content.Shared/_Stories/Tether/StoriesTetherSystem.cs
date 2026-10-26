@@ -12,7 +12,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared._Stories.Tether;
 
-public sealed class STTetherSystem : VirtualController
+public sealed class StoriesTetherSystem : VirtualController
 {
     [Dependency] private readonly AlertsSystem _alerts = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
@@ -23,8 +23,6 @@ public sealed class STTetherSystem : VirtualController
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
-    private const string ChainState = "chain";
-
     private readonly List<EntityUid> _toRelease = new();
 
     public override void Initialize()
@@ -33,19 +31,19 @@ public sealed class STTetherSystem : VirtualController
 
         UpdatesAfter.Add(typeof(SharedMoverController));
 
-        SubscribeLocalEvent<STTetheredComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<STTetheredComponent, STTetherResistAlertEvent>(OnResistAlert);
-        SubscribeLocalEvent<STTetheredComponent, STTetherResistDoAfterEvent>(OnResistDoAfter);
+        SubscribeLocalEvent<StoriesTetheredComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<StoriesTetheredComponent, StoriesTetherResistAlertEvent>(OnResistAlert);
+        SubscribeLocalEvent<StoriesTetheredComponent, StoriesTetherResistDoAfterEvent>(OnResistDoAfter);
     }
 
-    public void Tether(EntityUid target, EntityUid origin, int range, bool resistible = true)
+    public void Tether(EntityUid target, EntityUid origin, int range, string visualState, bool resistible = true)
     {
         if (target == origin)
             return;
 
         Release(target);
 
-        var comp = EnsureComp<STTetheredComponent>(target);
+        var comp = EnsureComp<StoriesTetheredComponent>(target);
         comp.Origin = origin;
         comp.Range = range;
         comp.Resistible = resistible;
@@ -55,24 +53,24 @@ public sealed class STTetherSystem : VirtualController
 
         var visual = EnsureComp<RMCTetherComponent>(origin);
         visual.TetherOrigin = target;
-        visual.TetherState = ChainState;
+        visual.TetherState = visualState;
         Dirty(origin, visual);
     }
 
     public void Release(EntityUid target)
     {
-        if (TryComp(target, out STTetheredComponent? comp) && comp.LifeStage <= ComponentLifeStage.Running)
+        if (TryComp(target, out StoriesTetheredComponent? comp) && comp.LifeStage <= ComponentLifeStage.Running)
             RemComp(target, comp);
     }
 
     public bool IsTetheredTo(EntityUid target, EntityUid origin)
     {
-        return TryComp(target, out STTetheredComponent? comp) &&
+        return TryComp(target, out StoriesTetheredComponent? comp) &&
                comp.LifeStage <= ComponentLifeStage.Running &&
                comp.Origin == origin;
     }
 
-    private void OnShutdown(Entity<STTetheredComponent> ent, ref ComponentShutdown args)
+    private void OnShutdown(Entity<StoriesTetheredComponent> ent, ref ComponentShutdown args)
     {
         _alerts.ClearAlert(ent.Owner, ent.Comp.Alert);
 
@@ -85,11 +83,11 @@ public sealed class STTetherSystem : VirtualController
         if (TryComp(origin, out RMCTetherComponent? visual) && visual.TetherOrigin == ent.Owner)
             RemComp<RMCTetherComponent>(origin);
 
-        var ev = new STTetherReleasedEvent(ent.Owner, origin);
+        var ev = new StoriesTetherReleasedEvent(ent.Owner, origin);
         RaiseLocalEvent(origin, ref ev);
     }
 
-    private void OnResistAlert(Entity<STTetheredComponent> ent, ref STTetherResistAlertEvent args)
+    private void OnResistAlert(Entity<StoriesTetheredComponent> ent, ref StoriesTetherResistAlertEvent args)
     {
         if (args.Handled)
             return;
@@ -98,27 +96,27 @@ public sealed class STTetherSystem : VirtualController
 
         if (!ent.Comp.Resistible)
         {
-            _popup.PopupClient(Loc.GetString("st-tether-resist-impossible"), ent, ent, PopupType.SmallCaution);
+            _popup.PopupClient(Loc.GetString("stories-tether-resist-impossible"), ent, ent, PopupType.SmallCaution);
             return;
         }
 
-        var doAfter = new DoAfterArgs(EntityManager, ent, ent.Comp.ResistTime, new STTetherResistDoAfterEvent(), ent)
+        var doAfter = new DoAfterArgs(EntityManager, ent, ent.Comp.ResistTime, new StoriesTetherResistDoAfterEvent(), ent)
         {
             BreakOnMove = true,
             NeedHand = false,
         };
 
         if (_doAfter.TryStartDoAfter(doAfter))
-            _popup.PopupClient(Loc.GetString("st-tether-resist-start", ("seconds", (int) ent.Comp.ResistTime.TotalSeconds)), ent, ent, PopupType.SmallCaution);
+            _popup.PopupClient(Loc.GetString("stories-tether-resist-start", ("seconds", (int) ent.Comp.ResistTime.TotalSeconds)), ent, ent, PopupType.SmallCaution);
     }
 
-    private void OnResistDoAfter(Entity<STTetheredComponent> ent, ref STTetherResistDoAfterEvent args)
+    private void OnResistDoAfter(Entity<StoriesTetheredComponent> ent, ref StoriesTetherResistDoAfterEvent args)
     {
         if (args.Handled || args.Cancelled)
             return;
 
         args.Handled = true;
-        _popup.PopupClient(Loc.GetString("st-tether-resist-success"), ent, ent, PopupType.Medium);
+        _popup.PopupClient(Loc.GetString("stories-tether-resist-success"), ent, ent, PopupType.Medium);
         Release(ent);
     }
 
@@ -128,7 +126,7 @@ public sealed class STTetherSystem : VirtualController
 
         _toRelease.Clear();
 
-        var query = EntityQueryEnumerator<STTetheredComponent, PhysicsComponent, TransformComponent>();
+        var query = EntityQueryEnumerator<StoriesTetheredComponent, PhysicsComponent, TransformComponent>();
         while (query.MoveNext(out var uid, out var tether, out var physics, out var xform))
         {
             if (prediction && !physics.Predict)

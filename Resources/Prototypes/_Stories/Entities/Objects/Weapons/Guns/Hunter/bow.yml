@@ -71,7 +71,16 @@
     size: Small
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Guns/Projectiles/Hunter/arrows.rsi
-    state: arrow
+    layers:
+    - state: arrow
+      map: [ "enum.HunterArrowVisuals.Active" ]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.HunterArrowVisuals.Active:
+        enum.HunterArrowVisuals.Active:
+          True: { state: arrow_explosive }
+          False: { state: arrow }
   - type: Fixtures
     fixtures:
       fix1:
@@ -116,61 +125,49 @@
       components:
       - Xeno
   - type: HunterArrow
-    toggleTo: STArrowHunterExplosive
-    togglePopup: st-hunter-arrow-activated
+    activeName: ent-STArrowHunterExplosive
+    inactiveName: ent-STArrowHunter
+    activeTag: STHunterArrowExplosive
+    inactiveTag: STHunterArrow
     stunTime: 2
     dazeTime: 6
     pushMaxRange: 7
     detachFromNonHumans: true
+    inactiveComponents:
+    - type: Projectile
+      deleteOnCollide: false
+      onlyCollideWhenShot: true
+      damage:
+        types:
+          Piercing: 110
+    activeComponents:
+    - type: Projectile
+      deleteOnCollide: true
+      onlyCollideWhenShot: true
+      damage:
+        types:
+          Heat: 110
+    - type: HunterTriggerOnHit
+    - type: HunterProjectileMaxRange
+      range: 14
+    - type: ExplodeOnTrigger
+    - type: Explosive
+      explosionType: RMC
+      maxIntensity: 30
+      intensitySlope: 12
+      totalIntensity: 170
+      maxTileBreak: 0
+    - type: CMExplosionEffect
+    - type: RMCScorchEffect
 
 - type: entity
   parent: STArrowHunter
   id: STArrowHunterExplosive
   name: explosive arrow
   description: A sharp hunter arrow.
+  suffix: Activated
   components:
-  - type: Sprite
-    sprite: _Stories/Objects/Weapons/Guns/Projectiles/Hunter/arrows.rsi
-    state: arrow_explosive
-  - type: Tag
-    tags:
-    - STPredatorGear
-    - STHunterArrowExplosive
-  - type: TriggerOnCollide
-    fixtureID: projectile
-  - type: Fixtures
-    fixtures:
-      projectile:
-        shape:
-          !type:PhysShapeAabb
-          bounds: "-0.15,-0.15,0.15,0.15"
-        hard: false
-        mask:
-        - Impassable
-        - BulletImpassable
-        restitution: 0.0
-        density: 20
-  - type: Projectile
-    deleteOnCollide: true
-    onlyCollideWhenShot: false
-    damage:
-      types:
-        Heat: 110
-  - type: HunterArrow
-    toggleTo: STArrowHunter
-    togglePopup: st-hunter-arrow-deactivated
-  - type: HunterProjectileMaxRange
-    range: 14
-  - type: ExplodeOnTrigger
-  - type: Explosive
-    explosionType: RMC
-    maxIntensity: 30
-    intensitySlope: 12
-    totalIntensity: 170
-    maxTileBreak: 0
-  - type: CMExplosionEffect
-  - type: RMCScorchEffect
-  - type: IgnorePredictionHide
+  - type: HunterArrowStartActive
 
 - type: entity
   parent: BaseItem

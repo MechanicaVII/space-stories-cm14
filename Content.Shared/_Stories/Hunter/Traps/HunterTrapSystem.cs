@@ -45,7 +45,7 @@ public sealed class HunterTrapSystem : EntitySystem
     [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly StepTriggerSystem _stepTrigger = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly STTetherSystem _tether = default!;
+    [Dependency] private readonly StoriesTetherSystem _tether = default!;
     [Dependency] private readonly ITileDefinitionManager _tileDefinitions = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
@@ -61,7 +61,7 @@ public sealed class HunterTrapSystem : EntitySystem
         SubscribeLocalEvent<HunterTrapComponent, GettingPickedUpAttemptEvent>(OnPickupAttempt);
         SubscribeLocalEvent<HunterTrapComponent, StepTriggerAttemptEvent>(OnStepTriggerAttempt);
         SubscribeLocalEvent<HunterTrapComponent, StepTriggeredOffEvent>(OnStepTriggered);
-        SubscribeLocalEvent<HunterTrapComponent, STTetherReleasedEvent>(OnTetherReleased);
+        SubscribeLocalEvent<HunterTrapComponent, StoriesTetherReleasedEvent>(OnTetherReleased);
         SubscribeLocalEvent<HunterTrapComponent, GetVerbsEvent<AlternativeVerb>>(OnGetVerbs);
         SubscribeLocalEvent<HunterTrapComponent, ComponentShutdown>(OnTrapShutdown);
 
@@ -85,7 +85,7 @@ public sealed class HunterTrapSystem : EntitySystem
 
         if (!HasTrapSkill(ent, args.User))
         {
-            _popup.PopupClient(Loc.GetString("st-hunter-trap-no-skill"), args.User, args.User, PopupType.SmallCaution);
+            _popup.PopupClient(Loc.GetString("stories-hunter-trap-no-skill"), args.User, args.User, PopupType.SmallCaution);
             return;
         }
 
@@ -118,7 +118,7 @@ public sealed class HunterTrapSystem : EntitySystem
 
         SetStepTriggerActive(ent, true);
         UpdateAppearance(ent);
-        _popup.PopupClient(Loc.GetString("st-hunter-trap-armed"), user, user);
+        _popup.PopupClient(Loc.GetString("stories-hunter-trap-armed"), user, user);
     }
 
     private void OnInteractHand(Entity<HunterTrapComponent> ent, ref InteractHandEvent args)
@@ -137,7 +137,7 @@ public sealed class HunterTrapSystem : EntitySystem
 
             args.Handled = true;
             Disarm(ent);
-            _popup.PopupClient(Loc.GetString("st-hunter-trap-disarmed"), user, user);
+            _popup.PopupClient(Loc.GetString("stories-hunter-trap-disarmed"), user, user);
             return;
         }
 
@@ -149,14 +149,14 @@ public sealed class HunterTrapSystem : EntitySystem
         if (HasTrapSkill(ent, user))
         {
             Disarm(ent);
-            _popup.PopupClient(Loc.GetString("st-hunter-trap-disarmed"), user, user);
+            _popup.PopupClient(Loc.GetString("stories-hunter-trap-disarmed"), user, user);
             return;
         }
 
         if (!CanCatch(user))
             return;
 
-        _popup.PopupPredicted(Loc.GetString("st-hunter-trap-foolish-touch"), user, user, PopupType.MediumCaution);
+        _popup.PopupPredicted(Loc.GetString("stories-hunter-trap-foolish-touch"), user, user, PopupType.MediumCaution);
         Catch(ent, user);
     }
 
@@ -184,8 +184,8 @@ public sealed class HunterTrapSystem : EntitySystem
         {
             Catch(ent, tripper);
             _popup.PopupPredicted(
-                Loc.GetString("st-hunter-trap-caught-self", ("trap", ent)),
-                Loc.GetString("st-hunter-trap-caught-others", ("victim", tripper), ("trap", ent)),
+                Loc.GetString("stories-hunter-trap-caught-self", ("trap", ent)),
+                Loc.GetString("stories-hunter-trap-caught-others", ("victim", tripper), ("trap", ent)),
                 tripper,
                 tripper,
                 PopupType.MediumCaution);
@@ -198,7 +198,7 @@ public sealed class HunterTrapSystem : EntitySystem
         Disarm(ent);
     }
 
-    private void OnTetherReleased(Entity<HunterTrapComponent> ent, ref STTetherReleasedEvent args)
+    private void OnTetherReleased(Entity<HunterTrapComponent> ent, ref StoriesTetherReleasedEvent args)
     {
         if (ent.Comp.Victim == args.Tethered)
             Disarm(ent);
@@ -212,7 +212,7 @@ public sealed class HunterTrapSystem : EntitySystem
         var user = args.User;
         args.Verbs.Add(new AlternativeVerb
         {
-            Text = Loc.GetString("st-hunter-trap-verb-range", ("range", ent.Comp.Range)),
+            Text = Loc.GetString("stories-hunter-trap-verb-range", ("range", ent.Comp.Range)),
             Act = () =>
             {
                 var range = ent.Comp.Range + 1;
@@ -221,7 +221,7 @@ public sealed class HunterTrapSystem : EntitySystem
 
                 ent.Comp.Range = range;
                 Dirty(ent);
-                _popup.PopupClient(Loc.GetString("st-hunter-trap-range-set", ("range", range)), user, user);
+                _popup.PopupClient(Loc.GetString("stories-hunter-trap-range-set", ("range", range)), user, user);
             },
         });
     }
@@ -259,7 +259,7 @@ public sealed class HunterTrapSystem : EntitySystem
         }
 
         Catch((snare, trap), target);
-        _popup.PopupEntity(Loc.GetString("st-hunter-trap-caught-self", ("trap", snare)), target, target, PopupType.MediumCaution);
+        _popup.PopupEntity(Loc.GetString("stories-hunter-trap-caught-self", ("trap", snare)), target, target, PopupType.MediumCaution);
     }
 
     private void OnHealAttempt(Entity<HunterHealBlockedComponent> ent, ref XenoHealAttemptEvent args)
@@ -284,7 +284,7 @@ public sealed class HunterTrapSystem : EntitySystem
         SetStepTriggerActive(trap, false);
         UpdateAppearance(trap);
 
-        _tether.Tether(victim, trap, trap.Comp.Range);
+        _tether.Tether(victim, trap, trap.Comp.Range, trap.Comp.TetherVisualState);
 
         if (HasComp<XenoComponent>(victim))
         {

@@ -17,7 +17,7 @@
   - type: BasicEntityAmmoProvider
     proto: STPlasmaBoltStunProjectile
     capacity: 1
-    count: 1
+    count: 0
   - type: PlasmaCaster
 
 - type: entity
@@ -185,7 +185,6 @@
   - type: TriggerOnCollide
     fixtureID: projectile
   - type: DeleteOnTrigger
-  - type: IgnorePredictionHide
   - type: Explosive
     explosionType: RMC
     totalIntensity: 20
@@ -217,7 +216,6 @@
   - type: HunterProjectileMaxRange
     range: 8
   - type: DeleteOnTrigger
-  - type: IgnorePredictionHide
   - type: Explosive
     explosionType: RMC
     totalIntensity: 800

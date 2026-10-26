@@ -98,8 +98,8 @@ public sealed partial class BracerSystem
 
         var charge = MathF.Max(0f, bracer.Comp.Charge);
         var severity = ContentHelpers.RoundToLevels(charge, bracer.Comp.MaxCharge, 10);
-        var message = Loc.GetString("alerts-bracer-power-charge",
-            ("charge", (int) MathF.Floor(charge)),
+        var message = Loc.GetString("stories-alerts-bracer-power-charge",
+            ("charge", (int) MathF.Floor(charge / 10f) * 10),
             ("max", (int) bracer.Comp.MaxCharge));
 
         _alerts.ShowAlert(wearer, bracer.Comp.BracerPowerAlert, (short)severity, dynamicMessage: message);

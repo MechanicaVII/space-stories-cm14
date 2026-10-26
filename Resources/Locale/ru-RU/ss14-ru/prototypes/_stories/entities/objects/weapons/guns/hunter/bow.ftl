@@ -4,6 +4,7 @@ ent-STArrowHunter = стрела
     .desc = Острая охотничья стрела.
 ent-STArrowHunterExplosive = взрывная стрела
     .desc = Острая охотничья стрела.
+    .suffix = Активированная
 ent-STArrowHunterSnare = стрела-силок
     .desc = Стрела с силком, запускаемая из лука.
 ent-STQuiverHunter = ремень с колчаном
