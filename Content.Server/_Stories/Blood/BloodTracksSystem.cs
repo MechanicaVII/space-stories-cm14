@@ -9,6 +9,7 @@ using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Decals;
 using Content.Shared.FixedPoint;
+using Content.Shared.GameTicking;
 using Content.Shared.Fluids.Components;
 using Content.Shared.Inventory;
 using Content.Shared.Mobs.Systems;
@@ -69,7 +70,7 @@ public sealed class BloodTracksSystem : EntitySystem
     private readonly Dictionary<EntityUid, Dictionary<Vector2i, WetSplatter>> _wetSplatters = new();
     private readonly Dictionary<EntityUid, Dictionary<Vector2i, Queue<TileDecal>>> _trackDecals = new();
     private readonly Dictionary<EntityUid, Dictionary<Vector2i, Queue<TileDecal>>> _splatterDecals = new();
-    private readonly HashSet<string> _spawnerBloodDecals = new();
+    private readonly HashSet<ProtoId<DecalPrototype>> _spawnerBloodDecals = new();
     private readonly List<Vector2i> _emptyTiles = new();
     private readonly List<EntityUid> _emptyGrids = new();
     private readonly List<(ReagentId Reagent, FixedPoint2 Quantity)> _puddleBlood = new();
@@ -97,6 +98,7 @@ public sealed class BloodTracksSystem : EntitySystem
 
         SubscribeLocalEvent<BloodyComponent, MoveEvent>(OnMove);
         SubscribeLocalEvent<RandomDecalSpawnerComponent, ComponentStartup>(OnDecalSpawnerStartup);
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
 
         Subs.CVar(_config, SCCVars.BloodSplatterDryTime, v => _splatterDryTime = TimeSpan.FromSeconds(v), true);
         Subs.CVar(_config, SCCVars.BloodWetSplatterCharges, v => _wetSplatterCharges = v, true);
@@ -118,6 +120,13 @@ public sealed class BloodTracksSystem : EntitySystem
         PruneWetSplatters(now);
         PruneTileDecals(_trackDecals);
         PruneTileDecals(_splatterDecals);
+    }
+
+    private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
+    {
+        _wetSplatters.Clear();
+        _trackDecals.Clear();
+        _splatterDecals.Clear();
     }
 
     private void OnDecalSpawnerStartup(Entity<RandomDecalSpawnerComponent> ent, ref ComponentStartup args)
@@ -164,8 +173,11 @@ public sealed class BloodTracksSystem : EntitySystem
     public bool TryAddSplatter(ProtoId<DecalPrototype> decal, EntityUid gridUid, MapGridComponent grid, Vector2 center, Color color, Angle rotation)
     {
         var tile = _map.TileIndicesFor(gridUid, grid, new EntityCoordinates(gridUid, center));
-        if (!TryAddTileDecal(_splatterDecals, _maxSplattersPerTile, false, decal, gridUid, tile, center, color, rotation))
+        if (!TryAddTileDecal(_splatterDecals, _maxSplattersPerTile, false, decal, gridUid, tile, center, color, rotation) &&
+            !HasBloodDecal(gridUid, tile))
+        {
             return false;
+        }
 
         GetWetTiles(gridUid)[tile] = new WetSplatter(color, _timing.CurTime + _splatterDryTime, _wetSplatterCharges);
         return true;

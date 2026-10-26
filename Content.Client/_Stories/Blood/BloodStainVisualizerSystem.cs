@@ -47,6 +47,8 @@ public sealed class BloodStainVisualizerSystem : EntitySystem
     private void OnStainStartup(Entity<BloodStainComponent> ent, ref ComponentStartup args)
     {
         RefreshItem(ent);
+        if (ent.Comp.Color != null)
+            _item.VisualsChanged(ent);
     }
 
     private void OnStainState(Entity<BloodStainComponent> ent, ref AfterAutoHandleStateEvent args)

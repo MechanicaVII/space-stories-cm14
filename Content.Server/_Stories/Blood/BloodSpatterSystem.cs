@@ -5,6 +5,7 @@ using Content.Shared.Damage.Prototypes;
 using Content.Shared.Decals;
 using Content.Shared.Item;
 using Content.Shared.Weapons.Melee;
+using Robust.Shared.Containers;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -30,6 +31,7 @@ public sealed class BloodSpatterSystem : EntitySystem
 
     [Dependency] private readonly BloodStainSystem _bloodStain = default!;
     [Dependency] private readonly BloodTracksSystem _bloodTracks = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
@@ -54,11 +56,14 @@ public sealed class BloodSpatterSystem : EntitySystem
         }
 
         var melee = args.Tool is { } tool && HasComp<MeleeWeaponComponent>(tool);
-        var direction = GetHitDirection(ent, args.Origin);
-        SpawnSplatterEffect(ent, color, direction);
+        if (!_container.IsEntityInContainer(ent))
+        {
+            var direction = GetHitDirection(ent, args.Origin);
+            SpawnSplatterEffect(ent, color, direction);
 
-        if (_random.Prob(melee ? ent.Comp.MeleeFloorChance : ent.Comp.RangedFloorChance))
-            AddFloorSplatter(ent, color, direction);
+            if (_random.Prob(melee ? ent.Comp.MeleeFloorChance : ent.Comp.RangedFloorChance))
+                AddFloorSplatter(ent, color, direction);
+        }
 
         var chance = Math.Clamp(ent.Comp.BaseStainChance + ent.Comp.StainChancePerDamage * brute.Float(), 0f, 1f);
         if (!_random.Prob(chance))
