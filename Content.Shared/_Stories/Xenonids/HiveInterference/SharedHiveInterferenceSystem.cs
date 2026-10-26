@@ -1,6 +1,7 @@
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Evolution;
 using Content.Shared.Alert;
+using Content.Shared.DoAfter;
 using Content.Shared.Popups;
 using Robust.Shared.Network;
 using Robust.Shared.Timing;
@@ -10,10 +11,13 @@ namespace Content.Shared._Stories.Xenonids.HiveInterference;
 public abstract class SharedHiveInterferenceSystem : EntitySystem
 {
     [Dependency] private readonly AlertsSystem _alerts = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
+
+    private readonly List<ushort> _toCancel = new();
 
     public override void Initialize()
     {
@@ -24,7 +28,6 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
         SubscribeLocalEvent<HiveInterferenceComponent, XenoOpenEvolutionsActionEvent>(OnBlockedAction, before: [typeof(XenoEvolutionSystem)]);
         SubscribeLocalEvent<HiveInterferenceComponent, XenoOpenDevolveActionEvent>(OnBlockedAction, before: [typeof(XenoEvolutionSystem)]);
         SubscribeLocalEvent<HiveInterferenceComponent, XenoTransmuteActionEvent>(OnBlockedAction, before: [typeof(XenoEvolutionSystem)]);
-        SubscribeLocalEvent<HiveInterferenceComponent, XenoEvolutionDoAfterEvent>(OnEvolutionDoAfter, before: [typeof(XenoEvolutionSystem)]);
     }
 
     private void OnShutdown(Entity<HiveInterferenceComponent> ent, ref ComponentShutdown args)
@@ -39,15 +42,6 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
 
         args.Handled = true;
         _popup.PopupClient(Loc.GetString("stories-hive-interference-blocked"), ent, ent, PopupType.MediumCaution);
-    }
-
-    private void OnEvolutionDoAfter(Entity<HiveInterferenceComponent> ent, ref XenoEvolutionDoAfterEvent args)
-    {
-        if (args.Handled || args.Cancelled || !IsInterfered((ent, ent.Comp)))
-            return;
-
-        args.Handled = true;
-        _popup.PopupEntity(Loc.GetString("stories-hive-interference-blocked"), ent, ent, PopupType.MediumCaution);
     }
 
     public bool IsInterfered(Entity<HiveInterferenceComponent?> ent)
@@ -90,6 +84,7 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
         _popup.PopupEntity(Loc.GetString("stories-hive-interference-applied"), xeno, xeno, PopupType.LargeCaution);
         _ui.CloseUi(xeno, XenoEvolutionUIKey.Key);
         _ui.CloseUi(xeno, XenoDevolveUIKey.Key);
+        CancelEvolution(xeno);
         OnInterferenceStarted(xeno);
     }
 
@@ -102,6 +97,24 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
         comp.ImmuneUntil = _timing.CurTime + comp.ImmunityDuration;
         Dirty(xeno, comp);
         _alerts.ClearAlert(xeno, comp.Alert);
+    }
+
+    private void CancelEvolution(EntityUid xeno)
+    {
+        if (!TryComp(xeno, out DoAfterComponent? doAfters))
+            return;
+
+        _toCancel.Clear();
+        foreach (var (id, doAfter) in doAfters.DoAfters)
+        {
+            if (doAfter.Args.Event is XenoEvolutionDoAfterEvent)
+                _toCancel.Add(id);
+        }
+
+        foreach (var id in _toCancel)
+        {
+            _doAfter.Cancel(xeno, id, doAfters);
+        }
     }
 
     protected virtual void OnInterferenceStarted(EntityUid xeno)

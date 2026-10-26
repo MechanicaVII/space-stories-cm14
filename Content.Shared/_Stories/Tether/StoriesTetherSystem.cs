@@ -100,7 +100,7 @@ public sealed class StoriesTetherSystem : VirtualController
             return;
         }
 
-        var doAfter = new DoAfterArgs(EntityManager, ent, ent.Comp.ResistTime, new StoriesTetherResistDoAfterEvent(), ent)
+        var doAfter = new DoAfterArgs(EntityManager, ent, ent.Comp.ResistTime, new StoriesTetherResistDoAfterEvent(GetNetEntity(ent.Comp.Origin)), ent)
         {
             BreakOnMove = true,
             NeedHand = false,
@@ -116,6 +116,10 @@ public sealed class StoriesTetherSystem : VirtualController
             return;
 
         args.Handled = true;
+
+        if (GetEntity(args.Origin) != ent.Comp.Origin)
+            return;
+
         _popup.PopupClient(Loc.GetString("stories-tether-resist-success"), ent, ent, PopupType.Medium);
         Release(ent);
     }

@@ -45,7 +45,7 @@ using Robust.Shared.Spawners;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using static Content.Shared.Physics.CollisionGroup;
-using Content.Shared._Stories.Xenonids.HiveInterference;
+using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
 
 namespace Content.Shared._RMC14.Xenonids.Fruit;
 
@@ -71,9 +71,9 @@ public sealed class SharedXenoFruitSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
+    [Dependency] private readonly SharedHiveInterferenceSystem _hiveInterference = default!; // Stories-HiveInterference
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedHiveInterferenceSystem _hiveInterference = default!; // Stories-HiveInterference
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedXenoPheromonesSystem _xenoPhero = default!;

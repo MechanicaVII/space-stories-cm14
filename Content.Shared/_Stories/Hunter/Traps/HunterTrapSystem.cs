@@ -279,6 +279,7 @@ public sealed class HunterTrapSystem : EntitySystem
         trap.Comp.Armed = false;
         trap.Comp.Victim = victim;
         trap.Comp.ReleaseAt = _timing.CurTime + trap.Comp.Duration;
+        EnsureComp<HunterTrapActiveComponent>(trap);
         Dirty(trap);
 
         SetStepTriggerActive(trap, false);
@@ -308,6 +309,7 @@ public sealed class HunterTrapSystem : EntitySystem
         trap.Comp.Armed = false;
         trap.Comp.Victim = null;
         trap.Comp.ReleaseAt = null;
+        RemComp<HunterTrapActiveComponent>(trap);
         Dirty(trap);
 
         SetStepTriggerActive(trap, false);
@@ -395,8 +397,8 @@ public sealed class HunterTrapSystem : EntitySystem
             return;
 
         var time = _timing.CurTime;
-        var query = EntityQueryEnumerator<HunterTrapComponent>();
-        while (query.MoveNext(out var uid, out var trap))
+        var query = EntityQueryEnumerator<HunterTrapActiveComponent, HunterTrapComponent>();
+        while (query.MoveNext(out var uid, out _, out var trap))
         {
             if (trap.ReleaseAt is { } releaseAt && time >= releaseAt)
                 Disarm((uid, trap));

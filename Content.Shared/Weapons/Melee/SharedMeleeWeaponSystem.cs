@@ -48,7 +48,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using ItemToggleMeleeWeaponComponent = Content.Shared.Item.ItemToggle.Components.ItemToggleMeleeWeaponComponent;
-using Content.Shared._Stories.Weapons.Parry;
+using Content.Shared._Stories.Weapons.Parry; // Stories-Parry
 
 namespace Content.Shared.Weapons.Melee;
 
@@ -77,8 +77,8 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
     // RMC14 start
     [Dependency] private readonly IConfigurationManager _configuration = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
-    [Dependency] private readonly SharedRMCMeleeWeaponSystem _rmcMelee = default!;
     [Dependency] private readonly ParrySystem _parry = default!; // Stories-Parry
+    [Dependency] private readonly SharedRMCMeleeWeaponSystem _rmcMelee = default!;
     [Dependency] private readonly SharedEntityStorageSystem _storage = default!;
     // RMC14 end
 
@@ -746,8 +746,10 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
                 !damageQuery.HasComponent(entity))
                 continue;
 
-            if (_parry.TryParry(entity, user, meleeUid, ParryAttack.Melee)) // Stories-Parry
+            // Stories-Parry-Start
+            if (_parry.TryParry(entity, user, meleeUid, ParryAttack.Melee))
                 continue;
+            // Stories-Parry-End
 
             targets.Add(entity);
         }
@@ -1006,8 +1008,10 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             return false;
         }
 
-        if (_parry.TryParry(target.Value, user, meleeUid, ParryAttack.Melee)) // Stories-Parry
+        // Stories-Parry-Start
+        if (_parry.TryParry(target.Value, user, meleeUid, ParryAttack.Melee))
             return true;
+        // Stories-Parry-End
 
         // RMC14
         var cmDisarmEvent = new CMDisarmEvent(user);

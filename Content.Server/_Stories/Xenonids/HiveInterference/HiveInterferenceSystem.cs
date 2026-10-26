@@ -19,6 +19,19 @@ public sealed class HiveInterferenceSystem : SharedHiveInterferenceSystem
         base.Initialize();
 
         SubscribeLocalEvent<HiveInterferenceComponent, XenoWatchActionEvent>(OnWatchAction, before: [typeof(XenoWatchSystem)]);
+        SubscribeLocalEvent<XenoWatchingComponent, XenoWatchEvent>(OnWatchStarted);
+    }
+
+    private void OnWatchStarted(Entity<XenoWatchingComponent> ent, ref XenoWatchEvent args)
+    {
+        if (IsInterfered(ent.Owner))
+        {
+            Unwatch(ent, "stories-hive-interference-watch-blocked");
+            return;
+        }
+
+        if (ent.Comp.Watching is { } target && IsInterfered(target))
+            Unwatch(ent, "stories-hive-interference-watch-target-blocked");
     }
 
     private void OnWatchAction(Entity<HiveInterferenceComponent> ent, ref XenoWatchActionEvent args)
@@ -35,18 +48,6 @@ public sealed class HiveInterferenceSystem : SharedHiveInterferenceSystem
         CutWatching(xeno);
     }
 
-    public override void Update(float frameTime)
-    {
-        base.Update(frameTime);
-
-        var query = EntityQueryEnumerator<HiveInterferenceComponent>();
-        while (query.MoveNext(out var uid, out var comp))
-        {
-            if (!comp.Immune)
-                CutWatching(uid);
-        }
-    }
-
     private void CutWatching(EntityUid xeno)
     {
         _toUnwatch.Clear();
@@ -59,19 +60,22 @@ public sealed class HiveInterferenceSystem : SharedHiveInterferenceSystem
 
         foreach (var watcher in _toUnwatch)
         {
-            ICommonSession? session = null;
-            if (TryComp(watcher, out ActorComponent? actor))
-                session = actor.PlayerSession;
-            else if (TryComp(watcher, out QueenEyeComponent? eye) && TryComp(eye.Queen, out ActorComponent? eyeActor))
-                session = eyeActor.PlayerSession;
-
-            if (session == null)
-                continue;
-
-            _watch.Unwatch(watcher, session);
-
-            var msg = watcher == xeno ? "stories-hive-interference-watch-blocked" : "stories-hive-interference-watch-target-blocked";
-            _popup.PopupEntity(Loc.GetString(msg), watcher, watcher, PopupType.MediumCaution);
+            Unwatch(watcher, watcher == xeno ? "stories-hive-interference-watch-blocked" : "stories-hive-interference-watch-target-blocked");
         }
+    }
+
+    private void Unwatch(EntityUid watcher, LocId message)
+    {
+        ICommonSession? session = null;
+        if (TryComp(watcher, out ActorComponent? actor))
+            session = actor.PlayerSession;
+        else if (TryComp(watcher, out QueenEyeComponent? eye) && TryComp(eye.Queen, out ActorComponent? eyeActor))
+            session = eyeActor.PlayerSession;
+
+        if (session == null)
+            return;
+
+        _watch.Unwatch(watcher, session);
+        _popup.PopupEntity(Loc.GetString(message), watcher, watcher, PopupType.MediumCaution);
     }
 }

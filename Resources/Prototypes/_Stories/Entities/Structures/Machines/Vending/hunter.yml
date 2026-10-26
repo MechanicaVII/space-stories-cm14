@@ -190,7 +190,7 @@
       # - id: STWeaponShieldRiotHunter
       - id: STFullArmorClanHunterEbony
       - id: STQuiverHunterFilled
-    - name: Spare Equipment
+    - name: Запасное снаряжение
       entries:
       - id: STHunterTrap
         points: 10
@@ -391,7 +391,7 @@
       # - id: STWeaponShieldAncientAlt
       - id: STFullArmorClanHunterEbony
       - id: STQuiverHunterFilled
-    - name: Spare Equipment
+    - name: Запасное снаряжение
       entries:
       - id: STHunterTrap
         points: 10

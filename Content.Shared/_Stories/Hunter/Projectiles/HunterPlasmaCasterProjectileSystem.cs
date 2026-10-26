@@ -5,6 +5,7 @@ using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
+using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Stunnable;
 using Robust.Shared.Containers;
 using Robust.Shared.Network;
@@ -23,7 +24,9 @@ public sealed class HunterPlasmaCasterProjectileSystem : EntitySystem
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
+    private readonly HashSet<EntityUid> _areaTargets = new();
     private readonly List<EntityUid> _reachedMaxRange = new();
+    private readonly List<EntityUid> _stoppedFlying = new();
 
     public override void Initialize()
     {
@@ -34,6 +37,8 @@ public sealed class HunterPlasmaCasterProjectileSystem : EntitySystem
         SubscribeLocalEvent<HunterAreaStunOnHitComponent, ProjectileHitEvent>(OnAreaStunHit);
         SubscribeLocalEvent<HunterAreaStunOnHitComponent, StartCollideEvent>(OnAreaStunCollide);
         SubscribeLocalEvent<HunterAreaStunOnHitComponent, HunterProjectileMaxRangeEvent>(OnAreaStunMaxRange);
+
+        SubscribeLocalEvent<HunterProjectileRangeGunComponent, AmmoShotEvent>(OnRangeGunShot);
     }
 
     private void OnStunBoltHit(Entity<HunterStunBoltComponent> ent, ref ProjectileHitEvent args)
@@ -91,9 +96,10 @@ public sealed class HunterPlasmaCasterProjectileSystem : EntitySystem
 
         ent.Comp.Detonated = true;
         var coords = _transform.GetMapCoordinates(ent);
-        var targets = _lookup.GetEntitiesInRange(coords, ent.Comp.Radius * MathF.Sqrt(2));
+        _areaTargets.Clear();
+        _lookup.GetEntitiesInRange(coords.MapId, coords.Position, ent.Comp.Radius * MathF.Sqrt(2), _areaTargets);
 
-        foreach (var target in targets)
+        foreach (var target in _areaTargets)
         {
             if (!HasComp<MobStateComponent>(target) || HasComp<STPredalienComponent>(target))
                 continue;
@@ -130,6 +136,19 @@ public sealed class HunterPlasmaCasterProjectileSystem : EntitySystem
             QueueDel(ent);
     }
 
+    private void OnRangeGunShot(Entity<HunterProjectileRangeGunComponent> ent, ref AmmoShotEvent args)
+    {
+        foreach (var projectile in args.FiredProjectiles)
+        {
+            if (!TryComp(projectile, out HunterProjectileMaxRangeComponent? maxRange))
+                continue;
+
+            var flying = EnsureComp<HunterProjectileFlyingComponent>(projectile);
+            flying.Origin = _transform.GetMapCoordinates(projectile);
+            flying.Range = maxRange.Range;
+        }
+    }
+
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
@@ -138,34 +157,33 @@ public sealed class HunterPlasmaCasterProjectileSystem : EntitySystem
             return;
 
         _reachedMaxRange.Clear();
+        _stoppedFlying.Clear();
 
-        var query = EntityQueryEnumerator<HunterProjectileMaxRangeComponent>();
-        while (query.MoveNext(out var uid, out var comp))
+        var query = EntityQueryEnumerator<HunterProjectileFlyingComponent>();
+        while (query.MoveNext(out var uid, out var flying))
         {
-            if (comp.Origin is not { } origin)
+            if (_container.IsEntityInContainer(uid))
             {
-                if (TryComp(uid, out ProjectileComponent? projectile) &&
-                    projectile.Shooter is { } shooter &&
-                    !_container.IsEntityInContainer(uid))
-                {
-                    comp.Origin = _transform.GetMapCoordinates(shooter);
-                }
-
+                _stoppedFlying.Add(uid);
                 continue;
             }
 
             var position = _transform.GetMapCoordinates(uid);
-            if (position.MapId != origin.MapId || (position.Position - origin.Position).Length() >= comp.Range)
+            if (position.MapId != flying.Origin.MapId || (position.Position - flying.Origin.Position).Length() >= flying.Range)
                 _reachedMaxRange.Add(uid);
+        }
+
+        foreach (var uid in _stoppedFlying)
+        {
+            RemComp<HunterProjectileFlyingComponent>(uid);
         }
 
         foreach (var uid in _reachedMaxRange)
         {
+            RemComp<HunterProjectileFlyingComponent>(uid);
+
             var ev = new HunterProjectileMaxRangeEvent();
             RaiseLocalEvent(uid, ref ev);
-
-            if (!TerminatingOrDeleted(uid))
-                RemComp<HunterProjectileMaxRangeComponent>(uid);
         }
     }
 

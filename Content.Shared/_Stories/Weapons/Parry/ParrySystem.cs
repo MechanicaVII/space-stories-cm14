@@ -23,7 +23,7 @@ public sealed class ParrySystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
-    private EntityUid? _lastProjectile;
+    private (EntityUid Projectile, EntityUid Defender)? _lastProjectileHit;
 
     public override void Initialize()
     {
@@ -35,14 +35,17 @@ public sealed class ParrySystem : EntitySystem
 
     private void OnProjectileReflectAttempt(Entity<ParryComponent> ent, ref ProjectileReflectAttemptEvent args)
     {
-        if (_net.IsClient || args.Cancelled || _lastProjectile == args.ProjUid)
+        if (_net.IsClient || args.Cancelled)
             return;
-
-        _lastProjectile = args.ProjUid;
 
         var defender = Transform(ent).ParentUid;
         if (!defender.IsValid() || args.Component.Shooter is not { } shooter)
             return;
+
+        if (_lastProjectileHit == (args.ProjUid, defender))
+            return;
+
+        _lastProjectileHit = (args.ProjUid, defender);
 
         if (!TryParry(defender, shooter, args.ProjUid, ParryAttack.Projectile, predicted: false))
             return;
@@ -155,13 +158,12 @@ public sealed class ParrySystem : EntitySystem
 
     private bool IsFacing(EntityUid defender, EntityUid attacker)
     {
-        var defenderCoords = _transform.GetMoverCoordinateRotation(defender, Transform(defender));
-        var attackerCoords = _transform.GetMoverCoordinates(attacker);
-        var diff = attackerCoords.Position - defenderCoords.Coords.Position;
+        var (defenderPosition, defenderRotation) = _transform.GetWorldPositionRotation(defender);
+        var diff = _transform.GetWorldPosition(attacker) - defenderPosition;
         if (diff.LengthSquared() < 0.0001f)
             return true;
 
-        var relative = Math.Abs(diff.Normalized().GetDir() - defenderCoords.worldRot.GetDir());
+        var relative = Math.Abs(diff.Normalized().GetDir() - defenderRotation.GetDir());
         return relative is 0 or 1 or 7;
     }
 }

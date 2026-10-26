@@ -11,7 +11,7 @@ using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Shared._Stories.Hunter.Marking.Components; // Stories-Hunter
-using Content.Shared._Stories.Xenonids.HiveInterference;
+using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
 
 namespace Content.Shared.Chat;
 
@@ -39,10 +39,10 @@ public abstract class SharedChatSystem : EntitySystem
     public static readonly string DefaultChannelPrefix = $"{RadioChannelPrefix}{DefaultChannelKey}";
     public static readonly ProtoId<SpeechVerbPrototype> DefaultSpeechVerb = "Default";
 
+    [Dependency] private readonly SharedHiveInterferenceSystem _hiveInterference = default!; // Stories-HiveInterference
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly XenoEvolutionSystem _xenoEvolution = default!;
-    [Dependency] private readonly SharedHiveInterferenceSystem _hiveInterference = default!; // Stories-HiveInterference
 
     // RMC14
     public FrozenDictionary<string, RadioChannelPrototype> _channelLookup = default!;

@@ -35,10 +35,21 @@ public sealed partial class HunterProjectileMaxRangeComponent : Component
 {
     [DataField(required: true)]
     public float Range;
+}
+
+[RegisterComponent]
+[Access(typeof(HunterPlasmaCasterProjectileSystem))]
+public sealed partial class HunterProjectileFlyingComponent : Component
+{
+    [ViewVariables]
+    public MapCoordinates Origin;
 
     [ViewVariables]
-    public MapCoordinates? Origin;
+    public float Range;
 }
+
+[RegisterComponent, NetworkedComponent]
+public sealed partial class HunterProjectileRangeGunComponent : Component;
 
 [ByRefEvent]
 public readonly record struct HunterProjectileMaxRangeEvent;

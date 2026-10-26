@@ -19,6 +19,7 @@
     capacity: 1
     count: 0
   - type: PlasmaCaster
+  - type: HunterProjectileRangeGun
 
 - type: entity
   parent: STWeaponPlasmaCaster
