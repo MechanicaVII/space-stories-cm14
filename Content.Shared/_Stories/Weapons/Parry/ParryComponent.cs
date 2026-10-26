@@ -11,7 +11,7 @@ public sealed partial class ParryComponent : Component
     public float Chance;
 
     [DataField, AutoNetworkedField]
-    public ParryType Type = ParryType.Directional;
+    public ParryType BlockType = ParryType.Directional;
 
     [DataField, AutoNetworkedField]
     public float ProjectileMultiplier = 0.2f;

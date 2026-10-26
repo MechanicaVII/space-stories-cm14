@@ -103,7 +103,7 @@ public sealed class ParrySystem : EntitySystem
         if (chance <= 0)
             return false;
 
-        var directional = IsDirectional(a.Comp.Type) && (second is not { } s || IsDirectional(s.Comp.Type));
+        var directional = IsDirectional(a.Comp.BlockType) && (second is not { } s || IsDirectional(s.Comp.BlockType));
         if (directional && !IsFacing(defender, attacker))
             return false;
 
@@ -140,7 +140,7 @@ public sealed class ParrySystem : EntitySystem
         if (TryComp(ent, out WieldableComponent? wieldable) && wieldable.Wielded)
             return chance;
 
-        return ent.Comp.Type switch
+        return ent.Comp.BlockType switch
         {
             ParryType.DirectionalTwoHands => chance / 3,
             ParryType.AbsoluteTwoHands => chance / 2,
