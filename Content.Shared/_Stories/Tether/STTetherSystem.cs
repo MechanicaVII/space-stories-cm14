@@ -8,6 +8,7 @@ using Robust.Shared.Network;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Controllers;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Timing;
 
 namespace Content.Shared._Stories.Tether;
 
@@ -19,6 +20,7 @@ public sealed class STTetherSystem : VirtualController
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private const string ChainState = "chain";
@@ -59,17 +61,23 @@ public sealed class STTetherSystem : VirtualController
 
     public void Release(EntityUid target)
     {
-        RemComp<STTetheredComponent>(target);
+        if (TryComp(target, out STTetheredComponent? comp) && comp.LifeStage <= ComponentLifeStage.Running)
+            RemComp(target, comp);
     }
 
     public bool IsTetheredTo(EntityUid target, EntityUid origin)
     {
-        return TryComp(target, out STTetheredComponent? comp) && comp.Origin == origin;
+        return TryComp(target, out STTetheredComponent? comp) &&
+               comp.LifeStage <= ComponentLifeStage.Running &&
+               comp.Origin == origin;
     }
 
     private void OnShutdown(Entity<STTetheredComponent> ent, ref ComponentShutdown args)
     {
         _alerts.ClearAlert(ent.Owner, ent.Comp.Alert);
+
+        if (_timing.ApplyingState)
+            return;
 
         if (ent.Comp.Origin is not { } origin || TerminatingOrDeleted(origin))
             return;

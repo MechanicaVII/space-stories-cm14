@@ -15,6 +15,7 @@ using Content.Shared.Item;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
+using Content.Shared.StepTrigger.Components;
 using Content.Shared.StepTrigger.Systems;
 using Content.Shared.Stunnable;
 using Content.Shared.Verbs;
@@ -69,7 +70,7 @@ public sealed class HunterTrapSystem : EntitySystem
 
     private void OnMapInit(Entity<HunterTrapComponent> ent, ref MapInitEvent args)
     {
-        _stepTrigger.SetActive(ent, ent.Comp.Armed);
+        SetStepTriggerActive(ent, ent.Comp.Armed);
         UpdateAppearance(ent);
     }
 
@@ -113,7 +114,7 @@ public sealed class HunterTrapSystem : EntitySystem
         ent.Comp.Armed = true;
         Dirty(ent);
 
-        _stepTrigger.SetActive(ent, true);
+        SetStepTriggerActive(ent, true);
         UpdateAppearance(ent);
         _popup.PopupClient(Loc.GetString("st-hunter-trap-armed"), user, user);
     }
@@ -225,6 +226,9 @@ public sealed class HunterTrapSystem : EntitySystem
 
     private void OnTrapShutdown(Entity<HunterTrapComponent> ent, ref ComponentShutdown args)
     {
+        if (_timing.ApplyingState)
+            return;
+
         if (ent.Comp.Victim is { } victim)
             ClearVictim(ent, victim);
     }
@@ -273,7 +277,7 @@ public sealed class HunterTrapSystem : EntitySystem
         trap.Comp.ReleaseAt = _timing.CurTime + trap.Comp.Duration;
         Dirty(trap);
 
-        _stepTrigger.SetActive(trap, false);
+        SetStepTriggerActive(trap, false);
         UpdateAppearance(trap);
 
         _tether.Tether(victim, trap, trap.Comp.Range);
@@ -302,7 +306,7 @@ public sealed class HunterTrapSystem : EntitySystem
         trap.Comp.ReleaseAt = null;
         Dirty(trap);
 
-        _stepTrigger.SetActive(trap, false);
+        SetStepTriggerActive(trap, false);
         UpdateAppearance(trap);
 
         if (Transform(trap).Anchored)
@@ -325,6 +329,12 @@ public sealed class HunterTrapSystem : EntitySystem
             RemComp<HunterHealBlockedComponent>(victim);
         else
             Dirty(victim, blocked);
+    }
+
+    private void SetStepTriggerActive(EntityUid trap, bool active)
+    {
+        if (TryComp(trap, out StepTriggerComponent? stepTrigger))
+            _stepTrigger.SetActive(trap, active, stepTrigger);
     }
 
     private bool CanCatch(EntityUid target)
